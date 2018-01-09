@@ -12,8 +12,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team3863.robot.commands.ExampleCommand;
-import org.usfirst.frc.team3863.robot.subsystems.ExampleSubsystem;
+import edu.wpi.first.wpilibj.DriverStation;
+import org.usfirst.frc.team3863.robot.commands.BaselineAuto;
+import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,12 +24,46 @@ import org.usfirst.frc.team3863.robot.subsystems.ExampleSubsystem;
  * project.
  */
 public class Robot extends TimedRobot {
-	public static final ExampleSubsystem kExampleSubsystem
-			= new ExampleSubsystem();
+	public static final Drivetrain kDrivetrain = new Drivetrain();
 	public static OI m_oi;
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	
+	public void updateSmartDashboard() {
+		DriverStation ds = DriverStation.getInstance();
+		String msg = ds.getGameSpecificMessage();
+        if(msg.charAt(0) == 'L') {
+            SmartDashboard.putString("OurSwitchSide", "Left");
+        } else if (msg.charAt(0) == 'R'){
+        	SmartDashboard.putString("OurSwitchSide", "Right");
+        } else {
+        	SmartDashboard.putString("OurSwitchSide", "No Data");
+        }
+        
+        if(msg.charAt(1) == 'L') {
+            SmartDashboard.putString("EnemySwitchSide", "Left");
+        } else if (msg.charAt(0) == 'R'){
+        	SmartDashboard.putString("EnemySwitchSide", "Right");
+        } else {
+        	SmartDashboard.putString("EnemySwitchSide", "No Data");
+        }
+        
+        if(msg.charAt(2) == 'L') {
+            SmartDashboard.putString("ScaleSide", "Left");
+        } else if (msg.charAt(0) == 'R'){
+        	SmartDashboard.putString("ScaleSide", "Right");
+        } else {
+        	SmartDashboard.putString("ScaleSide", "No Data");
+        }
+	}
+	
+	/**
+	 * Update the DriverStation and auton init code with the given Auton command
+	 */
+	public void updateAuton() {
+		
+	}
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -37,7 +72,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
-		m_chooser.addDefault("Default Auto", new ExampleCommand());
+		m_chooser.addDefault("Default Auto", new BaselineAuto());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 	}
@@ -55,6 +90,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		updateSmartDashboard();
+		updateAuton();
 	}
 
 	/**
@@ -91,6 +128,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		updateSmartDashboard();
 	}
 
 	@Override
@@ -110,6 +148,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		updateSmartDashboard();
 	}
 
 	/**
@@ -117,5 +156,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		updateSmartDashboard();
 	}
 }
