@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
 import org.usfirst.frc.team3863.robot.commands.BaselineAuto;
+import org.usfirst.frc.team3863.robot.commands.SwitchFarLeftAuto;
+import org.usfirst.frc.team3863.robot.commands.SwitchNearLeftAuto;
 import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
 
 /**
@@ -28,11 +30,12 @@ public class Robot extends TimedRobot {
 	public static OI m_oi;
 
 	Command m_autonomousCommand;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	SendableChooser<Integer> m_chooser = new SendableChooser<Integer>();
 	
 	public void updateSmartDashboard() {
 		DriverStation ds = DriverStation.getInstance();
 		String msg = ds.getGameSpecificMessage();
+		
         if(msg.charAt(0) == 'L') {
             SmartDashboard.putString("OurSwitchSide", "Left");
         } else if (msg.charAt(0) == 'R'){
@@ -62,8 +65,32 @@ public class Robot extends TimedRobot {
 	 * Update the DriverStation and auton init code with the given Auton command
 	 */
 	public void updateAuton() {
-		
+		int ds_choice = m_chooser.getSelected();
+		switch(ds_choice) { 
+		 	case 1: 						//Determine Auto mode from switch positions
+		 		DriverStation ds = DriverStation.getInstance();
+				String msg = ds.getGameSpecificMessage();
+				int loc = ds.getLocation();
+				
+				if(msg.charAt(0) == 'L' &&  loc == 1) {		  //Our switch is to the Left, and we are in Slot 1 (Left)
+					m_autonomousCommand = new SwitchNearLeftAuto(false);
+		        } else if (msg.charAt(0) == 'R' && loc == 1){ //Our switch is to the Right, and we are in Slot 1 (Left)
+		        	m_autonomousCommand = new SwitchFarLeftAuto(false);
+		        } else if (msg.charAt(0) == 'L' && loc == 3){ //Our switch is to the Left , and we are in Slot 3 (Right)
+		        	m_autonomousCommand = new SwitchNearLeftAuto(true);
+			    } else if (msg.charAt(0) == 'R' && loc == 3){ //Our switch is to the Right, and we are in Slot 3 (Right)
+			    	m_autonomousCommand = new SwitchFarLeftAuto(true);
+			    }
+		 		 
+		 	case 2: 						//Baseline Auto
+		 		m_autonomousCommand = new BaselineAuto(); 
+		 		break;
+		 	default:
+		 		m_autonomousCommand = null;
+		 		break; 
+	 	}
 	}
+	
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -72,8 +99,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		m_oi = new OI();
-		m_chooser.addDefault("Default Auto", new BaselineAuto());
-		// chooser.addObject("My Auto", new MyAutoCommand());
+		m_chooser.addDefault("None", 0);
+		m_chooser.addObject("AutoSelect Switch", 1);
+		m_chooser.addObject("Baseline", 2);
 		SmartDashboard.putData("Auto mode", m_chooser);
 	}
 
@@ -107,14 +135,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = m_chooser.getSelected();
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
+		updateAuton();
 
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
