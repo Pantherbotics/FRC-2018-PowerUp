@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import org.usfirst.frc.team3863.robot.commands.BaselineAuto;
+import org.usfirst.frc.team3863.robot.commands.DriveSingleJoystick;
 import org.usfirst.frc.team3863.robot.commands.SwitchFarLeftAuto;
 import org.usfirst.frc.team3863.robot.commands.SwitchNearLeftAuto;
 import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
@@ -37,6 +38,9 @@ public class Robot extends TimedRobot {
 
 	Command m_autonomousCommand;
 	SendableChooser<Integer> m_chooser = new SendableChooser<Integer>();
+	
+	Command m_teleopDriveCommand;
+	SendableChooser<Command> m_drivechooser = new SendableChooser<Command>();
 	
 	public void updateSmartDashboard() {
 		
@@ -65,7 +69,7 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putString("AutonSide", "Left");
 		}
         
-        //SmartDashboard.putData("PDP", m_pdp);
+        SmartDashboard.putData("PDP", m_pdp);
 	}
 	
 	/**
@@ -107,6 +111,9 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("AutoSelect Switch", 1);
 		m_chooser.addObject("Baseline", 2);
 		SmartDashboard.putData("Auto mode", m_chooser);
+		
+		m_drivechooser.addDefault("Single Joystick", new DriveSingleJoystick());
+		SmartDashboard.putData("Teleop Drive mode", m_drivechooser);
 	}
 
 	/**
@@ -165,6 +172,13 @@ public class Robot extends TimedRobot {
 		// this line or comment it out.
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
+		}
+		
+		m_teleopDriveCommand = m_drivechooser.getSelected();
+		
+		// schedule the drive command
+		if (m_teleopDriveCommand != null) {
+			m_teleopDriveCommand.start();
 		}
 	}
 
