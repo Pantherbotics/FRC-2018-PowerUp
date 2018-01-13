@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import org.usfirst.frc.team3863.robot.commands.BaselineAuto;
 import org.usfirst.frc.team3863.robot.commands.SwitchFarLeftAuto;
 import org.usfirst.frc.team3863.robot.commands.SwitchNearLeftAuto;
@@ -27,38 +29,43 @@ import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
  */
 public class Robot extends TimedRobot {
 	public static final Drivetrain kDrivetrain = new Drivetrain();
-	public static OI m_oi;
+	public static OI m_oi = new OI();
+	public static PowerDistributionPanel m_pdp = new PowerDistributionPanel();
+	public DriverStation ds = DriverStation.getInstance();
+	public Alliance alliance = ds.getAlliance();
+	boolean auton_right;
 
 	Command m_autonomousCommand;
 	SendableChooser<Integer> m_chooser = new SendableChooser<Integer>();
 	
 	public void updateSmartDashboard() {
-		DriverStation ds = DriverStation.getInstance();
+		
 		String msg = ds.getGameSpecificMessage();
 		
-        if(msg.charAt(0) == 'L') {
-            SmartDashboard.putString("OurSwitchSide", "Left");
-        } else if (msg.charAt(0) == 'R'){
-        	SmartDashboard.putString("OurSwitchSide", "Right");
-        } else {
-        	SmartDashboard.putString("OurSwitchSide", "No Data");
-        }
+		boolean isBlue = (alliance == Alliance.Blue);
+		SmartDashboard.putBoolean("OurAlliance", isBlue);
+		if (msg.length() < 3) {
+			System.out.println("Malformed Field Data: "+msg);
+		}else {
+			SmartDashboard.putBoolean("OurSwitch_L", msg.charAt(0) == 'L' ^ !isBlue); //True = Blue; False = Red;
+			SmartDashboard.putBoolean("Scale_L", msg.charAt(1) == 'L' ^ !isBlue);
+			SmartDashboard.putBoolean("EnemySwitch_L", msg.charAt(2) == 'L' ^ !isBlue);  
+			
+			SmartDashboard.putBoolean("OurSwitch_R", msg.charAt(0) == 'R' ^ !isBlue); //True = Blue; False = Red;
+			SmartDashboard.putBoolean("Scale_R", msg.charAt(1) == 'R' ^ !isBlue);
+			SmartDashboard.putBoolean("EnemySwitch_R", msg.charAt(2) == 'R' ^ !isBlue);   
+		}
+		if (m_autonomousCommand != null) {
+			SmartDashboard.putData("AutonCommand", m_autonomousCommand);
+		}
         
-        if(msg.charAt(1) == 'L') {
-            SmartDashboard.putString("EnemySwitchSide", "Left");
-        } else if (msg.charAt(0) == 'R'){
-        	SmartDashboard.putString("EnemySwitchSide", "Right");
-        } else {
-        	SmartDashboard.putString("EnemySwitchSide", "No Data");
-        }
+        if (auton_right) {
+			SmartDashboard.putString("AutonSide", "Right");
+		}else {
+			SmartDashboard.putString("AutonSide", "Left");
+		}
         
-        if(msg.charAt(2) == 'L') {
-            SmartDashboard.putString("ScaleSide", "Left");
-        } else if (msg.charAt(0) == 'R'){
-        	SmartDashboard.putString("ScaleSide", "Right");
-        } else {
-        	SmartDashboard.putString("ScaleSide", "No Data");
-        }
+        //SmartDashboard.putData("PDP", m_pdp);
 	}
 	
 	/**
@@ -71,17 +78,13 @@ public class Robot extends TimedRobot {
 		 		DriverStation ds = DriverStation.getInstance();
 				String msg = ds.getGameSpecificMessage();
 				int loc = ds.getLocation();
-				
-				if(msg.charAt(0) == 'L' &&  loc == 1) {		  //Our switch is to the Left, and we are in Slot 1 (Left)
-					m_autonomousCommand = new SwitchNearLeftAuto(false);
-		        } else if (msg.charAt(0) == 'R' && loc == 1){ //Our switch is to the Right, and we are in Slot 1 (Left)
-		        	m_autonomousCommand = new SwitchFarLeftAuto(false);
-		        } else if (msg.charAt(0) == 'L' && loc == 3){ //Our switch is to the Left , and we are in Slot 3 (Right)
-		        	m_autonomousCommand = new SwitchNearLeftAuto(true);
-			    } else if (msg.charAt(0) == 'R' && loc == 3){ //Our switch is to the Right, and we are in Slot 3 (Right)
-			    	m_autonomousCommand = new SwitchFarLeftAuto(true);
-			    }
-		 		 
+				auton_right = (loc==3);     //Invert the auton side if we are in the right driverstation
+				if(msg.charAt(0) == 'L') {		 
+					m_autonomousCommand = new SwitchNearLeftAuto(auton_right);
+		        } else if (msg.charAt(0) == 'R'){ //Our switch is to the Right
+		        	m_autonomousCommand = new SwitchFarLeftAuto(auton_right);
+		        }
+				break;
 		 	case 2: 						//Baseline Auto
 		 		m_autonomousCommand = new BaselineAuto(); 
 		 		break;
@@ -89,6 +92,7 @@ public class Robot extends TimedRobot {
 		 		m_autonomousCommand = null;
 		 		break; 
 	 	}
+		
 	}
 	
 
@@ -98,7 +102,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		m_oi = new OI();
+		
 		m_chooser.addDefault("None", 0);
 		m_chooser.addObject("AutoSelect Switch", 1);
 		m_chooser.addObject("Baseline", 2);
@@ -135,6 +139,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		updateSmartDashboard();
 		updateAuton();
 
 		// schedule the autonomous command (example)
