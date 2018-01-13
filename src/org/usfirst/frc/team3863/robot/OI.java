@@ -8,6 +8,9 @@
 package org.usfirst.frc.team3863.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
+import org.usfirst.frc.team3863.robot.commands.ToggleTransmissionState;;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -43,7 +46,13 @@ public class OI {
 	// button.whenReleased(new ExampleCommand());
 	
 	public Joystick leftJoystick = new Joystick(0);
+	public JoystickButton leftJoystickTrigger = new JoystickButton(leftJoystick, 1);
 	
 	public OI() {
 	}
+	
+	public void initDriveSingleJoystick() {
+		leftJoystickTrigger.whenPressed(new ToggleTransmissionState());
+	}
+
 }

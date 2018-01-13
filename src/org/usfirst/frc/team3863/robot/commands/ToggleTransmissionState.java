@@ -1,40 +1,35 @@
 package org.usfirst.frc.team3863.robot.commands;
 
 import org.usfirst.frc.team3863.robot.Robot;
-import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class DriveSingleJoystick extends Command {
+public class ToggleTransmissionState extends Command {
 
-    public DriveSingleJoystick() {
+    public ToggleTransmissionState() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.kDrivetrain);
+        // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("Single Joystick Drive enabled");
-    	Robot.m_oi.initDriveSingleJoystick();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double twist = Robot.m_oi.leftJoystick.getTwist();
-    	double y = Robot.m_oi.leftJoystick.getY() * -1;
-    	if (Math.abs(twist) <= 0.05) { twist = 0;}
-    	if (Math.abs(y) <= 0.05) { y = 0;}
-    	
-    	double left = y + twist;
-    	double right = y - twist;
-    	Robot.kDrivetrain.setDrivePower(left, right);
+    	if (Robot.kDrivetrain.transmission_in_low) {
+    		Robot.kDrivetrain.setTransmissionHigh();
+    	}else {
+    		Robot.kDrivetrain.setTransmissionLow();
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

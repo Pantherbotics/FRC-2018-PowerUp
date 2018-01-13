@@ -70,6 +70,14 @@ public class Robot extends TimedRobot {
 		}
         
         SmartDashboard.putData("PDP", m_pdp);
+        
+        if (kDrivetrain.transmission_in_low) {
+        	SmartDashboard.putString("Transmission", "Low Gear");
+        }else {
+        	SmartDashboard.putString("Transmission", "High Gear");
+        }
+        
+        
 	}
 	
 	/**

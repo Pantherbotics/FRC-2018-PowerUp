@@ -18,6 +18,8 @@ public class Drivetrain extends Subsystem {
 	
 	ControlMode mode = ControlMode.PercentOutput;
 	
+	public boolean transmission_in_low = true;
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
@@ -31,6 +33,16 @@ public class Drivetrain extends Subsystem {
     	talonRightA.set(mode, right);
     	talonRightB.set(mode, right);
     }
+    
+    public void setTransmissionLow() {
+    	System.out.println("Transmission in Low Gear");
+    	transmission_in_low = true;
+    }
+    
+	public void setTransmissionHigh() {
+		System.out.println("Transmission in High Gear");
+		transmission_in_low = false;
+	}
     
 }
 
