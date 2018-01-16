@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import org.usfirst.frc.team3863.robot.commands.BaselineAuto;
 import org.usfirst.frc.team3863.robot.commands.DriveSingleJoystick;
+import org.usfirst.frc.team3863.robot.commands.DriveController;
 import org.usfirst.frc.team3863.robot.commands.SwitchFarLeftAuto;
 import org.usfirst.frc.team3863.robot.commands.SwitchNearLeftAuto;
 import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
@@ -121,7 +122,11 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData("Auto mode", m_chooser);
 		
 		m_drivechooser.addDefault("Single Joystick", new DriveSingleJoystick());
+		m_drivechooser.addObject("Partner Controller", new DriveController());
 		SmartDashboard.putData("Teleop Drive mode", m_drivechooser);
+		
+		
+		kDrivetrain.init();
 	}
 
 	/**
