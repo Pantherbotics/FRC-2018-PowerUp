@@ -46,13 +46,26 @@ public class OI {
 	// button.whenReleased(new ExampleCommand());
 	
 	public Joystick leftJoystick = new Joystick(0);
+	public Joystick rightJoystick = new Joystick(1);
 	public JoystickButton leftJoystickTrigger = new JoystickButton(leftJoystick, 1);
+	public JoystickButton rightJoystickTrigger = new JoystickButton(rightJoystick, 1);
+	
+	public Joystick partnerController = new Joystick(2);
+	public JoystickButton partnerButtonX = new JoystickButton(partnerController, 1);
+	public JoystickButton partnerButtonB = new JoystickButton(partnerController, 3);
+	public JoystickButton partnerButtonA = new JoystickButton(partnerController, 2);
+	public JoystickButton partnerButtonY = new JoystickButton(partnerController, 4);
 	
 	public OI() {
+		
 	}
 	
 	public void initDriveSingleJoystick() {
 		leftJoystickTrigger.whenPressed(new ToggleTransmissionState());
+	}
+	
+	public void initDriveController() {
+		partnerButtonA.whenPressed(new ToggleTransmissionState());
 	}
 
 }
