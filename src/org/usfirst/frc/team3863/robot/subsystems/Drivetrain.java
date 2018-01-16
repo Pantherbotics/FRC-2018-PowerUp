@@ -21,11 +21,17 @@ public class Drivetrain extends Subsystem {
 	
 	ControlMode mode = ControlMode.PercentOutput;
 	
+		
 	public boolean transmission_in_low = true;
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    }
+    
+    public void init() {
+    	talonRightA.setInverted(true);
+    	talonRightB.setInverted(true);
     }
     
     public void setDrivePower(double left, double right) {
