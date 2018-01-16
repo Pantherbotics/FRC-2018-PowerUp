@@ -23,7 +23,7 @@ public class DriveSingleJoystick extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double twist = Robot.m_oi.leftJoystick.getTwist();
-    	double y = Robot.m_oi.leftJoystick.getY() * -1;
+    	double y = Robot.m_oi.leftJoystick.getY();
     	if (Math.abs(twist) <= 0.05) { twist = 0;}
     	if (Math.abs(y) <= 0.05) { y = 0;}
     	
