@@ -15,9 +15,9 @@ package org.usfirst.frc.team3863.robot;
  */
 public class RobotMap {
 	//Drivetrain CAN IDs
-	public static int TALON_DRIVE_LEFTA_ID = 4;
-	public static int TALON_DRIVE_LEFTB_ID = 5;
-	public static int TALON_DRIVE_RIGHTA_ID = 1;
+	public static int TALON_DRIVE_LEFTA_ID = 13;
+	public static int TALON_DRIVE_LEFTB_ID = 12;
+	public static int TALON_DRIVE_RIGHTA_ID = 2;
 	public static int TALON_DRIVE_RIGHTB_ID = 3;
 	
 	public static int PDP_ID = 0;
