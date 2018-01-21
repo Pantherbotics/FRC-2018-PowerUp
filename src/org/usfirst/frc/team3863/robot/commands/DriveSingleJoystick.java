@@ -27,8 +27,8 @@ public class DriveSingleJoystick extends Command {
     	if (Math.abs(twist) <= 0.05) { twist = 0;}
     	if (Math.abs(y) <= 0.05) { y = 0;}
     	
-    	double left = y + twist;
-    	double right = y - twist;
+    	double left = y - twist;
+    	double right = y + twist;
     	Robot.kDrivetrain.setDrivePower(left, right);
     }
 

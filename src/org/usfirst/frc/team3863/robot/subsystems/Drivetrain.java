@@ -30,8 +30,8 @@ public class Drivetrain extends Subsystem {
     }
     
     public void init() {
-    	talonRightA.setInverted(true);
-    	talonRightB.setInverted(true);
+    	talonLeftA.setInverted(true);
+    	talonLeftB.setInverted(true);
     }
     
     public void setDrivePower(double left, double right) {

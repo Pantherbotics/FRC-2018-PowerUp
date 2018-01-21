@@ -24,11 +24,11 @@ public class DriveController extends Command {
     protected void execute() {
     	double twist = Robot.m_oi.partnerController.getZ();
     	double y = Robot.m_oi.partnerController.getY();
-    	if (Math.abs(twist) <= 0.05) { twist = 0;}
-    	if (Math.abs(y) <= 0.05) { y = 0;}
+    	if (Math.abs(twist) <= 0.01) { twist = 0;}
+    	if (Math.abs(y) <= 0.01) { y = 0;}
     	
-    	double left = y + twist;
-    	double right = y - twist;
+    	double left = y - twist;
+    	double right = y + twist;
     	Robot.kDrivetrain.setDrivePower(left, right);
     }
 
