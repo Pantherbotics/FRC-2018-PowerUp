@@ -21,6 +21,8 @@ import org.usfirst.frc.team3863.robot.commands.DriveController;
 import org.usfirst.frc.team3863.robot.commands.SwitchFarLeftAuto;
 import org.usfirst.frc.team3863.robot.commands.SwitchNearLeftAuto;
 import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team3863.robot.subsystems.Elevator;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,6 +33,7 @@ import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
  */
 public class Robot extends TimedRobot {
 	public static final Drivetrain kDrivetrain = new Drivetrain();
+	public static final Elevator kElevator = new Elevator();
 	public static OI m_oi = new OI();
 	public static PowerDistributionPanel m_pdp = new PowerDistributionPanel();
 	public DriverStation ds = DriverStation.getInstance();
@@ -121,12 +124,15 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("Baseline", 2);
 		SmartDashboard.putData("Auto mode", m_chooser);
 		
-		m_drivechooser.addDefault("Single Joystick", new DriveSingleJoystick());
-		m_drivechooser.addObject("Partner Controller", new DriveController());
+		m_drivechooser.addDefault("Partner Controller", new DriveController());
+		m_drivechooser.addObject("Single Joystick", new DriveSingleJoystick());
 		SmartDashboard.putData("Teleop Drive mode", m_drivechooser);
 		
 		
 		kDrivetrain.init();
+		SmartDashboard.putData("Drivetrain", kElevator);
+		kElevator.initPID();
+		SmartDashboard.putData("Elevator", kElevator);
 	}
 
 	/**

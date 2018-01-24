@@ -10,6 +10,8 @@ package org.usfirst.frc.team3863.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
+import org.usfirst.frc.team3863.robot.commands.DecrementLift;
+import org.usfirst.frc.team3863.robot.commands.IncrementLift;
 import org.usfirst.frc.team3863.robot.commands.ToggleTransmissionState;;
 
 /**
@@ -52,8 +54,8 @@ public class OI {
 	
 	public Joystick partnerController = new Joystick(2);
 	public JoystickButton partnerButtonX = new JoystickButton(partnerController, 1);
-	public JoystickButton partnerButtonB = new JoystickButton(partnerController, 3);
-	public JoystickButton partnerButtonA = new JoystickButton(partnerController, 2);
+	public JoystickButton partnerButtonA = new JoystickButton(partnerController, 3);
+	public JoystickButton partnerButtonB = new JoystickButton(partnerController, 2);
 	public JoystickButton partnerButtonY = new JoystickButton(partnerController, 4);
 	
 	public OI() {
@@ -65,7 +67,9 @@ public class OI {
 	}
 	
 	public void initDriveController() {
-		partnerButtonA.whenPressed(new ToggleTransmissionState());
+		partnerButtonX.whenPressed(new ToggleTransmissionState());
+		partnerButtonA.whileHeld(new IncrementLift());
+		partnerButtonY.whileHeld(new DecrementLift());
 	}
 
 }
