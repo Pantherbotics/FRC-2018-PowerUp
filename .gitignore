@@ -1,3 +1,4 @@
+.classpath #Ignore classpath
 #---------------Generic Java Gitignore---------------
 # Compiled class file
 *.class
