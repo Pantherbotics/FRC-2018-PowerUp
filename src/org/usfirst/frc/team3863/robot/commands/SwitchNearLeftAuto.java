@@ -3,6 +3,7 @@ package org.usfirst.frc.team3863.robot.commands;
 import org.usfirst.frc.team3863.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *Autonomous for placing a power cube in the Switch, when our switch side is the same as our starting side. 
@@ -21,9 +22,16 @@ public class SwitchNearLeftAuto extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	if (right_invert == 1) {
-    		System.out.println("Auton: Score in CLOSEST switch side, starting on LEFT of field");
+    		System.out.println("Autosomis Mode, Auton: Score in CLOSEST switch side, starting on LEFT of field");
+    		SmartDashboard.putString("Autosomis Mode", "Auton: Score in CLOSEST switch side, starting on LEFT of field");
+    		
     	} else if (right_invert == -1) {
-    		System.out.println("Auton: Score in CLOSEST switch side, starting on RIGHT of field");
+    		System.out.println("Autosomis Mode, Auton: Score in CLOSEST switch side, starting on RIGHT of field");
+    		SmartDashboard.putString("Autosomis Mode", "Auton: Score in CLOSEST switch side, starting on RIGHT of field");
+    		
+    		
+
+
     	}
     }
 

@@ -1,7 +1,6 @@
 package org.usfirst.frc.team3863.robot.commands;
-
 import org.usfirst.frc.team3863.robot.Robot;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -22,8 +21,13 @@ public class SwitchFarLeftAuto extends Command {
     protected void initialize() {
     	if (right_invert == 1) {
     		System.out.println("Auton: Score in FARTHEST switch side, starting on LEFT of field");
+    		SmartDashboard.putString("Autosomis Mode", "Auton: Score in CLOSEST switch side, starting on LEFT of field");
+
+    		
     	} else if (right_invert == -1) {
     		System.out.println("Auton: Score in FARTHEST switch side, starting on RIGHT of field");
+    		SmartDashboard.putString("Autosomis Mode","Auton: Score in CLOSEST switch side, starting on RIGHT of field");
+
     	}
     }
 
