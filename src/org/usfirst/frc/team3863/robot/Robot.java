@@ -130,7 +130,7 @@ public class Robot extends TimedRobot {
 		
 		
 		kDrivetrain.init();
-		SmartDashboard.putData("Drivetrain", kElevator);
+		SmartDashboard.putData("Drivetrain", kDrivetrain);
 		kElevator.initPID();
 		SmartDashboard.putData("Elevator", kElevator);
 	}
