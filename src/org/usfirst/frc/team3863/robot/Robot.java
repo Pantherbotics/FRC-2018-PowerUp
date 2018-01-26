@@ -81,6 +81,9 @@ public class Robot extends TimedRobot {
         	SmartDashboard.putString("Transmission", "High Gear");
         }
         
+        SmartDashboard.putNumber("Elevator target", kElevator.target);
+    	SmartDashboard.putNumber("Elevator pos", kElevator.getPos());
+        
         
 	}
 	

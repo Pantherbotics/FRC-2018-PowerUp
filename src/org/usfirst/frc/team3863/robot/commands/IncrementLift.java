@@ -20,7 +20,8 @@ public class IncrementLift extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.kElevator.setTargetPosition(Robot.kElevator.target + 1);
+    	int errDiff = 700 / 20;
+    	Robot.kElevator.setTargetPosition(Robot.kElevator.target + errDiff);
     }
 
     // Make this return true when this Command no longer needs to run execute()

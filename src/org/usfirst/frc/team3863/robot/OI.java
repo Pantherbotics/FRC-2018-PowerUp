@@ -54,8 +54,8 @@ public class OI {
 	
 	public Joystick partnerController = new Joystick(2);
 	public JoystickButton partnerButtonX = new JoystickButton(partnerController, 1);
-	public JoystickButton partnerButtonA = new JoystickButton(partnerController, 3);
-	public JoystickButton partnerButtonB = new JoystickButton(partnerController, 2);
+	public JoystickButton partnerButtonB = new JoystickButton(partnerController, 3);
+	public JoystickButton partnerButtonA = new JoystickButton(partnerController, 2);
 	public JoystickButton partnerButtonY = new JoystickButton(partnerController, 4);
 	
 	public OI() {
@@ -68,8 +68,8 @@ public class OI {
 	
 	public void initDriveController() {
 		partnerButtonX.whenPressed(new ToggleTransmissionState());
-		partnerButtonA.whileHeld(new IncrementLift());
-		partnerButtonY.whileHeld(new DecrementLift());
+		partnerButtonY.whileHeld(new IncrementLift());
+		partnerButtonA.whileHeld(new DecrementLift());
 	}
 
 }
