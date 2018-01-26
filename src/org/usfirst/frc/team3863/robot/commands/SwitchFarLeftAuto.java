@@ -21,12 +21,12 @@ public class SwitchFarLeftAuto extends Command {
     protected void initialize() {
     	if (right_invert == 1) {
     		System.out.println("Auton: Score in FARTHEST switch side, starting on LEFT of field");
-    		SmartDashboard.putString("Autosomis Mode", "Auton: Score in CLOSEST switch side, starting on LEFT of field");
+    		SmartDashboard.putString("Autosomis Mode", "Auton: Score in FARTHEST switch side, starting on LEFT of field");
 
     		
     	} else if (right_invert == -1) {
     		System.out.println("Auton: Score in FARTHEST switch side, starting on RIGHT of field");
-    		SmartDashboard.putString("Autosomis Mode","Auton: Score in CLOSEST switch side, starting on RIGHT of field");
+    		SmartDashboard.putString("Autosomis Mode","Auton: Score in FARTHEST switch side, starting on RIGHT of field");
 
     	}
     }

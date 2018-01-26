@@ -133,6 +133,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData("Drivetrain", kDrivetrain);
 		kElevator.initPID();
 		SmartDashboard.putData("Elevator", kElevator);
+		
+		SmartDashboard.putString("Autosomis Mode", "Auton Not Running");
 	}
 
 	/**

@@ -3,6 +3,7 @@ package org.usfirst.frc.team3863.robot.commands;
 import org.usfirst.frc.team3863.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -16,6 +17,7 @@ public class BaselineAuto extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	System.out.println("Baseline Auto has been started");
+    	SmartDashboard.putString("Autosomis Mode", "Auton: Baseline auto mode");
     }
 
     // Called repeatedly when this Command is scheduled to run
