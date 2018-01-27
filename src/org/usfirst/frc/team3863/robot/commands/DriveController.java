@@ -29,7 +29,7 @@ public class DriveController extends Command {
     	
     	double left = y - twist;
     	double right = y + twist;
-    	Robot.kDrivetrain.setDrivePower(left, right);
+    	Robot.kDrivetrain.setVelocityTargets(left, right);
     }
 
     // Make this return true when this Command no longer needs to run execute()
