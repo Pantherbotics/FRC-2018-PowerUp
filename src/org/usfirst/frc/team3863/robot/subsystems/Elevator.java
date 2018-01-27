@@ -51,6 +51,8 @@ public class Elevator extends Subsystem {
     	//hard limit: 5600 ticks
     	if (new_target > 5600) {
     		new_target = 5600;
+    	}else if (new_target < 0) {
+    		new_target = 0;
     	}
         target = new_target;
     	elevDriveTalon.set(ControlMode.Position, new_target);
