@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 /**
  Controls the four CANTalons dedicated to the Drivetrain
  */
@@ -18,8 +19,9 @@ public class Drivetrain extends Subsystem {
 	WPI_TalonSRX talonRightB = new WPI_TalonSRX(RobotMap.TALON_DRIVE_RIGHTB_ID);
 	
 	DoubleSolenoid transmissiom_solenoid = new DoubleSolenoid(RobotMap.PCM_TRANSMISSION_LOW, RobotMap.PCM_TRANSMISSION_HIGH);
-	
-	ControlMode mode = ControlMode.PercentOutput;
+		
+	int pid_id = 0;
+	public int timeout_ms = 0;
 	
 		
 	public boolean transmission_in_low = true;
@@ -32,15 +34,53 @@ public class Drivetrain extends Subsystem {
     public void init() {
     	talonLeftA.setInverted(true);
     	talonLeftB.setInverted(true);
+    	
+    	talonLeftA.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, pid_id, timeout_ms);
+    	talonLeftA.setSensorPhase(false);
+    	
+    	talonRightA.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, pid_id, timeout_ms);
+    	talonRightA.setSensorPhase(false);
+    	
+    	talonLeftB.follow(talonLeftA);
+    	talonRightB.follow(talonRightA);
+    	
+    	talonLeftA.configAllowableClosedloopError(0, pid_id, timeout_ms); 
+
+    	talonLeftA.config_kF(pid_id, 0.0, timeout_ms);
+    	talonLeftA.config_kP(pid_id, 2.0, timeout_ms);
+    	talonLeftA.config_kI(pid_id, 0.0, timeout_ms);
+    	talonLeftA.config_kD(pid_id, 0.0, timeout_ms);
+        
+    	talonRightA.configAllowableClosedloopError(0, pid_id, timeout_ms); 
+
+    	talonRightA.config_kF(pid_id, 0.0, timeout_ms);
+    	talonRightA.config_kP(pid_id, 2.0, timeout_ms);
+    	talonRightA.config_kI(pid_id, 0.0, timeout_ms);
+    	talonRightA.config_kD(pid_id, 0.0, timeout_ms);
+    }
+    
+    public double[] getEncoderVelocities() {
+    	double l = talonLeftA.getSelectedSensorVelocity(timeout_ms);
+    	double r = talonRightA.getSelectedSensorVelocity(timeout_ms);
+    	return new double[] {l, r};
     }
     
     public void setDrivePower(double left, double right) {
     	//Set the left and right motor power 
-    	talonLeftA.set(mode, left);
-    	talonLeftB.set(mode,left);
-    	
-    	talonRightA.set(mode, right);
-    	talonRightB.set(mode, right);
+    	talonLeftA.set(ControlMode.PercentOutput, left);
+    	talonRightA.set(ControlMode.PercentOutput, right);
+    }
+    
+    public void setVelocityTargets(double left, double right) {
+    	talonLeftA.set(ControlMode.Velocity, left * 200);
+    	talonRightA.set(ControlMode.Velocity, right * 200);
+    }
+    
+    public void setPositionTargetIncrements(double leftOffset, double rightOffset) {
+    	double lTarget = talonLeftA.getSelectedSensorPosition(timeout_ms) + leftOffset;
+    	double rTarget = talonRightA.getSelectedSensorPosition(timeout_ms) + rightOffset;
+    	talonLeftA.set(ControlMode.Position, lTarget);
+    	talonRightA.set(ControlMode.Position, rTarget);
     }
     
     public void setTransmissionLow() {
