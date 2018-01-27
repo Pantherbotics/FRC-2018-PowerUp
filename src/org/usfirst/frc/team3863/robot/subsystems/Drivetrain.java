@@ -36,26 +36,30 @@ public class Drivetrain extends Subsystem {
     	talonLeftB.setInverted(true);
     	
     	talonLeftA.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, pid_id, timeout_ms);
-    	talonLeftA.setSensorPhase(false);
+    	talonLeftA.setSensorPhase(true);
     	
     	talonRightA.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, pid_id, timeout_ms);
-    	talonRightA.setSensorPhase(false);
+    	talonRightA.setSensorPhase(true);
     	
     	talonLeftB.follow(talonLeftA);
     	talonRightB.follow(talonRightA);
     	
+    	talonLeftA.configContinuousCurrentLimit(30, timeout_ms);
+    	talonLeftB.configContinuousCurrentLimit(30, timeout_ms);
+    	talonRightA.configContinuousCurrentLimit(30, timeout_ms);
+    	talonRightB.configContinuousCurrentLimit(30, timeout_ms);
+    	
     	talonLeftA.configAllowableClosedloopError(0, pid_id, timeout_ms); 
-
     	talonLeftA.config_kF(pid_id, 0.0, timeout_ms);
-    	talonLeftA.config_kP(pid_id, 2.0, timeout_ms);
-    	talonLeftA.config_kI(pid_id, 0.0, timeout_ms);
+    	talonLeftA.config_kP(pid_id, 2.5, timeout_ms);
+    	talonLeftA.config_kI(pid_id, 0.01, timeout_ms);
     	talonLeftA.config_kD(pid_id, 0.0, timeout_ms);
         
     	talonRightA.configAllowableClosedloopError(0, pid_id, timeout_ms); 
 
     	talonRightA.config_kF(pid_id, 0.0, timeout_ms);
-    	talonRightA.config_kP(pid_id, 2.0, timeout_ms);
-    	talonRightA.config_kI(pid_id, 0.0, timeout_ms);
+    	talonRightA.config_kP(pid_id, 2.5, timeout_ms);
+    	talonRightA.config_kI(pid_id, 0.01, timeout_ms);
     	talonRightA.config_kD(pid_id, 0.0, timeout_ms);
     }
     
@@ -72,8 +76,12 @@ public class Drivetrain extends Subsystem {
     }
     
     public void setVelocityTargets(double left, double right) {
-    	talonLeftA.set(ControlMode.Velocity, left * 200);
-    	talonRightA.set(ControlMode.Velocity, right * 200);
+    	int multiplier = 600;
+    	if (transmission_in_low) {
+    		multiplier = 200;
+    	}
+    	talonLeftA.set(ControlMode.Velocity, left * multiplier);
+    	talonRightA.set(ControlMode.Velocity, right * multiplier);
     }
     
     public void setPositionTargetIncrements(double leftOffset, double rightOffset) {
