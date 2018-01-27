@@ -52,14 +52,14 @@ public class Drivetrain extends Subsystem {
     	talonLeftA.configAllowableClosedloopError(0, pid_id, timeout_ms); 
     	talonLeftA.config_kF(pid_id, 0.0, timeout_ms);
     	talonLeftA.config_kP(pid_id, 2.5, timeout_ms);
-    	talonLeftA.config_kI(pid_id, 0.01, timeout_ms);
+    	talonLeftA.config_kI(pid_id, 0.002, timeout_ms);
     	talonLeftA.config_kD(pid_id, 0.0, timeout_ms);
         
     	talonRightA.configAllowableClosedloopError(0, pid_id, timeout_ms); 
 
     	talonRightA.config_kF(pid_id, 0.0, timeout_ms);
     	talonRightA.config_kP(pid_id, 2.5, timeout_ms);
-    	talonRightA.config_kI(pid_id, 0.01, timeout_ms);
+    	talonRightA.config_kI(pid_id, 0.002, timeout_ms);
     	talonRightA.config_kD(pid_id, 0.0, timeout_ms);
     }
     
