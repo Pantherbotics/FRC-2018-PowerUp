@@ -22,6 +22,7 @@ import org.usfirst.frc.team3863.robot.commands.SwitchFarLeftAuto;
 import org.usfirst.frc.team3863.robot.commands.SwitchNearLeftAuto;
 import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3863.robot.subsystems.Elevator;
+import org.usfirst.frc.team3863.robot.subsystems.Intake;
 
 
 /**
@@ -34,6 +35,7 @@ import org.usfirst.frc.team3863.robot.subsystems.Elevator;
 public class Robot extends TimedRobot {
 	public static final Drivetrain kDrivetrain = new Drivetrain();
 	public static final Elevator kElevator = new Elevator();
+	public static final Intake kIntake = new Intake();
 	public static OI m_oi = new OI();
 	public static PowerDistributionPanel m_pdp = new PowerDistributionPanel();
 	public DriverStation ds = DriverStation.getInstance();

@@ -20,7 +20,13 @@ public class RobotMap {
 	public static int TALON_DRIVE_RIGHTA_ID = 2;
 	public static int TALON_DRIVE_RIGHTB_ID = 3;
 	
+	//Elevator CAN IDs
 	public static int ELEVATOR_DRIVE_TALON_ID = 14;
+	
+	//Intake CAN IDs
+	public static int LEFT_INTAKE_TALON_ID = 0;
+	public static int RIGHT_INTAKE_TALON_ID = 1;
+	public static int INTAKE_PIVOT_TALON_ID = 15;
 	
 	public static int PDP_ID = 0;
 	public static int PCM_ID = 0;

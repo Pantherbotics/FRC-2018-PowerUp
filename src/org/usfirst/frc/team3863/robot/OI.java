@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team3863.robot.commands.DecrementLift;
 import org.usfirst.frc.team3863.robot.commands.IncrementLift;
+import org.usfirst.frc.team3863.robot.commands.IntakeIn;
+import org.usfirst.frc.team3863.robot.commands.IntakeOut;
 import org.usfirst.frc.team3863.robot.commands.ToggleTransmissionState;
 import org.usfirst.frc.team3863.robot.commands.ZeroLift;;
 
@@ -59,6 +61,9 @@ public class OI {
 	public JoystickButton partnerButtonA = new JoystickButton(partnerController, 2);
 	public JoystickButton partnerButtonY = new JoystickButton(partnerController, 4);
 	
+	public JoystickButton partnerLeftBumper = new JoystickButton(partnerController, 5);
+	public JoystickButton partnerRightBumper = new JoystickButton(partnerController, 6);
+	
 	public OI() {
 		
 	}
@@ -72,6 +77,8 @@ public class OI {
 		partnerButtonY.whileHeld(new IncrementLift());
 		partnerButtonA.whileHeld(new DecrementLift());
 		partnerButtonB.whenReleased(new ZeroLift());
+		partnerLeftBumper.whileHeld(new IntakeIn());
+		partnerRightBumper.whileHeld(new IntakeOut());
 	}
 
 }
