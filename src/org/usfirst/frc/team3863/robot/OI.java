@@ -12,7 +12,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team3863.robot.commands.DecrementLift;
 import org.usfirst.frc.team3863.robot.commands.IncrementLift;
-import org.usfirst.frc.team3863.robot.commands.ToggleTransmissionState;;
+import org.usfirst.frc.team3863.robot.commands.ToggleTransmissionState;
+import org.usfirst.frc.team3863.robot.commands.ZeroLift;;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -70,6 +71,7 @@ public class OI {
 		partnerButtonX.whenPressed(new ToggleTransmissionState());
 		partnerButtonY.whileHeld(new IncrementLift());
 		partnerButtonA.whileHeld(new DecrementLift());
+		partnerButtonB.whenReleased(new ZeroLift());
 	}
 
 }
