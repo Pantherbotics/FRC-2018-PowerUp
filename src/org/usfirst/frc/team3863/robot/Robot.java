@@ -33,21 +33,38 @@ import org.usfirst.frc.team3863.robot.subsystems.Intake;
  * project.
  */
 public class Robot extends TimedRobot {
-	public static final Drivetrain kDrivetrain = new Drivetrain();
-	public static final Elevator kElevator = new Elevator();
-	public static final Intake kIntake = new Intake();
-	public static OI m_oi = new OI();
-	public static PowerDistributionPanel m_pdp = new PowerDistributionPanel();
-	public DriverStation ds = DriverStation.getInstance();
-	public Alliance alliance = ds.getAlliance();
-	boolean auton_right;
+	//Instance of the Drivetrain subsystem. Controls wheels + transmissions. Accessed by commands + code in the main loop
+	public static final Drivetrain kDrivetrain = new Drivetrain();  
+	//Instance of the Elevator subsystem. Controls elevator lift motor. 
+	public static final Elevator kElevator = new Elevator();        
+	//Instance of the Intake subsystem. Controls Intake wheels + servo arm. 
+	public static final Intake kIntake = new Intake();  
+	
+	//Operator Interface instance. Contains button ==> command mappings
+	public static OI m_oi = new OI();                    
+	//PDP instance. Provides access to the robot's PDP, giving us current draw/breaker status info
+	public static PowerDistributionPanel m_pdp = new PowerDistributionPanel(); 
+	//DriverStation instance. Provides access to field/DS/match status and other info 
+	public DriverStation ds = DriverStation.getInstance();         
+	
+	//The current alliance (Alliance.Blue || Alliance.Red) to which the robot is assigned. 
+	public Alliance alliance = ds.getAlliance(); 
+	//used in updateAuton() to indicate if the autonomous mode should run in 'right' mode (invert l/r values)
+	boolean auton_right;                                            
 
-	Command m_autonomousCommand;
+	//Instance of the currently selected autonomous command 
+	Command m_autonomousCommand;                      
+	 //SmartDashboard dropdown menu for selecting autonomous modes. 
 	SendableChooser<Integer> m_chooser = new SendableChooser<Integer>();
 	
-	Command m_teleopDriveCommand;
-	SendableChooser<Command> m_drivechooser = new SendableChooser<Command>();
+	//Instance of the currently selected teleop drive command  
+	Command m_teleopDriveCommand;	     
+	//SmartDashboard dropdown menu for selecting teleop drive modes. 
+	SendableChooser<Command> m_drivechooser = new SendableChooser<Command>(); 
 	
+	/**
+	 * Updates the SmartDashboard with robot state + debug info
+	 */
 	public void updateSmartDashboard() {
 		
 		String msg = ds.getGameSpecificMessage();
@@ -94,7 +111,7 @@ public class Robot extends TimedRobot {
 	}
 	
 	/**
-	 * Update the DriverStation and auton init code with the given Auton command
+	 * Determine which autonomous mode should run (based on SmartDashboard selection AND field state)
 	 */
 	public void updateAuton() {
 		int ds_choice = m_chooser.getSelected();
@@ -124,6 +141,9 @@ public class Robot extends TimedRobot {
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
+	 * 
+	 * Initalizes the Auton and Drivetrain SmartDashboard choosers, initalizes all 
+	 * subsystem (that need initalization), and sets SmartDashboard defaults
 	 */
 	@Override
 	public void robotInit() {
@@ -150,16 +170,25 @@ public class Robot extends TimedRobot {
 	 * This function is called once each time the robot enters Disabled mode.
 	 * You can use it to reset any subsystem information you want to clear when
 	 * the robot is disabled.
+	 * 
 	 */
 	@Override
 	public void disabledInit() {
 
 	}
-
+	
+	/**
+	 * Re-calculate autonomous selection and update the smartdashboard when disabled
+	 */
 	@Override
 	public void disabledPeriodic() {
+		//Let the scheduler process any running commands 
 		Scheduler.getInstance().run();
+		
+		//Update the SmartDashboard with debug + state info
 		updateSmartDashboard();
+		
+		//Calculate which autonomous to run
 		updateAuton();
 	}
 
@@ -176,7 +205,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		//Update the SmartDashboard with debug + state info
 		updateSmartDashboard();
+		
+		//Calculate which autonomous to run
 		updateAuton();
 
 		// schedule the autonomous command (example)
@@ -190,7 +222,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		//Let the scheduler process any running commands 
 		Scheduler.getInstance().run();
+		
+		//Update the SmartDashboard with debug + state info
 		updateSmartDashboard();
 	}
 
@@ -204,6 +239,7 @@ public class Robot extends TimedRobot {
 			m_autonomousCommand.cancel();
 		}
 		
+		//Select the drive mode from the SmartDashboard
 		m_teleopDriveCommand = m_drivechooser.getSelected();
 		
 		// schedule the drive command
@@ -217,7 +253,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		//Let the scheduler process any running commands 
 		Scheduler.getInstance().run();
+		
+		//Update the SmartDashboard with debug + state info
 		updateSmartDashboard();
 	}
 
@@ -226,6 +265,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		//Update the SmartDashboard with debug + state info
 		updateSmartDashboard();
 	}
 }
