@@ -67,43 +67,58 @@ public class Robot extends TimedRobot {
 	 */
 	public void updateSmartDashboard() {
 		
+		//Get the Switch status from the Field Management System (FMS)
 		String msg = ds.getGameSpecificMessage();
 		
+		//Check if we are on the Blue alliance
 		boolean isBlue = (alliance == Alliance.Blue);
+		//Add alliance state to the SmartDashboard
 		SmartDashboard.putBoolean("OurAlliance", isBlue);
+		
 		if (msg.length() < 3) {
+			//Error out if the Field data is not in an expected format
 			System.out.println("Malformed Field Data: "+msg);
 		}else {
-			SmartDashboard.putBoolean("OurSwitch_L", msg.charAt(0) == 'L' ^ !isBlue); //True = Blue; False = Red;
+			//Add Switch, Scale, Switch data to the SmartDashboard (True = Blue; False = Red)
+			// ^ !isBlue will invert the output (reverse the POV when our driver station is on the opposite side of the field)
+			SmartDashboard.putBoolean("OurSwitch_L", msg.charAt(0) == 'L' ^ !isBlue);
 			SmartDashboard.putBoolean("Scale_L", msg.charAt(1) == 'L' ^ !isBlue);
 			SmartDashboard.putBoolean("EnemySwitch_L", msg.charAt(2) == 'L' ^ !isBlue);  
 			
-			SmartDashboard.putBoolean("OurSwitch_R", msg.charAt(0) == 'R' ^ !isBlue); //True = Blue; False = Red;
+			//Add right side of switch data (the inverse of the left side)
+			SmartDashboard.putBoolean("OurSwitch_R", msg.charAt(0) == 'R' ^ !isBlue); 
 			SmartDashboard.putBoolean("Scale_R", msg.charAt(1) == 'R' ^ !isBlue);
 			SmartDashboard.putBoolean("EnemySwitch_R", msg.charAt(2) == 'R' ^ !isBlue);   
 		}
+		
+		//Add the autonomous command to the SmartDashboard if it exists
 		if (m_autonomousCommand != null) {
 			SmartDashboard.putData("AutonCommand", m_autonomousCommand);
 		}
         
+		//Add the auton left/right info to SmartDashboard
         if (auton_right) {
 			SmartDashboard.putString("AutonSide", "Right");
 		}else {
 			SmartDashboard.putString("AutonSide", "Left");
 		}
         
-        SmartDashboard.putData("PDP", m_pdp);
-        
+        //Add the transmission state to the SmartDashboard
         if (kDrivetrain.transmission_in_low) {
         	SmartDashboard.putString("Transmission", "Low Gear");
         }else {
         	SmartDashboard.putString("Transmission", "High Gear");
         }
         
+        //Add the PDP (Power Distrubution Panel) data to the SmartDashboard
+        SmartDashboard.putData("PDP", m_pdp);
+        
+        //Get the drivetrain encoder velocities, and add them to the SmartDashboard
         double[] vels = kDrivetrain.getEncoderVelocities();
         SmartDashboard.putNumber("Left Velocity", vels[0]);
         SmartDashboard.putNumber("Right Velocity", vels[1]);
         
+        //Add the elevator's target position, and actual position to the SmartDashboard
         SmartDashboard.putNumber("Elevator target", kElevator.target);
     	SmartDashboard.putNumber("Elevator pos", kElevator.getPos());
         
@@ -114,22 +129,38 @@ public class Robot extends TimedRobot {
 	 * Determine which autonomous mode should run (based on SmartDashboard selection AND field state)
 	 */
 	public void updateAuton() {
+		//Get the currently selected autonomous mode (represented as a number)
 		int ds_choice = m_chooser.getSelected();
+		
 		switch(ds_choice) { 
-		 	case 1: 						//Determine Auto mode from switch positions
-		 		DriverStation ds = DriverStation.getInstance();
-				String msg = ds.getGameSpecificMessage();
+			//Option 1: Automatically determine auton mode based on field status
+		 	case 1:
+		 		
+		 		//Get the scoring positions of the switches from the FMS
+		 		String msg = ds.getGameSpecificMessage();
+		 		
+		 		//Get our driverstation number (1-3, left-right)
 				int loc = ds.getLocation();
-				auton_right = (loc==3);     //Invert the auton side if we are in the right driverstation
+				
+				//True if we are in the rightmost driverstation (#3)
+				auton_right = (loc==3);     
+				
+				//When our switch is on the Left side
 				if(msg.charAt(0) == 'L') {		 
 					m_autonomousCommand = new SwitchNearLeftAuto(auton_right);
+					
+				//When our switch is on the right side
 		        } else if (msg.charAt(0) == 'R'){ //Our switch is to the Right
 		        	m_autonomousCommand = new SwitchFarLeftAuto(auton_right);
 		        }
 				break;
-		 	case 2: 						//Baseline Auto
+				
+			//Baseline Autonomous mode
+		 	case 2: 						
 		 		m_autonomousCommand = new BaselineAuto(); 
 		 		break;
+		 		
+		 	//No autonomous mode (default)
 		 	default:
 		 		m_autonomousCommand = null;
 		 		break; 
@@ -148,21 +179,28 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		
+		//Add options to the Auton Mode chooser, and add it to the SmartDashboard
+		//The options are integers, accessed later via a switch statement. 
 		m_chooser.addDefault("None", 0);
 		m_chooser.addObject("AutoSelect Switch", 1);
 		m_chooser.addObject("Baseline", 2);
 		SmartDashboard.putData("Auto mode", m_chooser);
 		
+		//Add options to the Drive Mode chooser, and add it to the SmartDashboard
+		//The options are instances of the given drive commands, 
 		m_drivechooser.addDefault("Partner Controller", new DriveController());
 		m_drivechooser.addObject("Single Joystick", new DriveSingleJoystick());
 		SmartDashboard.putData("Teleop Drive mode", m_drivechooser);
 		
-		
+		//Initalize the Drivetrain subsystem, and add to the SmartDashboard
 		kDrivetrain.init();
 		SmartDashboard.putData("Drivetrain", kDrivetrain);
+		
+		//Initalize the Elevator subsystem and add to the SmartDashboard
 		kElevator.initPID();
 		SmartDashboard.putData("Elevator", kElevator);
 		
+		//Reset the SmartDashboard auton description
 		SmartDashboard.putString("Autosomis Mode", "Auton Not Running");
 	}
 
