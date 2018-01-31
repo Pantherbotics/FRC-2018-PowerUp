@@ -28,9 +28,11 @@ public class RobotMap {
 	public static int RIGHT_INTAKE_TALON_ID = 1;
 	public static int INTAKE_PIVOT_TALON_ID = 15;
 	
+	//PCM and PDP CAN IDs (defaults to 0, IDs only need to be unique across the same type)
 	public static int PDP_ID = 0;
 	public static int PCM_ID = 0;
 	
+	//PCM Solenoid output IDs
 	public static int PCM_TRANSMISSION_LOW = 0;
 	public static int PCM_TRANSMISSION_HIGH = 1;
 }
