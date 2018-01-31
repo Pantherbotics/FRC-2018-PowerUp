@@ -20,7 +20,7 @@ public class DecrementLift extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	int errDiff = 700 / 20;
+    	int errDiff =60;
     	Robot.kElevator.setTargetPosition(Robot.kElevator.target - errDiff);  //700 ticks/rev 
     }
 
