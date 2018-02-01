@@ -101,7 +101,15 @@ public class Drivetrain extends Subsystem {
 		System.out.println("Transmission in High Gear");
 		transmission_in_low = false;
 		transmissiom_solenoid.set(DoubleSolenoid.Value.kReverse);
+		
+		
 	}
+	public double piderroraverage() {
+		double average = (talonLeftA.getClosedLoopError(timeout_ms)+ talonRightA.getClosedLoopError(timeout_ms))/2;
+		return average;
+		
+	}
+	
     
 }
 
