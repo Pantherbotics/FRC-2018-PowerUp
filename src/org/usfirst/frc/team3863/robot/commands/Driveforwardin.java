@@ -26,7 +26,7 @@ public class Driveforwardin extends Command {
 
     
     protected void initialize() {
-    	
+    	System.out.println("1234");
     	
     	
     }
@@ -44,8 +44,9 @@ public class Driveforwardin extends Command {
 
     
     protected boolean isFinished() {    	
-    	
+    	System.out.println("isFinished: " + (Math.abs(Robot.kDrivetrain.piderroraverage())<20) + " avgerr: " + Robot.kDrivetrain.piderroraverage());
         return (Math.abs(Robot.kDrivetrain.piderroraverage())<20);
+        
         
     }
 
