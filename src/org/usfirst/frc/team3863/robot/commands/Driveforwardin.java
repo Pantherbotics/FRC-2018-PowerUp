@@ -27,25 +27,20 @@ public class Driveforwardin extends Command {
     
     protected void initialize() {
     	System.out.println("1234");
-    	
+    	double ticks = distance / 18.850 * 400;
+    	Robot.kDrivetrain.setPositionTargetIncrements(ticks, ticks);
     	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double ticks = distance * 18.850/100;
-    	Robot.kDrivetrain.setPositionTargetIncrements(ticks, ticks);
-    	
-    	
-    	
-    	
-    	
     }
 
     
     protected boolean isFinished() {    	
     	System.out.println("isFinished: " + (Math.abs(Robot.kDrivetrain.piderroraverage())<20) + " avgerr: " + Robot.kDrivetrain.piderroraverage());
-        return (Math.abs(Robot.kDrivetrain.piderroraverage())<20);
+        //return (Math.abs(Robot.kDrivetrain.piderroraverage())<20);
+    	return false;
         
         
     }
