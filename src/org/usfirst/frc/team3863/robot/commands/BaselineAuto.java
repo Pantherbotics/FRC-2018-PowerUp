@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class BaselineAuto extends Command {
 
     public BaselineAuto() {
-        requires(Robot.kDrivetrain);
+        
     }
 
     // Called just before this Command runs the first time
@@ -23,7 +23,7 @@ public class BaselineAuto extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Driveforwardin Drivecommand = new Driveforwardin(95);
+    	Driveforwardin Drivecommand = new Driveforwardin(95.0);
     	Drivecommand.start();
     	
     }
