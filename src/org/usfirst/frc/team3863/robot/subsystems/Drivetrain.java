@@ -51,21 +51,27 @@ public class Drivetrain extends Subsystem {
     	
     	talonLeftA.configAllowableClosedloopError(0, pid_id, timeout_ms); 
     	talonLeftA.config_kF(pid_id, 0.0, timeout_ms);
-    	talonLeftA.config_kP(pid_id, 2.5, timeout_ms);
-    	talonLeftA.config_kI(pid_id, 0.002, timeout_ms);
-    	talonLeftA.config_kD(pid_id, 0.0, timeout_ms);
+    	talonLeftA.config_kP(pid_id, 2.7, timeout_ms);
+    	talonLeftA.config_kI(pid_id, 0.05, timeout_ms);
+    	talonLeftA.config_kD(pid_id, -0.8, timeout_ms);
         
     	talonRightA.configAllowableClosedloopError(0, pid_id, timeout_ms); 
 
     	talonRightA.config_kF(pid_id, 0.0, timeout_ms);
-    	talonRightA.config_kP(pid_id, 2.5, timeout_ms);
-    	talonRightA.config_kI(pid_id, 0.002, timeout_ms);
-    	talonRightA.config_kD(pid_id, 0.0, timeout_ms);
+    	talonRightA.config_kP(pid_id, 2.7, timeout_ms);
+    	talonRightA.config_kI(pid_id, 0.05, timeout_ms);
+    	talonRightA.config_kD(pid_id, -0.8, timeout_ms);
     }
     
     public double[] getEncoderVelocities() {
     	double l = talonLeftA.getSelectedSensorVelocity(timeout_ms);
     	double r = talonRightA.getSelectedSensorVelocity(timeout_ms);
+    	return new double[] {l, r};
+    }
+    
+    public double[] getEncoderPositions() {
+    	double l = talonLeftA.getSelectedSensorPosition(timeout_ms);
+    	double r = talonRightA.getSelectedSensorPosition(timeout_ms);
     	return new double[] {l, r};
     }
     
