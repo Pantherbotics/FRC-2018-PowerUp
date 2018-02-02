@@ -87,6 +87,10 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Left Velocity", vels[0]);
         SmartDashboard.putNumber("Right Velocity", vels[1]);
         
+        double[] poss = kDrivetrain.getEncoderPositions();
+        SmartDashboard.putNumber("Left Pos", poss[0]);
+        SmartDashboard.putNumber("Right Pos", poss[1]);
+        
         SmartDashboard.putNumber("Elevator target", kElevator.target);
     	SmartDashboard.putNumber("Elevator pos", kElevator.getPos());
         
