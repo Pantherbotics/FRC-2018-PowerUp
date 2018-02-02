@@ -42,8 +42,8 @@ public class Elevator extends Subsystem {
     	elevDriveTalon.configAllowableClosedloopError(0, pid_id, timeout_ms); 
 
     	elevDriveTalon.config_kF(pid_id, 0.0, timeout_ms);
-    	elevDriveTalon.config_kP(pid_id, 1.5, timeout_ms);
-        elevDriveTalon.config_kI(pid_id, 0.0, timeout_ms);
+    	elevDriveTalon.config_kP(pid_id, 1.2, timeout_ms);
+        elevDriveTalon.config_kI(pid_id, 0.0000000001, timeout_ms);
         elevDriveTalon.config_kD(pid_id, 0.0, timeout_ms);
     }
     
@@ -56,7 +56,6 @@ public class Elevator extends Subsystem {
     	}
         target = new_target;
     	elevDriveTalon.set(ControlMode.Position, new_target);
-    	System.out.println("Elevator Target Pos: " + new_target + " | pos: " + elevDriveTalon.getSelectedSensorPosition(timeout_ms));
     }
     
     public void setMotorPower(double power) {
