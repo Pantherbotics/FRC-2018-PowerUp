@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3863.robot.commands;
 
+import org.usfirst.frc.team3863.robot.Constants;
 import org.usfirst.frc.team3863.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -27,7 +28,7 @@ public class Driveforwardin extends Command {
     
     protected void initialize() {
     	System.out.println("1234");
-    	double ticks = distance / 18.850 * 400;
+    	double ticks = distance / Constants.DRIVE_WHEEL_DIAMETER * Constants.DRIVE_ENCODER_TICKS;
     	Robot.kDrivetrain.setPositionTargetIncrements(ticks, ticks);
     	
     }

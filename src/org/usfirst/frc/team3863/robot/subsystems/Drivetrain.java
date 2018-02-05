@@ -2,6 +2,7 @@ package org.usfirst.frc.team3863.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+import org.usfirst.frc.team3863.robot.Constants;
 import org.usfirst.frc.team3863.robot.RobotMap;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
@@ -44,23 +45,22 @@ public class Drivetrain extends Subsystem {
     	talonLeftB.follow(talonLeftA);
     	talonRightB.follow(talonRightA);
     	
-    	talonLeftA.configContinuousCurrentLimit(30, timeout_ms);
-    	talonLeftB.configContinuousCurrentLimit(30, timeout_ms);
-    	talonRightA.configContinuousCurrentLimit(30, timeout_ms);
-    	talonRightB.configContinuousCurrentLimit(30, timeout_ms);
+    	talonLeftA.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT, timeout_ms);
+    	talonLeftB.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT, timeout_ms);
+    	talonRightA.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT, timeout_ms);
+    	talonRightB.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT, timeout_ms);
     	
     	talonLeftA.configAllowableClosedloopError(0, pid_id, timeout_ms); 
-    	talonLeftA.config_kF(pid_id, 0.0, timeout_ms);
-    	talonLeftA.config_kP(pid_id, 2.7, timeout_ms);
-    	talonLeftA.config_kI(pid_id, 0.05, timeout_ms);
-    	talonLeftA.config_kD(pid_id, -0.8, timeout_ms);
+    	talonLeftA.config_kF(pid_id, Constants.DRIVE_PID_F, timeout_ms);
+    	talonLeftA.config_kP(pid_id, Constants.DRIVE_PID_P, timeout_ms);
+    	talonLeftA.config_kI(pid_id, Constants.DRIVE_PID_I, timeout_ms);
+    	talonLeftA.config_kD(pid_id, Constants.DRIVE_PID_D, timeout_ms);
         
     	talonRightA.configAllowableClosedloopError(0, pid_id, timeout_ms); 
-
-    	talonRightA.config_kF(pid_id, 0.0, timeout_ms);
-    	talonRightA.config_kP(pid_id, 2.7, timeout_ms);
-    	talonRightA.config_kI(pid_id, 0.05, timeout_ms);
-    	talonRightA.config_kD(pid_id, -0.8, timeout_ms);
+    	talonRightA.config_kF(pid_id, Constants.DRIVE_PID_F, timeout_ms);
+    	talonRightA.config_kP(pid_id, Constants.DRIVE_PID_P, timeout_ms);
+    	talonRightA.config_kI(pid_id, Constants.DRIVE_PID_I, timeout_ms);
+    	talonRightA.config_kD(pid_id, Constants.DRIVE_PID_D, timeout_ms);
     }
     
     public double[] getEncoderVelocities() {
