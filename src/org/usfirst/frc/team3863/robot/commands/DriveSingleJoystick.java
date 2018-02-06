@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3863.robot.commands;
 
+import org.usfirst.frc.team3863.robot.Constants;
 import org.usfirst.frc.team3863.robot.Robot;
 import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.command.Command;
@@ -24,8 +25,8 @@ public class DriveSingleJoystick extends Command {
     protected void execute() {
     	double twist = Robot.m_oi.leftJoystick.getTwist();
     	double y = Robot.m_oi.leftJoystick.getY();
-    	if (Math.abs(twist) <= 0.05) { twist = 0;}
-    	if (Math.abs(y) <= 0.05) { y = 0;}
+    	if (Math.abs(twist) <= Constants.JOYSTICK_DEADBAND) { twist = 0;}
+    	if (Math.abs(y) <= Constants.JOYSTICK_DEADBAND) { y = 0;}
     	
     	double left = y - twist;
     	double right = y + twist;

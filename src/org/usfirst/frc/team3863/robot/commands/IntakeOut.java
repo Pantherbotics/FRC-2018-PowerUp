@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3863.robot.commands;
 
+import org.usfirst.frc.team3863.robot.Constants;
 import org.usfirst.frc.team3863.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -16,7 +17,7 @@ public class IntakeOut extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.kIntake.setIntakeWheelPower(-0.25);
+    	Robot.kIntake.setIntakeWheelPower(-Constants.INTAKE_MOTOR_POWER);
     }
 
     // Called repeatedly when this Command is scheduled to run

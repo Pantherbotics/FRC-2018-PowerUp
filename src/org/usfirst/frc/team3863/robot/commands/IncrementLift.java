@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3863.robot.commands;
 
+import org.usfirst.frc.team3863.robot.Constants;
 import org.usfirst.frc.team3863.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -20,8 +21,7 @@ public class IncrementLift extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	int errDiff = 60;
-    	Robot.kElevator.setTargetPosition(Robot.kElevator.target + errDiff);
+    	Robot.kElevator.setTargetPosition(Robot.kElevator.target + Constants.ELEVATOR_DRIVE_INCREMENT);
     }
 
     // Make this return true when this Command no longer needs to run execute()
