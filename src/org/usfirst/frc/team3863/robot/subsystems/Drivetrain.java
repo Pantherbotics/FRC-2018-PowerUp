@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 import org.usfirst.frc.team3863.robot.Constants;
 import org.usfirst.frc.team3863.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -13,6 +15,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
  Controls the four CANTalons dedicated to the Drivetrain
  */
 public class Drivetrain extends Subsystem {
+	
+	ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
 	WPI_TalonSRX talonLeftA = new WPI_TalonSRX(RobotMap.TALON_DRIVE_LEFTA_ID);
 	WPI_TalonSRX talonLeftB = new WPI_TalonSRX(RobotMap.TALON_DRIVE_LEFTB_ID);
@@ -61,6 +65,8 @@ public class Drivetrain extends Subsystem {
     	talonRightA.config_kP(pid_id, Constants.DRIVE_PID_P, timeout_ms);
     	talonRightA.config_kI(pid_id, Constants.DRIVE_PID_I, timeout_ms);
     	talonRightA.config_kD(pid_id, Constants.DRIVE_PID_D, timeout_ms);
+    	
+    	zero_gyro();
     }
     
     public double[] getEncoderVelocities() {
@@ -107,13 +113,22 @@ public class Drivetrain extends Subsystem {
 		System.out.println("Transmission in High Gear");
 		transmission_in_low = false;
 		transmissiom_solenoid.set(DoubleSolenoid.Value.kReverse);
-		
-		
 	}
-	public double piderroraverage() {
+	
+	public double pidErrorAverage() {
 		double average = (talonLeftA.getClosedLoopError(timeout_ms)+ talonRightA.getClosedLoopError(timeout_ms))/2;
 		return average;
 		
+	}
+	
+	public void zero_gyro() {
+		System.out.print("Zeroing Gyro...");
+		gyro.calibrate();
+		System.out.println("...Zeroing Complete");
+	}
+	
+	public double getGyroAngle() {
+		return gyro.getAngle();
 	}
 	
     

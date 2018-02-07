@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */   
-public class Driveforwardin extends Command {
+public class DriveForwardInches extends Command {
 
 	
 	  double distance;
 	  
-    public Driveforwardin(double inches) {
+    public DriveForwardInches(double inches) {
     	requires (Robot.kDrivetrain);
     	
     	distance = inches;
@@ -39,7 +39,7 @@ public class Driveforwardin extends Command {
 
     
     protected boolean isFinished() {    	
-    	System.out.println("isFinished: " + (Math.abs(Robot.kDrivetrain.piderroraverage())<20) + " avgerr: " + Robot.kDrivetrain.piderroraverage());
+    	System.out.println("isFinished: " + (Math.abs(Robot.kDrivetrain.pidErrorAverage())<20) + " avgerr: " + Robot.kDrivetrain.pidErrorAverage());
         //return (Math.abs(Robot.kDrivetrain.piderroraverage())<20);
     	return false;
         

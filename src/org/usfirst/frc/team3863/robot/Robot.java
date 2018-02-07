@@ -93,6 +93,8 @@ public class Robot extends TimedRobot {
         
         SmartDashboard.putNumber("Elevator target", kElevator.target);
     	SmartDashboard.putNumber("Elevator pos", kElevator.getPos());
+    	
+    	SmartDashboard.putNumber("Gyro", kDrivetrain.getGyroAngle());
         
         
 	}
@@ -180,6 +182,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		kDrivetrain.zero_gyro();
 		updateSmartDashboard();
 		updateAuton();
 

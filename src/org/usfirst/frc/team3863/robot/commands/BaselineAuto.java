@@ -1,7 +1,7 @@
 package org.usfirst.frc.team3863.robot.commands;
 
 import org.usfirst.frc.team3863.robot.Robot;
-import org.usfirst.frc.team3863.robot.commands.Driveforwardin;
+import org.usfirst.frc.team3863.robot.commands.DriveForwardInches;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,7 +23,7 @@ public class BaselineAuto extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Driveforwardin Drivecommand = new Driveforwardin(95.0);
+    	DriveForwardInches Drivecommand = new DriveForwardInches(95.0);
     	Drivecommand.start();
     	
     }

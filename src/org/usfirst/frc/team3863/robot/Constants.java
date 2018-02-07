@@ -8,6 +8,10 @@ public class Constants {
 	//Drivetrain ticks/rev
 	public static int LIFT_ENCODER_TICKS = 100;
 	
+	//multiplier for error in RotateDegrees
+	//TODO: TUNE ME!!!!
+	public static double DRIVE_ROTATE_P = 0.5;
+	
 	//Drivetrain PID 
 	public static double DRIVE_PID_F = 0.0;
 	public static double DRIVE_PID_P = 2.7;
