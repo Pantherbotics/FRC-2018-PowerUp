@@ -8,29 +8,20 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DriveController extends Command {
-
-    public DriveController() {
-        // Use requires() here to declare subsystem dependencies
-    	requires(Robot.kDrivetrain);
+public class MoveLiftBy extends Command {
+	int pos_increment;
+    public MoveLiftBy(int position_increment) {
+        requires(Robot.kElevator);
+        pos_increment = position_increment;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("Partner Controller Drive enabled");
-    	Robot.m_oi.initDriveController();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double twist = Robot.m_oi.partnerController.getZ();
-    	double y = Robot.m_oi.partnerController.getY();
-    	if (Math.abs(twist) <= Constants.CONTROLLER_DEADBAND) { twist = 0;}
-    	if (Math.abs(y) <= Constants.CONTROLLER_DEADBAND) { y = 0;}
-    	
-    	double left = y - twist;
-    	double right = y + twist;
-    	Robot.kDrivetrain.setVelocityTargets(left, right);
+    	Robot.kElevator.setTargetPosition(Robot.kElevator.target + pos_increment);
     }
 
     // Make this return true when this Command no longer needs to run execute()

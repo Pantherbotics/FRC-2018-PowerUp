@@ -35,7 +35,7 @@ public class Constants {
 	
 	//Manual increment/decrements for elevator control
 	public static int ELEVATOR_DRIVE_INCREMENT = 60;
-	public static int ELEVATOR_DRIVE_DECREMENT = 60;
+	public static int ELEVATOR_DRIVE_DECREMENT = -60;
 	
 	//percent-output for intake motors (when enabled)
 	public static double INTAKE_MOTOR_POWER = 0.25;

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3863.robot.commands;
+package org.usfirst.team3863.robot.teleop;
 
 import org.usfirst.frc.team3863.robot.Constants;
 import org.usfirst.frc.team3863.robot.Robot;
@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DriveSingleJoystick extends Command {
+public class TeleopSingleJoystick extends Command {
 
-    public DriveSingleJoystick() {
+    public TeleopSingleJoystick() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.kDrivetrain);
     }

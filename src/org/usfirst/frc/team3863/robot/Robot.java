@@ -15,14 +15,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import org.usfirst.frc.team3863.robot.commands.BaselineAuto;
-import org.usfirst.frc.team3863.robot.commands.DriveSingleJoystick;
-import org.usfirst.frc.team3863.robot.commands.DriveController;
-import org.usfirst.frc.team3863.robot.commands.SwitchFarLeftAuto;
-import org.usfirst.frc.team3863.robot.commands.SwitchNearLeftAuto;
+
+import org.usfirst.frc.team3863.robot.autonomous.AutoBaseline;
+import org.usfirst.frc.team3863.robot.autonomous.AutoFarSwitchScore;
+import org.usfirst.frc.team3863.robot.autonomous.AutoNearSwitchScore;
 import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3863.robot.subsystems.Elevator;
 import org.usfirst.frc.team3863.robot.subsystems.Intake;
+import org.usfirst.team3863.robot.teleop.TeleopSinglePartnerController;
+import org.usfirst.team3863.robot.teleop.TeleopSingleJoystick;
 
 
 /**
@@ -111,13 +112,13 @@ public class Robot extends TimedRobot {
 				int loc = ds.getLocation();
 				auton_right = (loc==3);     //Invert the auton side if we are in the right driverstation
 				if(msg.charAt(0) == 'L') {		 
-					m_autonomousCommand = new SwitchNearLeftAuto(auton_right);
+					m_autonomousCommand = new AutoNearSwitchScore(auton_right);
 		        } else if (msg.charAt(0) == 'R'){ //Our switch is to the Right
-		        	m_autonomousCommand = new SwitchFarLeftAuto(auton_right);
+		        	m_autonomousCommand = new AutoFarSwitchScore(auton_right);
 		        }
 				break;
 		 	case 2: 						//Baseline Auto
-		 		m_autonomousCommand = new BaselineAuto(); 
+		 		m_autonomousCommand = new AutoBaseline(); 
 		 		break;
 		 	default:
 		 		m_autonomousCommand = null;
@@ -135,12 +136,12 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		
 		m_chooser.addDefault("None", 0);
-		m_chooser.addObject("AutoSelect Switch", 1);
+		m_chooser.addObject("AutoSelect Score Switch", 1);
 		m_chooser.addObject("Baseline", 2);
 		SmartDashboard.putData("Auto mode", m_chooser);
 		
-		m_drivechooser.addDefault("Partner Controller", new DriveController());
-		m_drivechooser.addObject("Single Joystick", new DriveSingleJoystick());
+		m_drivechooser.addDefault("Single Partner Controller", new TeleopSinglePartnerController());
+		m_drivechooser.addObject("Single Joystick", new TeleopSingleJoystick());
 		SmartDashboard.putData("Teleop Drive mode", m_drivechooser);
 		
 		

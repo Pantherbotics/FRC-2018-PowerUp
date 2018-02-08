@@ -1,42 +1,44 @@
-package org.usfirst.frc.team3863.robot.commands;
+package org.usfirst.frc.team3863.robot.autonomous;
 
-import org.usfirst.frc.team3863.robot.Constants;
 import org.usfirst.frc.team3863.robot.Robot;
+import org.usfirst.frc.team3863.robot.commands.DriveForwardInches;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class IntakeIn extends Command {
+public class AutoBaseline extends Command {
 
-    public IntakeIn() {
-        // Use requires() here to declare subsystem dependencies
-        requires(Robot.kIntake);
+    public AutoBaseline() {
+        
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.kIntake.setIntakeWheelPower(Constants.INTAKE_MOTOR_POWER);
+    	System.out.println("Baseline Auto has been started");
+    	SmartDashboard.putString("Autosomis Mode", "Auton: Baseline auto mode");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	DriveForwardInches Drivecommand = new DriveForwardInches(95.0);
+    	Drivecommand.start();
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.kIntake.setIntakeWheelPower(0);
     }
 }

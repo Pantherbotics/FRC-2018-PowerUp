@@ -10,10 +10,8 @@ package org.usfirst.frc.team3863.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-import org.usfirst.frc.team3863.robot.commands.DecrementLift;
-import org.usfirst.frc.team3863.robot.commands.IncrementLift;
-import org.usfirst.frc.team3863.robot.commands.IntakeIn;
-import org.usfirst.frc.team3863.robot.commands.IntakeOut;
+import org.usfirst.frc.team3863.robot.commands.MoveLiftBy;
+import org.usfirst.frc.team3863.robot.commands.EnableIntakeWheels;
 import org.usfirst.frc.team3863.robot.commands.ToggleTransmissionState;
 import org.usfirst.frc.team3863.robot.commands.ZeroLift;;
 
@@ -74,11 +72,11 @@ public class OI {
 	
 	public void initDriveController() {
 		partnerButtonX.whenPressed(new ToggleTransmissionState());
-		partnerButtonY.whileHeld(new IncrementLift());
-		partnerButtonA.whileHeld(new DecrementLift());
+		partnerButtonY.whileHeld(new MoveLiftBy(Constants.ELEVATOR_DRIVE_INCREMENT));
+		partnerButtonA.whileHeld(new MoveLiftBy(Constants.ELEVATOR_DRIVE_DECREMENT));
 		partnerButtonB.whenReleased(new ZeroLift());
-		partnerLeftBumper.whileHeld(new IntakeIn());
-		partnerRightBumper.whileHeld(new IntakeOut());
+		partnerLeftBumper.whileHeld(new EnableIntakeWheels(false)); //Wheels run in forward direction
+		partnerRightBumper.whileHeld(new EnableIntakeWheels(true)); //Wheels run in reverse direction
 	}
 
 }
