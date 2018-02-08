@@ -7,8 +7,10 @@ import org.usfirst.frc.team3863.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.I2C;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 /**
@@ -16,7 +18,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
  */
 public class Drivetrain extends Subsystem {
 	
-	ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+	//ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    AHRS ahrs_gyro = new AHRS(I2C.Port.kOnboard);
 
 	WPI_TalonSRX talonLeftA = new WPI_TalonSRX(RobotMap.TALON_DRIVE_LEFTA_ID);
 	WPI_TalonSRX talonLeftB = new WPI_TalonSRX(RobotMap.TALON_DRIVE_LEFTB_ID);
@@ -123,12 +126,16 @@ public class Drivetrain extends Subsystem {
 	
 	public void zero_gyro() {
 		System.out.print("Zeroing Gyro...");
-		gyro.calibrate();
+		ahrs_gyro.reset();
 		System.out.println("...Zeroing Complete");
 	}
 	
 	public double getGyroAngle() {
-		return gyro.getAngle();
+		System.out.print(ahrs_gyro.getAngle());
+		System.out.print(" ");
+		System.out.println(ahrs_gyro.getCompassHeading());
+		return ahrs_gyro.getAngle();
+		
 	}
 	
     

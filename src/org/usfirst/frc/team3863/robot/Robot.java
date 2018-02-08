@@ -55,7 +55,7 @@ public class Robot extends TimedRobot {
 		boolean isBlue = (alliance == Alliance.Blue);
 		SmartDashboard.putBoolean("OurAlliance", isBlue);
 		if (msg.length() < 3) {
-			System.out.println("Malformed Field Data: "+msg);
+			//System.out.println("Malformed Field Data: "+msg);
 		}else {
 			SmartDashboard.putBoolean("OurSwitch_L", msg.charAt(0) == 'L' ^ !isBlue); //True = Blue; False = Red;
 			SmartDashboard.putBoolean("Scale_L", msg.charAt(1) == 'L' ^ !isBlue);
