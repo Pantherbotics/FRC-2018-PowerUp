@@ -15,14 +15,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import org.usfirst.frc.team3863.robot.commands.BaselineAuto;
-import org.usfirst.frc.team3863.robot.commands.DriveSingleJoystick;
-import org.usfirst.frc.team3863.robot.commands.DriveController;
-import org.usfirst.frc.team3863.robot.commands.SwitchFarLeftAuto;
-import org.usfirst.frc.team3863.robot.commands.SwitchNearLeftAuto;
+
+import org.usfirst.frc.team3863.robot.autonomous.AutoBaseline;
+import org.usfirst.frc.team3863.robot.autonomous.AutoFarSwitchScore;
+import org.usfirst.frc.team3863.robot.autonomous.AutoNearSwitchScore;
 import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3863.robot.subsystems.Elevator;
 import org.usfirst.frc.team3863.robot.subsystems.Intake;
+import org.usfirst.team3863.robot.teleop.TeleopSinglePartnerController;
+import org.usfirst.team3863.robot.teleop.TeleopSingleJoystick;
 
 
 /**
@@ -77,7 +78,7 @@ public class Robot extends TimedRobot {
 		
 		if (msg.length() < 3) {
 			//Error out if the Field data is not in an expected format
-			System.out.println("Malformed Field Data: "+msg);
+			//System.out.println("Malformed Field Data: "+msg);
 		}else {
 			//Add Switch, Scale, Switch data to the SmartDashboard (True = Blue; False = Red)
 			// ^ !isBlue will invert the output (reverse the POV when our driver station is on the opposite side of the field)
@@ -119,8 +120,14 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Right Velocity", vels[1]);
         
         //Add the elevator's target position, and actual position to the SmartDashboard
+        double[] poss = kDrivetrain.getEncoderPositions();
+        SmartDashboard.putNumber("Left Pos", poss[0]);
+        SmartDashboard.putNumber("Right Pos", poss[1]);
+        
         SmartDashboard.putNumber("Elevator target", kElevator.target);
     	SmartDashboard.putNumber("Elevator pos", kElevator.getPos());
+    	
+    	SmartDashboard.putNumber("Gyro", kDrivetrain.getGyroAngle());
         
         
 	}
@@ -147,17 +154,17 @@ public class Robot extends TimedRobot {
 				
 				//When our switch is on the Left side
 				if(msg.charAt(0) == 'L') {		 
-					m_autonomousCommand = new SwitchNearLeftAuto(auton_right);
-					
+
 				//When our switch is on the right side
+					m_autonomousCommand = new AutoNearSwitchScore(auton_right);
 		        } else if (msg.charAt(0) == 'R'){ //Our switch is to the Right
-		        	m_autonomousCommand = new SwitchFarLeftAuto(auton_right);
+		        	m_autonomousCommand = new AutoFarSwitchScore(auton_right);
 		        }
 				break;
-				
+
 			//Baseline Autonomous mode
 		 	case 2: 						
-		 		m_autonomousCommand = new BaselineAuto(); 
+		 		m_autonomousCommand = new AutoBaseline(); 
 		 		break;
 		 		
 		 	//No autonomous mode (default)
@@ -182,14 +189,14 @@ public class Robot extends TimedRobot {
 		//Add options to the Auton Mode chooser, and add it to the SmartDashboard
 		//The options are integers, accessed later via a switch statement. 
 		m_chooser.addDefault("None", 0);
-		m_chooser.addObject("AutoSelect Switch", 1);
+		m_chooser.addObject("AutoSelect Score Switch", 1);
 		m_chooser.addObject("Baseline", 2);
 		SmartDashboard.putData("Auto mode", m_chooser);
 		
 		//Add options to the Drive Mode chooser, and add it to the SmartDashboard
 		//The options are instances of the given drive commands, 
-		m_drivechooser.addDefault("Partner Controller", new DriveController());
-		m_drivechooser.addObject("Single Joystick", new DriveSingleJoystick());
+		m_drivechooser.addDefault("Single Partner Controller", new TeleopSinglePartnerController());
+		m_drivechooser.addObject("Single Joystick", new TeleopSingleJoystick());
 		SmartDashboard.putData("Teleop Drive mode", m_drivechooser);
 		
 		//Initalize the Drivetrain subsystem, and add to the SmartDashboard
@@ -244,7 +251,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		//Update the SmartDashboard with debug + state info
-		updateSmartDashboard();
+		//updateSmartDashboard();
+		
+		kDrivetrain.zero_gyro();
 		
 		//Calculate which autonomous to run
 		updateAuton();

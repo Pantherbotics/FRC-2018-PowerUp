@@ -1,31 +1,32 @@
-package org.usfirst.frc.team3863.robot.commands;
+package org.usfirst.team3863.robot.teleop;
 
+import org.usfirst.frc.team3863.robot.Constants;
 import org.usfirst.frc.team3863.robot.Robot;
-
+import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class DriveController extends Command {
+public class TeleopSingleJoystick extends Command {
 
-    public DriveController() {
+    public TeleopSingleJoystick() {
         // Use requires() here to declare subsystem dependencies
-    	requires(Robot.kDrivetrain);
+        requires(Robot.kDrivetrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("Partner Controller Drive enabled");
-    	Robot.m_oi.initDriveController();
+    	System.out.println("Single Joystick Drive enabled");
+    	Robot.m_oi.initSingleJoystick();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double twist = Robot.m_oi.partnerController.getZ();
-    	double y = Robot.m_oi.partnerController.getY();
-    	if (Math.abs(twist) <= 0.01) { twist = 0;}
-    	if (Math.abs(y) <= 0.01) { y = 0;}
+    	double twist = Robot.m_oi.leftJoystick.getTwist();
+    	double y = Robot.m_oi.leftJoystick.getY();
+    	if (Math.abs(twist) <= Constants.JOYSTICK_DEADBAND) { twist = 0;}
+    	if (Math.abs(y) <= Constants.JOYSTICK_DEADBAND) { y = 0;}
     	
     	double left = y - twist;
     	double right = y + twist;

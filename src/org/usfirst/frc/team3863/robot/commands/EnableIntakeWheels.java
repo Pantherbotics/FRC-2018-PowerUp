@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3863.robot.commands;
 
+import org.usfirst.frc.team3863.robot.Constants;
 import org.usfirst.frc.team3863.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -7,16 +8,22 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class IntakeOut extends Command {
-
-    public IntakeOut() {
+public class EnableIntakeWheels extends Command {
+	boolean reverse;
+    public EnableIntakeWheels(boolean reverse_direction) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.kIntake);
+        reverse = reverse_direction;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.kIntake.setIntakeWheelPower(-0.25);
+    	if (reverse) {
+    		Robot.kIntake.setIntakeWheelPower(-Constants.INTAKE_MOTOR_POWER);
+    	}else {
+    		Robot.kIntake.setIntakeWheelPower(Constants.INTAKE_MOTOR_POWER);
+    	}
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -30,6 +37,7 @@ public class IntakeOut extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	
     }
 
     // Called when another command which requires one or more of the same

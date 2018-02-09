@@ -7,11 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DecrementLift extends Command {
-
-    public DecrementLift() {
-        // Use requires() here to declare subsystem dependencies
+public class MoveLiftBy extends Command {
+	int pos_increment;
+    public MoveLiftBy(int position_increment) {
         requires(Robot.kElevator);
+        pos_increment = position_increment;
     }
 
     // Called just before this Command runs the first time
@@ -20,8 +20,7 @@ public class DecrementLift extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	int errDiff = 700 / 20;
-    	Robot.kElevator.setTargetPosition(Robot.kElevator.target - errDiff);  //700 ticks/rev 
+    	Robot.kElevator.setTargetPosition(Robot.kElevator.target + pos_increment);
     }
 
     // Make this return true when this Command no longer needs to run execute()

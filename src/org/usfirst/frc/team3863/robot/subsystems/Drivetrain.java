@@ -2,16 +2,24 @@ package org.usfirst.frc.team3863.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+import org.usfirst.frc.team3863.robot.Constants;
 import org.usfirst.frc.team3863.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.I2C;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 /**
  Controls the four CANTalons dedicated to the Drivetrain
  */
 public class Drivetrain extends Subsystem {
+	
+	//ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    AHRS ahrs_gyro = new AHRS(I2C.Port.kOnboard);
 
 	WPI_TalonSRX talonLeftA = new WPI_TalonSRX(RobotMap.TALON_DRIVE_LEFTA_ID);
 	WPI_TalonSRX talonLeftB = new WPI_TalonSRX(RobotMap.TALON_DRIVE_LEFTB_ID);
@@ -44,28 +52,35 @@ public class Drivetrain extends Subsystem {
     	talonLeftB.follow(talonLeftA);
     	talonRightB.follow(talonRightA);
     	
-    	talonLeftA.configContinuousCurrentLimit(30, timeout_ms);
-    	talonLeftB.configContinuousCurrentLimit(30, timeout_ms);
-    	talonRightA.configContinuousCurrentLimit(30, timeout_ms);
-    	talonRightB.configContinuousCurrentLimit(30, timeout_ms);
+    	talonLeftA.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT, timeout_ms);
+    	talonLeftB.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT, timeout_ms);
+    	talonRightA.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT, timeout_ms);
+    	talonRightB.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT, timeout_ms);
     	
     	talonLeftA.configAllowableClosedloopError(0, pid_id, timeout_ms); 
-    	talonLeftA.config_kF(pid_id, 0.0, timeout_ms);
-    	talonLeftA.config_kP(pid_id, 2.5, timeout_ms);
-    	talonLeftA.config_kI(pid_id, 0.002, timeout_ms);
-    	talonLeftA.config_kD(pid_id, 0.0, timeout_ms);
+    	talonLeftA.config_kF(pid_id, Constants.DRIVE_PID_F, timeout_ms);
+    	talonLeftA.config_kP(pid_id, Constants.DRIVE_PID_P, timeout_ms);
+    	talonLeftA.config_kI(pid_id, Constants.DRIVE_PID_I, timeout_ms);
+    	talonLeftA.config_kD(pid_id, Constants.DRIVE_PID_D, timeout_ms);
         
     	talonRightA.configAllowableClosedloopError(0, pid_id, timeout_ms); 
-
-    	talonRightA.config_kF(pid_id, 0.0, timeout_ms);
-    	talonRightA.config_kP(pid_id, 2.5, timeout_ms);
-    	talonRightA.config_kI(pid_id, 0.002, timeout_ms);
-    	talonRightA.config_kD(pid_id, 0.0, timeout_ms);
+    	talonRightA.config_kF(pid_id, Constants.DRIVE_PID_F, timeout_ms);
+    	talonRightA.config_kP(pid_id, Constants.DRIVE_PID_P, timeout_ms);
+    	talonRightA.config_kI(pid_id, Constants.DRIVE_PID_I, timeout_ms);
+    	talonRightA.config_kD(pid_id, Constants.DRIVE_PID_D, timeout_ms);
+    	
+    	zero_gyro();
     }
     
     public double[] getEncoderVelocities() {
     	double l = talonLeftA.getSelectedSensorVelocity(timeout_ms);
     	double r = talonRightA.getSelectedSensorVelocity(timeout_ms);
+    	return new double[] {l, r};
+    }
+    
+    public double[] getEncoderPositions() {
+    	double l = talonLeftA.getSelectedSensorPosition(timeout_ms);
+    	double r = talonRightA.getSelectedSensorPosition(timeout_ms);
     	return new double[] {l, r};
     }
     
@@ -102,6 +117,27 @@ public class Drivetrain extends Subsystem {
 		transmission_in_low = false;
 		transmissiom_solenoid.set(DoubleSolenoid.Value.kReverse);
 	}
+	
+	public double pidErrorAverage() {
+		double average = (talonLeftA.getClosedLoopError(timeout_ms)+ talonRightA.getClosedLoopError(timeout_ms))/2;
+		return average;
+		
+	}
+	
+	public void zero_gyro() {
+		System.out.print("Zeroing Gyro...");
+		ahrs_gyro.reset();
+		System.out.println("...Zeroing Complete");
+	}
+	
+	public double getGyroAngle() {
+		System.out.print(ahrs_gyro.getAngle());
+		System.out.print(" ");
+		System.out.println(ahrs_gyro.getCompassHeading());
+		return ahrs_gyro.getAngle();
+		
+	}
+	
     
 }
 

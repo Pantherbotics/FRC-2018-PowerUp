@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3863.robot.commands;
+package org.usfirst.frc.team3863.robot.autonomous;
 import org.usfirst.frc.team3863.robot.Robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.command.Command;
@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
  * This auton should be written for the Left side of the field.
  * if start_right is True, then left-right values should be inverted (using right_invert), as we are starting on the right side of the field
  */
-public class SwitchFarLeftAuto extends Command {
+public class AutoFarSwitchScore extends Command {
 	int right_invert = 1;
-    public SwitchFarLeftAuto(boolean start_right) {
+    public AutoFarSwitchScore(boolean start_right) {
         requires(Robot.kDrivetrain);
         if (start_right) {
         	right_invert = -1;

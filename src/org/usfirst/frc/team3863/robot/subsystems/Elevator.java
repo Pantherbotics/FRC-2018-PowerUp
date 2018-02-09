@@ -3,6 +3,7 @@ package org.usfirst.frc.team3863.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team3863.robot.Constants;
 import org.usfirst.frc.team3863.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -37,26 +38,24 @@ public class Elevator extends Subsystem {
     	elevDriveTalon.configNominalOutputReverse(0, timeout_ms);
     	elevDriveTalon.configPeakOutputForward(1, timeout_ms);
     	elevDriveTalon.configPeakOutputReverse(-1, timeout_ms);
-    	elevDriveTalon.configContinuousCurrentLimit(8, timeout_ms);
+    	elevDriveTalon.configContinuousCurrentLimit(Constants.ELEVATOR_CURRENT_LIMIT, timeout_ms);
 
     	elevDriveTalon.configAllowableClosedloopError(0, pid_id, timeout_ms); 
 
-    	elevDriveTalon.config_kF(pid_id, 0.0, timeout_ms);
-    	elevDriveTalon.config_kP(pid_id, 1.5, timeout_ms);
-        elevDriveTalon.config_kI(pid_id, 0.0, timeout_ms);
-        elevDriveTalon.config_kD(pid_id, 0.0, timeout_ms);
+    	elevDriveTalon.config_kF(pid_id, Constants.ELEVATOR_PID_F, timeout_ms);
+    	elevDriveTalon.config_kP(pid_id, Constants.ELEVATOR_PID_P, timeout_ms);
+        elevDriveTalon.config_kI(pid_id, Constants.ELEVATOR_PID_I, timeout_ms);
+        elevDriveTalon.config_kD(pid_id, Constants.ELEVATOR_PID_D, timeout_ms);
     }
     
     public void setTargetPosition(int new_target) {
-    	//hard limit: 5600 ticks
-    	if (new_target > 5600) {
-    		new_target = 5600;
+    	if (new_target > Constants.ELEVATOR_SOFT_LIMIT) {
+    		new_target = Constants.ELEVATOR_SOFT_LIMIT;
     	}else if (new_target < 0) {
     		new_target = 0;
     	}
         target = new_target;
     	elevDriveTalon.set(ControlMode.Position, new_target);
-    	System.out.println("Elevator Target Pos: " + new_target + " | pos: " + elevDriveTalon.getSelectedSensorPosition(timeout_ms));
     }
     
     public void setMotorPower(double power) {
