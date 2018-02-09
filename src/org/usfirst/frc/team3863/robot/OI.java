@@ -66,11 +66,11 @@ public class OI {
 		
 	}
 	
-	public void initDriveSingleJoystick() {
+	public void initSingleJoystick() {
 		leftJoystickTrigger.whenPressed(new ToggleTransmissionState());
 	}
 	
-	public void initDriveController() {
+	public void initSinglePartnerController() {
 		partnerButtonX.whenPressed(new ToggleTransmissionState());
 		partnerButtonY.whileHeld(new MoveLiftBy(Constants.ELEVATOR_DRIVE_INCREMENT));
 		partnerButtonA.whileHeld(new MoveLiftBy(Constants.ELEVATOR_DRIVE_DECREMENT));

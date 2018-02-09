@@ -184,7 +184,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		kDrivetrain.zero_gyro();
-		updateSmartDashboard();
+		//updateSmartDashboard();
 		updateAuton();
 
 		// schedule the autonomous command (example)
