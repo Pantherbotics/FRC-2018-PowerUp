@@ -22,8 +22,8 @@ import org.usfirst.frc.team3863.robot.autonomous.AutoNearSwitchScore;
 import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3863.robot.subsystems.Elevator;
 import org.usfirst.frc.team3863.robot.subsystems.Intake;
-import org.usfirst.team3863.robot.teleop.TeleopSinglePartnerController;
-import org.usfirst.team3863.robot.teleop.TeleopSingleJoystick;
+import org.usfirst.frc.team3863.robot.teleop.TeleopSingleJoystick;
+import org.usfirst.frc.team3863.robot.teleop.TeleopSinglePartnerController;
 
 
 /**
