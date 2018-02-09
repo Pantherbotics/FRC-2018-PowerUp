@@ -62,14 +62,25 @@ public class OI {
 	public JoystickButton partnerLeftBumper = new JoystickButton(partnerController, 5);
 	public JoystickButton partnerRightBumper = new JoystickButton(partnerController, 6);
 	
+	/**  
+	 * Button mappings that should be enabled for all drive modes
+	 */
 	public OI() {
 		
 	}
 	
+	/**  
+	 * Button mappings that should be enabled when driving with a single joystick
+	 * This method is called when the DriveSingleJoystick command starts
+	 */
 	public void initSingleJoystick() {
 		leftJoystickTrigger.whenPressed(new ToggleTransmissionState());
 	}
 	
+	/**  
+	 * Button mappings that should be enabled when driving with the partner controller
+	 * This method is called when the DriveController command starts
+	 */
 	public void initSinglePartnerController() {
 		partnerButtonX.whenPressed(new ToggleTransmissionState());
 		partnerButtonY.whileHeld(new MoveLiftBy(Constants.ELEVATOR_DRIVE_INCREMENT));

@@ -34,60 +34,92 @@ import org.usfirst.team3863.robot.teleop.TeleopSingleJoystick;
  * project.
  */
 public class Robot extends TimedRobot {
-	public static final Drivetrain kDrivetrain = new Drivetrain();
-	public static final Elevator kElevator = new Elevator();
-	public static final Intake kIntake = new Intake();
-	public static OI m_oi = new OI();
-	public static PowerDistributionPanel m_pdp = new PowerDistributionPanel();
-	public DriverStation ds = DriverStation.getInstance();
-	public Alliance alliance = ds.getAlliance();
-	boolean auton_right;
+	//Instance of the Drivetrain subsystem. Controls wheels + transmissions. Accessed by commands + code in the main loop
+	public static final Drivetrain kDrivetrain = new Drivetrain();  
+	//Instance of the Elevator subsystem. Controls elevator lift motor. 
+	public static final Elevator kElevator = new Elevator();        
+	//Instance of the Intake subsystem. Controls Intake wheels + servo arm. 
+	public static final Intake kIntake = new Intake();  
+	
+	//Operator Interface instance. Contains button ==> command mappings
+	public static OI m_oi = new OI();                    
+	//PDP instance. Provides access to the robot's PDP, giving us current draw/breaker status info
+	public static PowerDistributionPanel m_pdp = new PowerDistributionPanel(); 
+	//DriverStation instance. Provides access to field/DS/match status and other info 
+	public DriverStation ds = DriverStation.getInstance();         
+	
+	//The current alliance (Alliance.Blue || Alliance.Red) to which the robot is assigned. 
+	public Alliance alliance = ds.getAlliance(); 
+	//used in updateAuton() to indicate if the autonomous mode should run in 'right' mode (invert l/r values)
+	boolean auton_right;                                            
 
-	Command m_autonomousCommand;
+	//Instance of the currently selected autonomous command 
+	Command m_autonomousCommand;                      
+	 //SmartDashboard dropdown menu for selecting autonomous modes. 
 	SendableChooser<Integer> m_chooser = new SendableChooser<Integer>();
 	
-	Command m_teleopDriveCommand;
-	SendableChooser<Command> m_drivechooser = new SendableChooser<Command>();
+	//Instance of the currently selected teleop drive command  
+	Command m_teleopDriveCommand;	     
+	//SmartDashboard dropdown menu for selecting teleop drive modes. 
+	SendableChooser<Command> m_drivechooser = new SendableChooser<Command>(); 
 	
+	/**
+	 * Updates the SmartDashboard with robot state + debug info
+	 */
 	public void updateSmartDashboard() {
 		
+		//Get the Switch status from the Field Management System (FMS)
 		String msg = ds.getGameSpecificMessage();
 		
+		//Check if we are on the Blue alliance
 		boolean isBlue = (alliance == Alliance.Blue);
+		//Add alliance state to the SmartDashboard
 		SmartDashboard.putBoolean("OurAlliance", isBlue);
+		
 		if (msg.length() < 3) {
+			//Error out if the Field data is not in an expected format
 			//System.out.println("Malformed Field Data: "+msg);
 		}else {
-			SmartDashboard.putBoolean("OurSwitch_L", msg.charAt(0) == 'L' ^ !isBlue); //True = Blue; False = Red;
+			//Add Switch, Scale, Switch data to the SmartDashboard (True = Blue; False = Red)
+			// ^ !isBlue will invert the output (reverse the POV when our driver station is on the opposite side of the field)
+			SmartDashboard.putBoolean("OurSwitch_L", msg.charAt(0) == 'L' ^ !isBlue);
 			SmartDashboard.putBoolean("Scale_L", msg.charAt(1) == 'L' ^ !isBlue);
 			SmartDashboard.putBoolean("EnemySwitch_L", msg.charAt(2) == 'L' ^ !isBlue);  
 			
-			SmartDashboard.putBoolean("OurSwitch_R", msg.charAt(0) == 'R' ^ !isBlue); //True = Blue; False = Red;
+			//Add right side of switch data (the inverse of the left side)
+			SmartDashboard.putBoolean("OurSwitch_R", msg.charAt(0) == 'R' ^ !isBlue); 
 			SmartDashboard.putBoolean("Scale_R", msg.charAt(1) == 'R' ^ !isBlue);
 			SmartDashboard.putBoolean("EnemySwitch_R", msg.charAt(2) == 'R' ^ !isBlue);   
 		}
+		
+		//Add the autonomous command to the SmartDashboard if it exists
 		if (m_autonomousCommand != null) {
 			SmartDashboard.putData("AutonCommand", m_autonomousCommand);
 		}
         
+		//Add the auton left/right info to SmartDashboard
         if (auton_right) {
 			SmartDashboard.putString("AutonSide", "Right");
 		}else {
 			SmartDashboard.putString("AutonSide", "Left");
 		}
         
-        SmartDashboard.putData("PDP", m_pdp);
-        
+        //Add the transmission state to the SmartDashboard
         if (kDrivetrain.transmission_in_low) {
         	SmartDashboard.putString("Transmission", "Low Gear");
         }else {
         	SmartDashboard.putString("Transmission", "High Gear");
         }
         
+        //Add the PDP (Power Distrubution Panel) data to the SmartDashboard
+        SmartDashboard.putData("PDP", m_pdp);
+        
+        //Get the drivetrain encoder velocities, and add them to the SmartDashboard
         double[] vels = kDrivetrain.getEncoderVelocities();
         SmartDashboard.putNumber("Left Velocity", vels[0]);
         SmartDashboard.putNumber("Right Velocity", vels[1]);
         
+        //Add the elevator's target position, and actual position to the SmartDashboard
         double[] poss = kDrivetrain.getEncoderPositions();
         SmartDashboard.putNumber("Left Pos", poss[0]);
         SmartDashboard.putNumber("Right Pos", poss[1]);
@@ -101,25 +133,41 @@ public class Robot extends TimedRobot {
 	}
 	
 	/**
-	 * Update the DriverStation and auton init code with the given Auton command
+	 * Determine which autonomous mode should run (based on SmartDashboard selection AND field state)
 	 */
 	public void updateAuton() {
+		//Get the currently selected autonomous mode (represented as a number)
 		int ds_choice = m_chooser.getSelected();
+		
 		switch(ds_choice) { 
-		 	case 1: 						//Determine Auto mode from switch positions
-		 		DriverStation ds = DriverStation.getInstance();
-				String msg = ds.getGameSpecificMessage();
+			//Option 1: Automatically determine auton mode based on field status
+		 	case 1:
+		 		
+		 		//Get the scoring positions of the switches from the FMS
+		 		String msg = ds.getGameSpecificMessage();
+		 		
+		 		//Get our driverstation number (1-3, left-right)
 				int loc = ds.getLocation();
-				auton_right = (loc==3);     //Invert the auton side if we are in the right driverstation
+				
+				//True if we are in the rightmost driverstation (#3)
+				auton_right = (loc==3);     
+				
+				//When our switch is on the Left side
 				if(msg.charAt(0) == 'L') {		 
+
+				//When our switch is on the right side
 					m_autonomousCommand = new AutoNearSwitchScore(auton_right);
 		        } else if (msg.charAt(0) == 'R'){ //Our switch is to the Right
 		        	m_autonomousCommand = new AutoFarSwitchScore(auton_right);
 		        }
 				break;
-		 	case 2: 						//Baseline Auto
+
+			//Baseline Autonomous mode
+		 	case 2: 						
 		 		m_autonomousCommand = new AutoBaseline(); 
 		 		break;
+		 		
+		 	//No autonomous mode (default)
 		 	default:
 		 		m_autonomousCommand = null;
 		 		break; 
@@ -131,25 +179,35 @@ public class Robot extends TimedRobot {
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
+	 * 
+	 * Initalizes the Auton and Drivetrain SmartDashboard choosers, initalizes all 
+	 * subsystem (that need initalization), and sets SmartDashboard defaults
 	 */
 	@Override
 	public void robotInit() {
 		
+		//Add options to the Auton Mode chooser, and add it to the SmartDashboard
+		//The options are integers, accessed later via a switch statement. 
 		m_chooser.addDefault("None", 0);
 		m_chooser.addObject("AutoSelect Score Switch", 1);
 		m_chooser.addObject("Baseline", 2);
 		SmartDashboard.putData("Auto mode", m_chooser);
 		
+		//Add options to the Drive Mode chooser, and add it to the SmartDashboard
+		//The options are instances of the given drive commands, 
 		m_drivechooser.addDefault("Single Partner Controller", new TeleopSinglePartnerController());
 		m_drivechooser.addObject("Single Joystick", new TeleopSingleJoystick());
 		SmartDashboard.putData("Teleop Drive mode", m_drivechooser);
 		
-		
+		//Initalize the Drivetrain subsystem, and add to the SmartDashboard
 		kDrivetrain.init();
 		SmartDashboard.putData("Drivetrain", kDrivetrain);
+		
+		//Initalize the Elevator subsystem and add to the SmartDashboard
 		kElevator.initPID();
 		SmartDashboard.putData("Elevator", kElevator);
 		
+		//Reset the SmartDashboard auton description
 		SmartDashboard.putString("Autosomis Mode", "Auton Not Running");
 	}
 
@@ -157,16 +215,25 @@ public class Robot extends TimedRobot {
 	 * This function is called once each time the robot enters Disabled mode.
 	 * You can use it to reset any subsystem information you want to clear when
 	 * the robot is disabled.
+	 * 
 	 */
 	@Override
 	public void disabledInit() {
 
 	}
-
+	
+	/**
+	 * Re-calculate autonomous selection and update the smartdashboard when disabled
+	 */
 	@Override
 	public void disabledPeriodic() {
+		//Let the scheduler process any running commands 
 		Scheduler.getInstance().run();
+		
+		//Update the SmartDashboard with debug + state info
 		updateSmartDashboard();
+		
+		//Calculate which autonomous to run
 		updateAuton();
 	}
 
@@ -183,8 +250,12 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		kDrivetrain.zero_gyro();
+		//Update the SmartDashboard with debug + state info
 		//updateSmartDashboard();
+		
+		kDrivetrain.zero_gyro();
+		
+		//Calculate which autonomous to run
 		updateAuton();
 
 		// schedule the autonomous command (example)
@@ -198,7 +269,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		//Let the scheduler process any running commands 
 		Scheduler.getInstance().run();
+		
+		//Update the SmartDashboard with debug + state info
 		updateSmartDashboard();
 	}
 
@@ -212,6 +286,7 @@ public class Robot extends TimedRobot {
 			m_autonomousCommand.cancel();
 		}
 		
+		//Select the drive mode from the SmartDashboard
 		m_teleopDriveCommand = m_drivechooser.getSelected();
 		
 		// schedule the drive command
@@ -225,7 +300,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		//Let the scheduler process any running commands 
 		Scheduler.getInstance().run();
+		
+		//Update the SmartDashboard with debug + state info
 		updateSmartDashboard();
 	}
 
@@ -234,6 +312,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		//Update the SmartDashboard with debug + state info
 		updateSmartDashboard();
 	}
 }
