@@ -35,4 +35,7 @@ public class RobotMap {
 	//PCM Solenoid output IDs
 	public static int PCM_TRANSMISSION_LOW = 0;
 	public static int PCM_TRANSMISSION_HIGH = 1;
+	
+	public static int PCM_INTAKE_RETRACT = 2;
+	public static int PCM_INTAKE_EXTEND = 3;
 }

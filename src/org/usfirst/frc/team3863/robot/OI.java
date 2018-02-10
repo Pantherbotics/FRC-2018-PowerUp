@@ -62,6 +62,9 @@ public class OI {
 	public JoystickButton partnerLeftBumper = new JoystickButton(partnerController, 5);
 	public JoystickButton partnerRightBumper = new JoystickButton(partnerController, 6);
 	
+	public JoystickButton partnerControlA = new JoystickButton(partnerController, 7);
+	public JoystickButton partnerControlB = new JoystickButton(partnerController, 8); 
+	
 	/**  
 	 * Button mappings that should be enabled for all drive modes
 	 */
@@ -88,6 +91,8 @@ public class OI {
 		partnerButtonB.whenReleased(new ZeroLift());
 		partnerLeftBumper.whileHeld(new EnableIntakeWheels(false)); //Wheels run in forward direction
 		partnerRightBumper.whileHeld(new EnableIntakeWheels(true)); //Wheels run in reverse direction
+		partnerControlA.whenPressed(new IntakeClaw(true)); //open claw
+		partnerControlB.whenPressed(new IntakeClaw(false)); //close claw
 	}
 
 }
