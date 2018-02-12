@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team3863.robot.commands.MoveLiftBy;
 import org.usfirst.frc.team3863.robot.commands.EnableIntakeWheels;
+import org.usfirst.frc.team3863.robot.commands.IntakeClaw;
 import org.usfirst.frc.team3863.robot.commands.ToggleTransmissionState;
 import org.usfirst.frc.team3863.robot.commands.ZeroLift;;
 
