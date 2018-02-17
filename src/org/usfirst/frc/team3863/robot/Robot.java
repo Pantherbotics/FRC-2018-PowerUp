@@ -22,6 +22,7 @@ import org.usfirst.frc.team3863.robot.autonomous.AutoNearSwitchScore;
 import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3863.robot.subsystems.Elevator;
 import org.usfirst.frc.team3863.robot.subsystems.Intake;
+import org.usfirst.frc.team3863.robot.subsystems.Ramps;
 import org.usfirst.frc.team3863.robot.teleop.TeleopSingleJoystick;
 import org.usfirst.frc.team3863.robot.teleop.TeleopSinglePartnerController;
 
@@ -39,7 +40,9 @@ public class Robot extends TimedRobot {
 	//Instance of the Elevator subsystem. Controls elevator lift motor. 
 	public static final Elevator kElevator = new Elevator();        
 	//Instance of the Intake subsystem. Controls Intake wheels + servo arm. 
-	public static final Intake kIntake = new Intake();  
+	public static final Intake kIntake = new Intake(); 
+	
+	public static final Ramps kRamps = new Ramps();
 	
 	//Operator Interface instance. Contains button ==> command mappings
 	public static OI m_oi = new OI();                    

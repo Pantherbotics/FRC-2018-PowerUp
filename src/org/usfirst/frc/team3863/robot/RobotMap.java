@@ -38,4 +38,10 @@ public class RobotMap {
 	
 	public static int PCM_INTAKE_RETRACT = 2;
 	public static int PCM_INTAKE_EXTEND = 3;
+	
+	public static int PCM_LEFT_RAMP_DEPLOY = 4;
+	public static int PCM_LEFT_RAMP_RETRACT = 5;
+	
+	public static int PCM_RIGHT_RAMP_DEPLOY = 6;
+	public static int PCM_RIGHT_RAMP_RETRACT = 7;
 }
