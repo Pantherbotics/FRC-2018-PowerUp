@@ -61,6 +61,10 @@ public class Intake extends Subsystem {
     	
     }
     
+    public boolean testMotorCurrentThreshold(double amps) {
+    	return (leftIntakeTalon.getOutputCurrent()+rightIntakeTalon.getOutputCurrent()/2) > amps;
+    }
+    
     public boolean isCubeInfrontOfIntake() {
     	double dist = getRawDistance();
     	return (dist < Constants.AUTO_INTAKE_MAX_DIST && dist > 1.0);

@@ -82,6 +82,16 @@ public class Elevator extends Subsystem {
 		elevDriveTalon.setSelectedSensorPosition(0, pid_id, timeout_ms);
 		System.out.println("Elevator encoder zeroed!");
 	}
+	
+	public void goToPreset(int presetID) {
+		if (presetID == 0) {
+			//zeroEncoder();
+			setTargetPosition(Constants.ELEVATOR_PRESETS[presetID]);
+		}else {
+			setTargetPosition(Constants.ELEVATOR_PRESETS[presetID]);
+		}
+		
+	}
     
     
 }
