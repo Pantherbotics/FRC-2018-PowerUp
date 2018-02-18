@@ -57,19 +57,26 @@ public class Drivetrain extends Subsystem {
     	talonRightA.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT, timeout_ms);
     	talonRightB.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT, timeout_ms);
     	
-    	talonLeftA.configAllowableClosedloopError(0, pid_id, timeout_ms); 
-    	talonLeftA.config_kF(pid_id, Constants.DRIVE_PID_F, timeout_ms);
-    	talonLeftA.config_kP(pid_id, Constants.DRIVE_PID_P, timeout_ms);
-    	talonLeftA.config_kI(pid_id, Constants.DRIVE_PID_I, timeout_ms);
-    	talonLeftA.config_kD(pid_id, Constants.DRIVE_PID_D, timeout_ms);
-        
-    	talonRightA.configAllowableClosedloopError(0, pid_id, timeout_ms); 
-    	talonRightA.config_kF(pid_id, Constants.DRIVE_PID_F, timeout_ms);
-    	talonRightA.config_kP(pid_id, Constants.DRIVE_PID_P, timeout_ms);
-    	talonRightA.config_kI(pid_id, Constants.DRIVE_PID_I, timeout_ms);
-    	talonRightA.config_kD(pid_id, Constants.DRIVE_PID_D, timeout_ms);
+    	initPID(1);
     	
     	zero_gyro();
+    	
+    	setTransmissionLow();
+    }
+    
+    private void initPID(double multiplier) {
+    	talonLeftA.configAllowableClosedloopError(0, pid_id, timeout_ms); 
+    	talonLeftA.config_kF(pid_id, Constants.DRIVE_PID_F * multiplier, timeout_ms);
+    	talonLeftA.config_kP(pid_id, Constants.DRIVE_PID_P * multiplier, timeout_ms);
+    	talonLeftA.config_kI(pid_id, Constants.DRIVE_PID_I * multiplier, timeout_ms);
+    	talonLeftA.config_kD(pid_id, Constants.DRIVE_PID_D * multiplier, timeout_ms);
+        
+    	talonRightA.configAllowableClosedloopError(0, pid_id, timeout_ms); 
+    	talonRightA.config_kF(pid_id, Constants.DRIVE_PID_F * multiplier, timeout_ms);
+    	talonRightA.config_kP(pid_id, Constants.DRIVE_PID_P * multiplier, timeout_ms);
+    	talonRightA.config_kI(pid_id, Constants.DRIVE_PID_I * multiplier, timeout_ms);
+    	talonRightA.config_kD(pid_id, Constants.DRIVE_PID_D * multiplier, timeout_ms);
+    	
     }
     
     public double[] getEncoderVelocities() {
@@ -91,12 +98,13 @@ public class Drivetrain extends Subsystem {
     }
     
     public void setVelocityTargets(double left, double right) {
-    	int multiplier = 600;
+    	double multiplier = 600 * Constants.DRIVE_TRANSMISSION_RATIO;
     	if (transmission_in_low) {
-    		multiplier = 200;
+    		multiplier = 600;
     	}
-    	talonLeftA.set(ControlMode.Velocity, left * multiplier);
-    	talonRightA.set(ControlMode.Velocity, right * multiplier);
+    	//System.out.println(" " + multiplier + " " + left + " " + right);
+    	talonLeftA.set(ControlMode.Velocity, left * multiplier * 3);
+    	talonRightA.set(ControlMode.Velocity, right * multiplier * 3);
     }
     
     public void setPositionTargetIncrements(double leftOffset, double rightOffset) {
@@ -109,13 +117,17 @@ public class Drivetrain extends Subsystem {
     public void setTransmissionLow() {
     	System.out.println("Transmission in Low Gear");
     	transmission_in_low = true;
+    	initPID(1);
     	transmissiom_solenoid.set(DoubleSolenoid.Value.kForward);
     }
     
 	public void setTransmissionHigh() {
 		System.out.println("Transmission in High Gear");
 		transmission_in_low = false;
+		initPID(1/Constants.DRIVE_TRANSMISSION_RATIO);
 		transmissiom_solenoid.set(DoubleSolenoid.Value.kReverse);
+		
+		
 	}
 	
 	public double pidErrorAverage() {
@@ -131,9 +143,9 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public double getGyroAngle() {
-		System.out.print(ahrs_gyro.getAngle());
-		System.out.print(" ");
-		System.out.println(ahrs_gyro.getCompassHeading());
+		//System.out.print(ahrs_gyro.getAngle());
+		//System.out.print(" ");
+		//System.out.println(ahrs_gyro.getCompassHeading());
 		return ahrs_gyro.getAngle();
 		
 	}

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team3863.robot.commands.MoveLiftBy;
+import org.usfirst.frc.team3863.robot.commands.AutoIntake;
 import org.usfirst.frc.team3863.robot.commands.DeployLeftRamp;
 import org.usfirst.frc.team3863.robot.commands.DeployRightRamp;
 import org.usfirst.frc.team3863.robot.commands.EnableIntakeWheels;
@@ -71,6 +72,8 @@ public class OI {
 	public JoystickButton partnerShare = new JoystickButton(partnerController, 9);
 	public JoystickButton partnerOptions = new JoystickButton(partnerController, 10);
 	
+	public JoystickButton partnerTrackpad = new JoystickButton(partnerController, 14);
+	
 	/**  
 	 * Button mappings that should be enabled for all drive modes
 	 */
@@ -94,13 +97,13 @@ public class OI {
 		partnerButtonX.whenPressed(new ToggleTransmissionState());
 		partnerButtonY.whileHeld(new MoveLiftBy(Constants.ELEVATOR_DRIVE_INCREMENT));
 		partnerButtonA.whileHeld(new MoveLiftBy(Constants.ELEVATOR_DRIVE_DECREMENT));
-		partnerButtonB.whenReleased(new ZeroLift());
 		partnerLeftBumper.whileHeld(new EnableIntakeWheels(false)); //Wheels run in forward direction
 		partnerRightBumper.whileHeld(new EnableIntakeWheels(true)); //Wheels run in reverse direction
 		partnerControlA.whenPressed(new IntakeClaw(true)); //open claw
 		partnerControlB.whenPressed(new IntakeClaw(false)); //close claw
 		partnerShare.whileHeld(new DeployLeftRamp(true));
 		partnerOptions.whileHeld(new DeployRightRamp(true));
+		partnerTrackpad.whenPressed(new AutoIntake());
 	}
 
 }

@@ -2,8 +2,9 @@ package org.usfirst.frc.team3863.robot;
 
 public class Constants {
 	//Drivetrain ticks/rev
-	public static int DRIVE_ENCODER_TICKS = 400;
+	public static int DRIVE_ENCODER_TICKS = 1440;  //400: practice; 1440: competition 
 	public static double DRIVE_WHEEL_DIAMETER = 18.850;
+	public static double DRIVE_TRANSMISSION_RATIO = 2.4; //high speed is 2.4 times faster than low speed
 	
 	//Drivetrain ticks/rev
 	public static int LIFT_ENCODER_TICKS = 100;
@@ -14,21 +15,21 @@ public class Constants {
 	
 	//Drivetrain PID 
 	public static double DRIVE_PID_F = 0.0;
-	public static double DRIVE_PID_P = 2.7;
-	public static double DRIVE_PID_I = 0.05;
-	public static double DRIVE_PID_D = -0.8;
+	public static double DRIVE_PID_P = 0.55;
+	public static double DRIVE_PID_I = 0.000;
+	public static double DRIVE_PID_D = 0.00;
 	
 	//Maximum current draw for each drivetrain CANTalon
-	public static int DRIVE_CURRENT_LIMIT = 30;
+	public static int DRIVE_CURRENT_LIMIT = 28;
 	
 	//Elevator PID
 	public static double ELEVATOR_PID_F = 0.0;
-	public static double ELEVATOR_PID_P = 1.5;
-	public static double ELEVATOR_PID_I = 0.0000000001;
+	public static double ELEVATOR_PID_P = 2.0;
+	public static double ELEVATOR_PID_I = 0.001;
 	public static double ELEVATOR_PID_D = 0.0;
 	
 	//Maximum current draw for Elevator CANTalon
-	public static int ELEVATOR_CURRENT_LIMIT = 12;
+	public static int ELEVATOR_CURRENT_LIMIT = 35;
 	
 	//Software limit for elevator height
 	public static int ELEVATOR_SOFT_LIMIT = 5600;
@@ -40,8 +41,12 @@ public class Constants {
 	//percent-output for intake motors (when enabled)
 	public static double INTAKE_MOTOR_POWER = 0.75;
 	
+	public static int INTAKE_CURRENT_LIMIT = 10;
+	
 	//Deadband (dead-zone) for various input devices. 
 	public static double JOYSTICK_DEADBAND = 0.05;
 	public static double CONTROLLER_DEADBAND = 0.05;
+	
+	public static double AUTO_INTAKE_MAX_DIST = 17;
 	
 }

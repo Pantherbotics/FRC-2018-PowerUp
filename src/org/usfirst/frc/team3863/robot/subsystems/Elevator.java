@@ -46,6 +46,8 @@ public class Elevator extends Subsystem {
     	elevDriveTalon.config_kP(pid_id, Constants.ELEVATOR_PID_P, timeout_ms);
         elevDriveTalon.config_kI(pid_id, Constants.ELEVATOR_PID_I, timeout_ms);
         elevDriveTalon.config_kD(pid_id, Constants.ELEVATOR_PID_D, timeout_ms);
+        
+        setTargetPosition(elevDriveTalon.getSelectedSensorPosition(timeout_ms));
     }
     
     public void setTargetPosition(int new_target) {

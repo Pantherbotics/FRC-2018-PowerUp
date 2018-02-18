@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import org.usfirst.frc.team3863.robot.autonomous.AutoBaseline;
 import org.usfirst.frc.team3863.robot.autonomous.AutoFarSwitchScore;
 import org.usfirst.frc.team3863.robot.autonomous.AutoNearSwitchScore;
+import org.usfirst.frc.team3863.robot.commands.ZeroLift;
 import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3863.robot.subsystems.Elevator;
 import org.usfirst.frc.team3863.robot.subsystems.Intake;
@@ -131,6 +132,8 @@ public class Robot extends TimedRobot {
     	SmartDashboard.putNumber("Elevator pos", kElevator.getPos());
     	
     	SmartDashboard.putNumber("Gyro", kDrivetrain.getGyroAngle());
+    	
+    	SmartDashboard.putNumber("IntakeUltrasonic", kIntake.getRawDistance());
         
         
 	}
@@ -205,6 +208,8 @@ public class Robot extends TimedRobot {
 		//Initalize the Drivetrain subsystem, and add to the SmartDashboard
 		kDrivetrain.init();
 		SmartDashboard.putData("Drivetrain", kDrivetrain);
+		
+		kIntake.init();
 		
 		//Initalize the Elevator subsystem and add to the SmartDashboard
 		kElevator.initPID();
@@ -289,6 +294,9 @@ public class Robot extends TimedRobot {
 			m_autonomousCommand.cancel();
 		}
 		
+		Command zero = new ZeroLift();
+		zero.start();
+		
 		//Select the drive mode from the SmartDashboard
 		m_teleopDriveCommand = m_drivechooser.getSelected();
 		
@@ -296,6 +304,7 @@ public class Robot extends TimedRobot {
 		if (m_teleopDriveCommand != null) {
 			m_teleopDriveCommand.start();
 		}
+		
 	}
 
 	/**

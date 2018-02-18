@@ -33,15 +33,18 @@ public class RobotMap {
 	public static int PCM_ID = 0;
 	
 	//PCM Solenoid output IDs
-	public static int PCM_TRANSMISSION_LOW = 0;
-	public static int PCM_TRANSMISSION_HIGH = 1;
+	public static int PCM_TRANSMISSION_LOW = 5;
+	public static int PCM_TRANSMISSION_HIGH = 4;
 	
-	public static int PCM_INTAKE_RETRACT = 2;
-	public static int PCM_INTAKE_EXTEND = 3;
+	public static int PCM_INTAKE_RETRACT = 7;
+	public static int PCM_INTAKE_EXTEND = 6;
 	
-	public static int PCM_LEFT_RAMP_DEPLOY = 4;
-	public static int PCM_LEFT_RAMP_RETRACT = 5;
+	public static int PCM_LEFT_RAMP_DEPLOY = 0;
+	public static int PCM_LEFT_RAMP_RETRACT = 1;
 	
-	public static int PCM_RIGHT_RAMP_DEPLOY = 6;
-	public static int PCM_RIGHT_RAMP_RETRACT = 7;
+	public static int PCM_RIGHT_RAMP_DEPLOY = 2;
+	public static int PCM_RIGHT_RAMP_RETRACT = 3;
+	
+	//Sensor Inputs
+	public static int SENSOR_INTAKE_ULTRASONIC = 0;
 }
