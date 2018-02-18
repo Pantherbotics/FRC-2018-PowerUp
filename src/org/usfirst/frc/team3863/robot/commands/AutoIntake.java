@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class AutoIntake extends Command {
 	int state = 0;
+	int counter = 0;
 	boolean isComplete = false;
     public AutoIntake() {
         // Use requires() here to declare subsystem dependencies
@@ -27,8 +28,9 @@ public class AutoIntake extends Command {
     	switch (state) {
 	    	case 0:
 	    		if (Robot.kIntake.isCubeInIntake()) {
-					state = 3;
+					state = 6;
 				}else {
+					Robot.kElevator.goToPreset(0);
 					Robot.kIntake.openClaw();
 					state = 1;
 				}
@@ -49,7 +51,24 @@ public class AutoIntake extends Command {
 	    		break;
 	    		
 	    	case 3:
+	    		if (Robot.kIntake.testMotorCurrentThreshold(9.8)) {
+					state = 4;
+				}
+	    		
+	    	case 4:
+	    		if (counter > 40) {
+	    			state = 5;
+	    			counter = 0;
+	    		}else {
+	    			counter += 1;
+	    		}
+	    		
+	    	case 5:
 	    		Robot.kIntake.setIntakeWheelPower(0);
+	    		Robot.kElevator.goToPreset(1);
+	    		state = 6;
+	    		
+	    	case 6:
 	    		isComplete  = true;
     	}
 	    		
