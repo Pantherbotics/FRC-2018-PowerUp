@@ -25,7 +25,7 @@ public class ZeroLift extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (Robot.kElevator.isLiftLowered() || Robot.kElevator.testMotorCurrentThreshold(20.0));
+        return (Robot.kElevator.isLiftLowered());
     }
 
     // Called once after isFinished returns true

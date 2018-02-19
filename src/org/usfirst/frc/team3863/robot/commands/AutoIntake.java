@@ -26,42 +26,55 @@ public class AutoIntake extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	switch (state) {
-	    	case 0:
-	    		if (Robot.kIntake.isCubeInIntake()) {
+	    	case 0:  
+	    		if (Robot.kIntake.triIsCubeInIntake()) {  //Robot already has a cube
 					state = 6;
+					System.out.println("We already have a cube!");
 				}else {
-					Robot.kElevator.goToPreset(0);
+					System.out.println("Looking to pick up a cube");
+					Robot.kElevator.goToPreset(0);     // Robot is waiting for a cube
+					Robot.kIntake.setIntakeWheelPower(0);
 					Robot.kIntake.openClaw();
-					state = 1;
+					
+					state = 4;
 				}
 				break;
 				
+	    	case 4:
+	    		if (counter > 20) {
+	    			state = 1;
+	    			counter = 0;
+	    			System.out.println("Counter complete");
+	    		}else {
+	    			counter += 1;
+	    		}
+	    		break;
+				
 			case 1:
-				if (Robot.kIntake.isCubeInfrontOfIntake()) {
+				if (Robot.kIntake.triIsCubeAngled()) {  //Robot sees an angled cube
+					state = 2;
+					System.out.println("Picking up an angled cube");
+				}else if (Robot.kIntake.triIsCubeStraight()) { //Robot sees a straight cube
+					System.out.println("Picking up a straight cube");
+					Robot.kIntake.closeClaw();
 					state = 2;
 				}
 				break;
 	    	
 	    	case 2:
-	    		Robot.kIntake.closeClaw();
 	    		Robot.kIntake.setIntakeWheelPower(-Constants.INTAKE_MOTOR_POWER);
-	    		if (Robot.kIntake.isCubeInIntake()) {
+	    		if (Robot.kIntake.triIsCubeInIntake()) {
 					state = 3;
+					Robot.kIntake.closeClaw();
+					System.out.println("Cube registered as in by sensors");
 				}
 	    		break;
 	    		
 	    	case 3:
 	    		if (Robot.kIntake.testMotorCurrentThreshold(9.8)) {
-					state = 4;
+					state = 5;
+					System.out.println("Intake motor current trip (this is good)");
 				}
-	    		
-	    	case 4:
-	    		if (counter > 40) {
-	    			state = 5;
-	    			counter = 0;
-	    		}else {
-	    			counter += 1;
-	    		}
 	    		
 	    	case 5:
 	    		Robot.kIntake.setIntakeWheelPower(0);
@@ -70,6 +83,7 @@ public class AutoIntake extends Command {
 	    		
 	    	case 6:
 	    		isComplete  = true;
+	    		System.out.println("Auto cube intake complete!");
     	}
 	    		
     		
@@ -90,5 +104,6 @@ public class AutoIntake extends Command {
     protected void interrupted() {
     	state = 0;
     	isComplete = true;
+    	Robot.kIntake.setIntakeWheelPower(0);
     }
 }

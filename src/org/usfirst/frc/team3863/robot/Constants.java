@@ -32,7 +32,7 @@ public class Constants {
 	public static int ELEVATOR_CURRENT_LIMIT = 35;
 	
 	//Software limit for elevator height
-	public static int ELEVATOR_SOFT_LIMIT = 5600;
+	public static int ELEVATOR_SOFT_LIMIT = 5450;
 	
 	//Manual increment/decrements for elevator control
 	public static int ELEVATOR_DRIVE_INCREMENT = 60;
@@ -41,7 +41,7 @@ public class Constants {
 	//percent-output for intake motors (when enabled)
 	public static double INTAKE_MOTOR_POWER = 0.75;
 	
-	public static int INTAKE_CURRENT_LIMIT = 10;
+	public static int INTAKE_CURRENT_LIMIT = 15;
 	
 	//Deadband (dead-zone) for various input devices. 
 	public static double JOYSTICK_DEADBAND = 0.05;
@@ -49,7 +49,7 @@ public class Constants {
 	
 	public static double AUTO_INTAKE_MAX_DIST = 17;
 	
-	public static int[] ELEVATOR_PRESETS = {0,    //Bottom 
+	public static int[] ELEVATOR_PRESETS = {50,    //Bottom 
 			                                500,  //Slightly Raised (off the ground)
 	                                        800,  //HumanPlayer station
 	                                        1000, //Switch

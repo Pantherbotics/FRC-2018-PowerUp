@@ -12,7 +12,7 @@ public class EnableIntakeWheels extends Command {
 	boolean reverse;
     public EnableIntakeWheels(boolean reverse_direction) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.kIntake);
+        //requires(Robot.kIntake);
         reverse = reverse_direction;
     }
 

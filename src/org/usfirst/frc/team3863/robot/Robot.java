@@ -130,12 +130,14 @@ public class Robot extends TimedRobot {
         
         SmartDashboard.putNumber("Elevator target", kElevator.target);
     	SmartDashboard.putNumber("Elevator pos", kElevator.getPos());
+    	SmartDashboard.putBoolean("ElevatorLimit", kElevator.isLiftLowered());
     	
     	SmartDashboard.putNumber("Gyro", kDrivetrain.getGyroAngle());
     	
-    	SmartDashboard.putNumber("IntakeUltrasonic", kIntake.getRawDistance());
-        
-        
+    	SmartDashboard.putNumber("IntakeUltrasonic", kIntake.getAverageDistance());    
+    	SmartDashboard.putNumber("IntakeLeftIR", kIntake.getLeftIR()); 
+    	SmartDashboard.putNumber("IntakeRightIR", kIntake.getRightIR()); 
+    	
 	}
 	
 	/**
@@ -210,6 +212,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData("Drivetrain", kDrivetrain);
 		
 		kIntake.init();
+		SmartDashboard.putData("Intake", kIntake);
 		
 		//Initalize the Elevator subsystem and add to the SmartDashboard
 		kElevator.initPID();

@@ -47,14 +47,17 @@ public class Elevator extends Subsystem {
         elevDriveTalon.config_kI(pid_id, Constants.ELEVATOR_PID_I, timeout_ms);
         elevDriveTalon.config_kD(pid_id, Constants.ELEVATOR_PID_D, timeout_ms);
         
+        elevDriveTalon.configForwardSoftLimitThreshold(Constants.ELEVATOR_SOFT_LIMIT, timeout_ms);
+        elevDriveTalon.configForwardSoftLimitEnable(true, timeout_ms);
+        
         setTargetPosition(elevDriveTalon.getSelectedSensorPosition(timeout_ms));
     }
     
     public void setTargetPosition(int new_target) {
     	if (new_target > Constants.ELEVATOR_SOFT_LIMIT) {
     		new_target = Constants.ELEVATOR_SOFT_LIMIT;
-    	}else if (new_target < 0) {
-    		new_target = 0;
+    	}else if (new_target < 50) {
+    		new_target = 50;
     	}
         target = new_target;
     	elevDriveTalon.set(ControlMode.Position, new_target);
