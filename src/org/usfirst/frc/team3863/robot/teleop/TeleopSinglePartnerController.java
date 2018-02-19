@@ -9,10 +9,11 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class TeleopSinglePartnerController extends Command {
-
-    public TeleopSinglePartnerController() {
+    boolean usepid;
+    public TeleopSinglePartnerController(boolean usePIDDrive) {
         // Use requires() here to declare subsystem dependencies
     	requires(Robot.kDrivetrain);
+    	usepid = usePIDDrive;
     }
 
     // Called just before this Command runs the first time
@@ -30,8 +31,12 @@ public class TeleopSinglePartnerController extends Command {
     	
     	double left = y - twist;
     	double right = y + twist;
-    	//Robot.kDrivetrain.setVelocityTargets(left, right);
-    	Robot.kDrivetrain.setDrivePower(left, right);
+    	if (usepid) {
+    		Robot.kDrivetrain.setVelocityTargets(left, right);
+    	}else {
+    		Robot.kDrivetrain.setDrivePower(left, right);
+    	}
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

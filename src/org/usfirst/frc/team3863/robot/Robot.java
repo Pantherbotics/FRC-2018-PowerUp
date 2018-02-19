@@ -203,8 +203,8 @@ public class Robot extends TimedRobot {
 		
 		//Add options to the Drive Mode chooser, and add it to the SmartDashboard
 		//The options are instances of the given drive commands, 
-		m_drivechooser.addDefault("Single Partner Controller", new TeleopSinglePartnerController());
-		m_drivechooser.addObject("Single Joystick", new TeleopSingleJoystick());
+		m_drivechooser.addDefault("[PID] Single Partner Controller", new TeleopSinglePartnerController(true));
+		m_drivechooser.addObject("[PWR] Single Partner Controller", new TeleopSinglePartnerController(false));
 		SmartDashboard.putData("Teleop Drive mode", m_drivechooser);
 		
 		//Initalize the Drivetrain subsystem, and add to the SmartDashboard
