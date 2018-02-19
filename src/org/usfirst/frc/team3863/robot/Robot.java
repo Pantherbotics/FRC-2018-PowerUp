@@ -20,6 +20,7 @@ import org.usfirst.frc.team3863.robot.autonomous.AutoBaseline;
 import org.usfirst.frc.team3863.robot.autonomous.AutoFarSwitchScore;
 import org.usfirst.frc.team3863.robot.autonomous.AutoNearSwitchScore;
 import org.usfirst.frc.team3863.robot.commands.ZeroLift;
+import org.usfirst.frc.team3863.robot.subsystems.Cameras;
 import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3863.robot.subsystems.Elevator;
 import org.usfirst.frc.team3863.robot.subsystems.Intake;
@@ -44,6 +45,8 @@ public class Robot extends TimedRobot {
 	public static final Intake kIntake = new Intake(); 
 	
 	public static final Ramps kRamps = new Ramps();
+	
+	public static final Cameras kCameras = new Cameras();
 	
 	//Operator Interface instance. Contains button ==> command mappings
 	public static OI m_oi = new OI();                    
@@ -217,6 +220,8 @@ public class Robot extends TimedRobot {
 		//Initalize the Elevator subsystem and add to the SmartDashboard
 		kElevator.initPID();
 		SmartDashboard.putData("Elevator", kElevator);
+		
+		kCameras.enableCameras();
 		
 		//Reset the SmartDashboard auton description
 		SmartDashboard.putString("Autosomis Mode", "Auton Not Running");

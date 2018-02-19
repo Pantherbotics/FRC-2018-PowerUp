@@ -1,5 +1,18 @@
 <xml version="1.0">
 <dashboard>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
+		<location x="1152" y="16"/>
+		<width>437</width>
+		<height>325</height>
+		<property name="Camera Choice" value="USB Camera 1"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
+		<location x="864" y="16"/>
+		<width>256</width>
+		<height>336</height>
+		<property name="Degrees Rotation" value="90"/>
+		<property name="Camera Choice" value=""/>
+	</static-widget>
 	<widget field="ElevatorLimit" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="638" y="286"/>
 	</widget>
@@ -120,6 +133,9 @@
 	</widget>
 </dashboard>
 <live-window>
+	<widget field="Cameras" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="0" y="96"/>
+	</widget>
 	<widget field="Ramps" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
 		<location x="0" y="72"/>
 	</widget>
