@@ -16,6 +16,12 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import org.usfirst.frc.team3863.robot.autonomous.AutoBaseline;
 import org.usfirst.frc.team3863.robot.autonomous.AutoFarSwitchScore;
 import org.usfirst.frc.team3863.robot.autonomous.AutoNearSwitchScore;
@@ -47,6 +53,11 @@ public class Robot extends TimedRobot {
 	public static final Ramps kRamps = new Ramps();
 	
 	public static final Cameras kCameras = new Cameras();
+	
+	File f;
+	BufferedWriter bw;
+	FileWriter fw;
+	PrintWriter out;
 	
 	//Operator Interface instance. Contains button ==> command mappings
 	public static OI m_oi = new OI();                    
@@ -225,6 +236,10 @@ public class Robot extends TimedRobot {
 		
 		//Reset the SmartDashboard auton description
 		SmartDashboard.putString("Autosomis Mode", "Auton Not Running");
+		
+		
+		
+		
 	}
 
 	/**
@@ -313,6 +328,20 @@ public class Robot extends TimedRobot {
 			m_teleopDriveCommand.start();
 		}
 		
+		try {
+    		f = new File("/home/lvuser/autoswitch-output.txt");
+    		if(!f.exists()){
+    			f.createNewFile();
+    		}
+			fw = new FileWriter(f);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	bw = new BufferedWriter(fw);
+    	out = new PrintWriter(bw);
+    	
+		
 	}
 
 	/**
@@ -325,6 +354,11 @@ public class Robot extends TimedRobot {
 		
 		//Update the SmartDashboard with debug + state info
 		updateSmartDashboard();
+
+		double current = kDrivetrain.getCurrentAverage();
+		double accel = Math.abs(kDrivetrain.getAcceleration());
+		System.out.println(""+kDrivetrain.transmission_in_low+","+current+","+accel);
+		
 	}
 
 	/**

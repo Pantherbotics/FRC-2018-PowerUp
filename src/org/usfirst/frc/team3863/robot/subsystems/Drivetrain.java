@@ -149,6 +149,16 @@ public class Drivetrain extends Subsystem {
 		return ahrs_gyro.getAngle();
 		
 	}
+
+	public double getCurrentAverage() {
+		double average = (talonLeftA.getOutputCurrent() + talonRightA.getOutputCurrent() + talonLeftB.getOutputCurrent() + talonRightB.getOutputCurrent())/4;
+		return average;
+	}
+
+	public double getAcceleration() {
+		double[] vel = getEncoderVelocities();
+		return (vel[0]+vel[1])/2;
+	}
 	
     
 }
