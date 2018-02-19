@@ -97,7 +97,7 @@ public class Elevator extends Subsystem {
 	}
 	
 	public double getHeightPercent() {
-		return (getPos() / Constants.ELEVATOR_SOFT_LIMIT));
+		return (getPos() / Constants.ELEVATOR_SOFT_LIMIT);
 	}
     
     
