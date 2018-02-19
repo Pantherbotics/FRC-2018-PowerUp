@@ -55,8 +55,8 @@ public class TeleopSinglePartnerController extends Command {
     	}
     	
     	double elevDampen = 1.0 - Robot.kElevator.getHeightPercent();
-    	if (elevDampen < 0.3) {
-    		elevDampen = 0.3;
+    	if (elevDampen < 0.6) {
+    		elevDampen = 0.6;
     	}
     	
     	double left = (y - twist) * elevDampen;
