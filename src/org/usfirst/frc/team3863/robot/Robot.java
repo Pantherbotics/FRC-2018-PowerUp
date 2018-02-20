@@ -221,6 +221,8 @@ public class Robot extends TimedRobot {
 		kElevator.initPID();
 		SmartDashboard.putData("Elevator", kElevator);
 		
+		kRamps.init();
+		
 		kCameras.enableCameras();
 		
 		//Reset the SmartDashboard auton description

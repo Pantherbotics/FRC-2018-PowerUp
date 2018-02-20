@@ -22,7 +22,13 @@ public class DeployRightRamp extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.kRamps.deployRightRamp();
+    	if (Robot.kRamps.is_right_ramp_deployed && !can_retract) {
+    		Robot.kRamps.liftRightRamp();
+    	}else if (!can_retract){
+    		Robot.kRamps.deployRightRamp();
+    	}else {
+    		Robot.kRamps.liftRightRamp();
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

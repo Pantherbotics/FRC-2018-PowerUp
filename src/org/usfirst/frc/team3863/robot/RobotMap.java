@@ -47,4 +47,8 @@ public class RobotMap {
 	
 	//Sensor Inputs
 	public static int SENSOR_INTAKE_ULTRASONIC = 0;
+	
+	//Servos
+	public static int PWM_LEFT_SERVO = 0;
+	public static int PWM_RIGHT_SERVO = 1;
 }
