@@ -24,9 +24,9 @@ public class Constants {
 	
 	//Elevator PID
 	public static double ELEVATOR_PID_F = 0.0;
-	public static double ELEVATOR_PID_P = 2.0;
-	public static double ELEVATOR_PID_I = 0.003;
-	public static double ELEVATOR_PID_D = 0.0;
+	public static double ELEVATOR_PID_P = 0.8;
+	public static double ELEVATOR_PID_I = -0.03;
+	public static double ELEVATOR_PID_D = 0.1;
 	
 	//Maximum current draw for Elevator CANTalon
 	public static int ELEVATOR_CURRENT_LIMIT = 35;
