@@ -2,6 +2,7 @@ package org.usfirst.frc.team3863.robot.autonomous;
 
 import org.usfirst.frc.team3863.robot.commands.DeployIntake;
 import org.usfirst.frc.team3863.robot.commands.DriveForwardInches;
+import org.usfirst.frc.team3863.robot.commands.ElevatorSetpoint;
 import org.usfirst.frc.team3863.robot.commands.OuttakeCube;
 import org.usfirst.frc.team3863.robot.commands.RotateDegrees;
 
@@ -15,9 +16,14 @@ public class AutoLeftSwitchNear extends CommandGroup {
     public AutoLeftSwitchNear( boolean start_right) {
     	if (start_right) {
         	right_invert = -1;
+        	//System.out.println("Near Auto Right");
+        }else {
+        	//System.out.println("Near Auto Left");
         }
+    	
     	addSequential(new DeployIntake());
-    	addSequential(new DriveForwardInches(95.0));
+    	addSequential(new ElevatorSetpoint(2));
+    	addSequential(new DriveForwardInches(115.0));
     	addSequential(new RotateDegrees(90 * right_invert));
     	addSequential(new OuttakeCube());
     }

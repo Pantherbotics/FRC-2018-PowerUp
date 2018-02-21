@@ -12,6 +12,7 @@ public class RotateDegrees extends Command {
 	double degree_offset;
 	double target_degrees;
 	double start_degrees;
+	double error;
 
     public RotateDegrees(double degrees) {
         // Use requires() here to declare subsystem dependencies
@@ -22,25 +23,26 @@ public class RotateDegrees extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	start_degrees = Robot.kDrivetrain.getGyroAngle();
-    	target_degrees = start_degrees + degree_offset;
-    	
+    	target_degrees = start_degrees + degree_offset;	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double error = target_degrees - Robot.kDrivetrain.getGyroAngle();
-    	double left = error * Constants.DRIVE_ROTATE_P;
-    	double right = error * Constants.DRIVE_ROTATE_P * -1;
-    	Robot.kDrivetrain.setPositionTargetIncrements(left, right);
+    	error = target_degrees - Robot.kDrivetrain.getGyroAngle();
+    	double left = error * Constants.DRIVE_ROTATE_P * -1;
+    	double right = error * Constants.DRIVE_ROTATE_P ;
+    	System.out.println(""+error+" "+left+" "+right);
+    	Robot.kDrivetrain.setVelocityTargets(left, right);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return Math.abs(error) < 2;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.kDrivetrain.setVelocityTargets(0, 0);
     }
 
     // Called when another command which requires one or more of the same

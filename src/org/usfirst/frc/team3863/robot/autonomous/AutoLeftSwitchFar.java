@@ -15,6 +15,9 @@ public class AutoLeftSwitchFar extends CommandGroup {
     public AutoLeftSwitchFar( boolean start_right) {
     	if (start_right) {
         	right_invert = -1;
+        	//System.out.println("Far Auto Right");
+        }else {
+        	//System.out.println("Far Auto Left");
         }
     	addSequential(new DeployIntake());
     	addSequential(new DriveForwardInches(95.0));

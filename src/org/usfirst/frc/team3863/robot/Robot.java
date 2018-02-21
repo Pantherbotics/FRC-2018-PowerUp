@@ -156,12 +156,15 @@ public class Robot extends TimedRobot {
 		 		
 		 		//Get the scoring positions of the switches from the FMS
 		 		String msg = ds.getGameSpecificMessage();
-		 		
+		 		//TODO: THis needs to work
+		 		if(msg.length() < 3) {
+		 			break;
+		 		}
 		 		//Get our driverstation number (1-3, left-right)
 				int loc = ds.getLocation();
 				
 				//True if we are in the rightmost driverstation (#3)
-				auton_right = (loc==3);     
+				auton_right = (loc==3);  
 				
 				//When our switch is on the Left side
 				if(msg.charAt(0) == 'L') {		 
@@ -272,6 +275,9 @@ public class Robot extends TimedRobot {
 		//updateSmartDashboard();
 		
 		kDrivetrain.zero_gyro();
+		
+		Command zero = new ZeroLift();
+		zero.start();
 		
 		//Calculate which autonomous to run
 		updateAuton();
