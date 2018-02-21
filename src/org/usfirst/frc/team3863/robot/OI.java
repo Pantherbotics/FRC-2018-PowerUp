@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team3863.robot.commands.MoveLiftBy;
+import org.usfirst.frc.team3863.robot.commands.OuttakeCube;
 import org.usfirst.frc.team3863.robot.commands.AutoIntake;
 import org.usfirst.frc.team3863.robot.commands.DeployLeftRamp;
 import org.usfirst.frc.team3863.robot.commands.DeployRightRamp;
@@ -97,8 +98,9 @@ public class OI {
 		partnerButtonX.whenPressed(new ToggleTransmissionState());
 		partnerButtonY.whileHeld(new MoveLiftBy(Constants.ELEVATOR_DRIVE_INCREMENT));
 		partnerButtonA.whileHeld(new MoveLiftBy(Constants.ELEVATOR_DRIVE_DECREMENT));
-		partnerLeftBumper.whileHeld(new EnableIntakeWheels(false)); //Wheels run in forward direction
-		partnerRightBumper.whileHeld(new EnableIntakeWheels(true)); //Wheels run in reverse direction
+		partnerLeftBumper.whenPressed(new OuttakeCube());
+		//partnerLeftBumper.whileHeld(new EnableIntakeWheels(false)); //Wheels run in forward direction
+		//partnerRightBumper.whileHeld(new EnableIntakeWheels(true)); //Wheels run in reverse direction
 		partnerControlA.whenPressed(new IntakeClaw(true)); //open claw
 		partnerControlB.whenPressed(new IntakeClaw(false)); //close claw
 		partnerShare.whileHeld(new DeployLeftRamp(true));
