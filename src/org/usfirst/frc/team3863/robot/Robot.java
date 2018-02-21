@@ -17,8 +17,8 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 import org.usfirst.frc.team3863.robot.autonomous.AutoBaseline;
-import org.usfirst.frc.team3863.robot.autonomous.AutoFarSwitchScore;
-import org.usfirst.frc.team3863.robot.autonomous.AutoNearSwitchScore;
+import org.usfirst.frc.team3863.robot.autonomous.AutoLeftSwitchFar;
+import org.usfirst.frc.team3863.robot.autonomous.AutoLeftSwitchNear;
 import org.usfirst.frc.team3863.robot.commands.ZeroLift;
 import org.usfirst.frc.team3863.robot.subsystems.Cameras;
 import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
@@ -167,9 +167,9 @@ public class Robot extends TimedRobot {
 				if(msg.charAt(0) == 'L') {		 
 
 				//When our switch is on the right side
-					m_autonomousCommand = new AutoNearSwitchScore(auton_right);
+					m_autonomousCommand = new AutoLeftSwitchNear(auton_right);
 		        } else if (msg.charAt(0) == 'R'){ //Our switch is to the Right
-		        	m_autonomousCommand = new AutoFarSwitchScore(auton_right);
+		        	m_autonomousCommand = new AutoLeftSwitchFar(auton_right);
 		        }
 				break;
 
