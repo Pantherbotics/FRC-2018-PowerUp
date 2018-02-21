@@ -134,5 +134,10 @@ public class Intake extends Subsystem {
     	boolean center = isCubeInIntake();
     	return (leftIR && center && rightIR);
     }
+
+	public void setSkewedIntakePower(double power) {
+		leftIntakeTalon.set(ControlMode.PercentOutput, power * 1.5);
+    	rightIntakeTalon.set(ControlMode.PercentOutput, -power * 0.7);
+	}
 }
 

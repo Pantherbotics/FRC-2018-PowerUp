@@ -30,7 +30,10 @@ public class Ramps extends Subsystem {
     public void init() {
     	left_servo.setAngle(90);
     	right_servo.setAngle(90);
-    }
+    	retractLeftRamp();
+    	retractRightRamp();
+    };
+    
     
     public void liftLeftRamp() {
     	left_ramp_solenoid.set(DoubleSolenoid.Value.kForward);

@@ -54,6 +54,7 @@ public class AutoIntake extends Command {
 				if (Robot.kIntake.triIsCubeAngled()) {  //Robot sees an angled cube
 					state = 2;
 					System.out.println("Picking up an angled cube");
+					Robot.kIntake.setSkewedIntakePower(-Constants.INTAKE_MOTOR_POWER);
 				}else if (Robot.kIntake.triIsCubeStraight()) { //Robot sees a straight cube
 					System.out.println("Picking up a straight cube");
 					Robot.kIntake.closeClaw();
@@ -71,7 +72,7 @@ public class AutoIntake extends Command {
 	    		break;
 	    		
 	    	case 3:
-	    		if (Robot.kIntake.testMotorCurrentThreshold(9.8)) {
+	    		if (Robot.kIntake.testMotorCurrentThreshold(9.8)|| Robot.kIntake.triIsCubeInIntake()) {
 					state = 5;
 					System.out.println("Intake motor current trip (this is good)");
 				}

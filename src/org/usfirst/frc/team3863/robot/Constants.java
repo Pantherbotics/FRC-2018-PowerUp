@@ -24,9 +24,9 @@ public class Constants {
 	
 	//Elevator PID
 	public static double ELEVATOR_PID_F = 0.0;
-	public static double ELEVATOR_PID_P = 0.8;
-	public static double ELEVATOR_PID_I = -0.03;
-	public static double ELEVATOR_PID_D = 0.1;
+	public static double ELEVATOR_PID_P = 1.8;
+	public static double ELEVATOR_PID_I = 0.0005;
+	public static double ELEVATOR_PID_D = 1.40;
 	
 	//Maximum current draw for Elevator CANTalon
 	public static int ELEVATOR_CURRENT_LIMIT = 35;
@@ -54,6 +54,6 @@ public class Constants {
 	                                        800,  //HumanPlayer station
 	                                        1000, //Switch
 	                                        5000, //Scale
-	                                        5600};//Max Travel
+	                                        5450};//Max Travel
  	
 }

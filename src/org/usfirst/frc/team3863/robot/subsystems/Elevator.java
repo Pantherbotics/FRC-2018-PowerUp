@@ -40,7 +40,7 @@ public class Elevator extends Subsystem {
     	elevDriveTalon.configPeakOutputReverse(-1, timeout_ms);
     	elevDriveTalon.configContinuousCurrentLimit(Constants.ELEVATOR_CURRENT_LIMIT, timeout_ms);
 
-    	elevDriveTalon.configAllowableClosedloopError(0, pid_id, timeout_ms); 
+    	elevDriveTalon.configAllowableClosedloopError(10, pid_id, timeout_ms); 
 
     	elevDriveTalon.config_kF(pid_id, Constants.ELEVATOR_PID_F, timeout_ms);
     	elevDriveTalon.config_kP(pid_id, Constants.ELEVATOR_PID_P, timeout_ms);
@@ -49,11 +49,14 @@ public class Elevator extends Subsystem {
         
         elevDriveTalon.configForwardSoftLimitThreshold(Constants.ELEVATOR_SOFT_LIMIT, timeout_ms);
         elevDriveTalon.configForwardSoftLimitEnable(true, timeout_ms);
-        
+        elevDriveTalon.configReverseSoftLimitThreshold(0, timeout_ms);
+        elevDriveTalon.configReverseSoftLimitEnable(true, timeout_ms);
+                
         setTargetPosition(elevDriveTalon.getSelectedSensorPosition(timeout_ms));
     }
     
     public void setTargetPosition(int new_target) {
+    	elevDriveTalon.configReverseSoftLimitEnable(true, timeout_ms);
     	if (new_target > Constants.ELEVATOR_SOFT_LIMIT) {
     		new_target = Constants.ELEVATOR_SOFT_LIMIT;
     	}else if (new_target < 50) {
@@ -64,6 +67,7 @@ public class Elevator extends Subsystem {
     }
     
     public void setMotorPower(double power) {
+    	elevDriveTalon.configReverseSoftLimitEnable(false, timeout_ms);
     	elevDriveTalon.set(ControlMode.PercentOutput, power);
     }
     
