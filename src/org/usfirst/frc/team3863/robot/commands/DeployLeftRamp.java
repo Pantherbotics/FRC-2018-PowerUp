@@ -5,7 +5,7 @@ import org.usfirst.frc.team3863.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * this code sucks - rewrite at some point!
  */
 public class DeployLeftRamp extends Command {
 	boolean can_retract;
