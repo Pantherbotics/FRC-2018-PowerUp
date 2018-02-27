@@ -16,9 +16,9 @@ public class AutoLeftSwitchNear extends CommandGroup {
     public AutoLeftSwitchNear( boolean start_right) {
     	if (start_right) {
         	right_invert = -1;
-        	//System.out.println("Near Auto Right");
+        	System.out.println("Near Auto Right");
         }else {
-        	//System.out.println("Near Auto Left");
+        	System.out.println("Near Auto Left");
         }
     	
     	addSequential(new DeployIntake());

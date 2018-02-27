@@ -163,14 +163,17 @@ public class Robot extends TimedRobot {
 		 		if (PrevMsg != msg) {
 		 			int position = ds.getLocation();
 		 			
-		 			if (position == 3 && msg.charAt(0) == 'L') { 
-		 				m_autonomousCommand = new AutoBaseline();
-		 			} else if (position == 3 && msg.charAt(0) == 'R') {
-		 				m_autonomousCommand = new AutoBaseline();
-		 			} else if (position == 1 && msg.charAt(0) == 'L') {
-		 				m_autonomousCommand = new AutoBaseline();
-		 			} else if (position == 1 && msg.charAt(0) == 'R') {
-		 				m_autonomousCommand = new AutoBaseline();
+		 			if (position == 3 && msg.charAt(0) == 'L') {           // Right DS; Left switch:
+		 				m_autonomousCommand = new AutoLeftSwitchFar(true); // the long way around (right)
+		 				
+		 			} else if (position == 3 && msg.charAt(0) == 'R') {    // Right DS; Right switch:
+		 				m_autonomousCommand = new AutoLeftSwitchNear(true);     // the short way around (right)
+		 				
+		 			} else if (position == 1 && msg.charAt(0) == 'L') {    // Left DS; Left switch:
+		 				m_autonomousCommand = new AutoLeftSwitchFar(false);     // the long way around (left)
+		 				
+		 			} else if (position == 1 && msg.charAt(0) == 'R') {    // Left DS; Right switch:
+		 				m_autonomousCommand = new AutoLeftSwitchNear(false);     // the short way around (left)
 		 			}
 		 			
 		 		
