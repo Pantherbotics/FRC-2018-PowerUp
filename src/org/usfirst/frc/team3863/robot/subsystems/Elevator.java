@@ -9,6 +9,8 @@ import org.usfirst.frc.team3863.robot.RobotMap;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 /**
  *
  */
@@ -39,6 +41,8 @@ public class Elevator extends Subsystem {
     	elevDriveTalon.configPeakOutputForward(1, timeout_ms);
     	elevDriveTalon.configPeakOutputReverse(-1, timeout_ms);
     	elevDriveTalon.configContinuousCurrentLimit(Constants.ELEVATOR_CURRENT_LIMIT, timeout_ms);
+    	
+    	elevDriveTalon.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, timeout_ms);
 
     	elevDriveTalon.configAllowableClosedloopError(10, pid_id, timeout_ms); 
 
@@ -51,6 +55,8 @@ public class Elevator extends Subsystem {
         elevDriveTalon.configForwardSoftLimitEnable(true, timeout_ms);
         elevDriveTalon.configReverseSoftLimitThreshold(0, timeout_ms);
         elevDriveTalon.configReverseSoftLimitEnable(true, timeout_ms);
+        
+        
                 
         setTargetPosition(elevDriveTalon.getSelectedSensorPosition(timeout_ms));
     }
