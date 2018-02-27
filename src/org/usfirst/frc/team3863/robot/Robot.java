@@ -44,7 +44,11 @@ public class Robot extends TimedRobot {
 	//Instance of the Intake subsystem. Controls Intake wheels + servo arm. 
 	public static final Intake kIntake = new Intake(); 
 	
-	public static final Ramps kRamps = new Ramps();
+	//Previous Message - Previous Driverstation Select
+    String PrevMsg = "";
+    int PrevDsSelect;
+    
+   public static final Ramps kRamps = new Ramps();
 	
 	public static final Cameras kCameras = new Cameras();
 	
@@ -154,29 +158,26 @@ public class Robot extends TimedRobot {
 			//Option 1: Automatically determine auton mode based on field status
 		 	case 1:
 		 		
-		 		//Get the scoring positions of the switches from the FMS
-		 		String msg = ds.getGameSpecificMessage();
-		 		//TODO: THis needs to work
-		 		if(msg.length() < 3) {
-		 			break;
+		 		String msg = ds.getGameSpecificMessage();		 				
+		 		
+		 		if (PrevMsg != msg) {
+		 			int position = ds.getLocation();
+		 			
+		 			if (position == 3 && msg.charAt(0) == 'L') { 
+		 				m_autonomousCommand = new AutoBaseline();
+		 			} else if (position == 3 && msg.charAt(0) == 'R') {
+		 				m_autonomousCommand = new AutoBaseline();
+		 			} else if (position == 1 && msg.charAt(0) == 'L') {
+		 				m_autonomousCommand = new AutoBaseline();
+		 			} else if (position == 1 && msg.charAt(0) == 'R') {
+		 				m_autonomousCommand = new AutoBaseline();
+		 			}
+		 			
+		 		
+		 			
 		 		}
-		 		//Get our driverstation number (1-3, left-right)
-				int loc = ds.getLocation();
-				
-				//True if we are in the rightmost driverstation (#3)
-				auton_right = (loc==3);  
-				
-				//When our switch is on the Left side
-				if(msg.charAt(0) == 'L') {		 
-
-				//When our switch is on the right side
-					m_autonomousCommand = new AutoLeftSwitchNear(auton_right);
-		        } else if (msg.charAt(0) == 'R'){ //Our switch is to the Right
-		        	m_autonomousCommand = new AutoLeftSwitchFar(auton_right);
-		        }
-				break;
-
-			//Baseline Autonomous mode
+		 		
+		 		PrevMsg = msg;
 		 	case 2: 						
 		 		m_autonomousCommand = new AutoBaseline(); 
 		 		break;
@@ -275,7 +276,7 @@ public class Robot extends TimedRobot {
 		//updateSmartDashboard();
 		
 		kDrivetrain.zero_gyro();
-		
+				
 		Command zero = new ZeroLift();
 		zero.start();
 		
@@ -342,5 +343,9 @@ public class Robot extends TimedRobot {
 	public void testPeriodic() {
 		//Update the SmartDashboard with debug + state info
 		updateSmartDashboard();
+		
+		String Zero = "1";
+		//System.out.println(Zero);
+		
 	}
 }
