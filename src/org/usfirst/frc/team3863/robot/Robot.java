@@ -28,6 +28,8 @@ import org.usfirst.frc.team3863.robot.subsystems.Ramps;
 import org.usfirst.frc.team3863.robot.teleop.TeleopSingleJoystick;
 import org.usfirst.frc.team3863.robot.teleop.TeleopSinglePartnerController;
 
+import edu.wpi.first.wpilibj.Timer;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -48,9 +50,10 @@ public class Robot extends TimedRobot {
     String PrevMsg = "";
     int PrevDsSelect;
     
-   public static final Ramps kRamps = new Ramps();
+    public static final Ramps kRamps = new Ramps();
 	
 	public static final Cameras kCameras = new Cameras();
+	
 	
 	//Operator Interface instance. Contains button ==> command mappings
 	public static OI m_oi = new OI();                    
@@ -73,6 +76,8 @@ public class Robot extends TimedRobot {
 	Command m_teleopDriveCommand;	     
 	//SmartDashboard dropdown menu for selecting teleop drive modes. 
 	SendableChooser<Command> m_drivechooser = new SendableChooser<Command>(); 
+	
+	Timer timerInstance = new Timer();
 	
 	/**
 	 * Updates the SmartDashboard with robot state + debug info
@@ -175,21 +180,23 @@ public class Robot extends TimedRobot {
 		 			} else if (position == 1 && msg.charAt(0) == 'R') {    // Left DS; Right switch:
 		 				m_autonomousCommand = new AutoLeftSwitchNear(false);     // the short way around (left)
 		 			}
-		 			
-		 		
-		 			
 		 		}
 		 		
 		 		PrevMsg = msg;
-		 	case 2: 						
-		 		m_autonomousCommand = new AutoBaseline(); 
+		 		break;
+		    case 2: 
+		 		if(ds_choice !=  PrevDsSelect){
+		 			m_autonomousCommand = new AutoBaseline();
+		 		}
 		 		break;
 		 		
 		 	//No autonomous mode (default)
 		 	default:
 		 		m_autonomousCommand = null;
 		 		break; 
+		 		
 	 	}
+		PrevDsSelect = ds_choice;
 		
 	}
 	
@@ -300,8 +307,12 @@ public class Robot extends TimedRobot {
 		//Let the scheduler process any running commands 
 		Scheduler.getInstance().run();
 		
-		//Update the SmartDashboard with debug + state info
-		updateSmartDashboard();
+		double t = Timer.getFPGATimestamp();
+		
+		if (Math.floor(t * 1000) % 100 == 0) {
+			//Update the SmartDashboard with debug + state info
+			updateSmartDashboard();
+		}
 	}
 
 	@Override
@@ -335,8 +346,12 @@ public class Robot extends TimedRobot {
 		//Let the scheduler process any running commands 
 		Scheduler.getInstance().run();
 		
-		//Update the SmartDashboard with debug + state info
-		updateSmartDashboard();
+		double t = Timer.getFPGATimestamp();
+		
+		if (Math.floor(t * 1000) % 100 == 0) {
+			//Update the SmartDashboard with debug + state info
+			updateSmartDashboard();
+		}
 	}
 
 	/**
@@ -344,11 +359,15 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		//Update the SmartDashboard with debug + state info
-		updateSmartDashboard();
 		
 		String Zero = "1";
 		//System.out.println(Zero);
 		
+		double t = Timer.getFPGATimestamp();
+		
+		if (Math.floor(t * 1000) % 100 == 0) {
+			//Update the SmartDashboard with debug + state info
+			updateSmartDashboard();
+		}
 	}
 }
