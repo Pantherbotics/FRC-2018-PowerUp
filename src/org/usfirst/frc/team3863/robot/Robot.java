@@ -167,7 +167,8 @@ public class Robot extends TimedRobot {
 		 		
 		 		if (PrevMsg != msg) {
 		 			int position = ds.getLocation();
-		 			
+		 			System.out.println(PrevMsg);
+		 			PrevMsg = msg;
 		 			if (position == 3 && msg.charAt(0) == 'L') {           // Right DS; Left switch:
 		 				m_autonomousCommand = new AutoLeftSwitchFar(true); // the long way around (right)
 		 				
@@ -175,14 +176,14 @@ public class Robot extends TimedRobot {
 		 				m_autonomousCommand = new AutoLeftSwitchNear(true);     // the short way around (right)
 		 				
 		 			} else if (position == 1 && msg.charAt(0) == 'L') {    // Left DS; Left switch:
-		 				m_autonomousCommand = new AutoLeftSwitchFar(false);     // the long way around (left)
+		 				m_autonomousCommand = new AutoLeftSwitchNear(false);     // the long way around (left)
 		 				
 		 			} else if (position == 1 && msg.charAt(0) == 'R') {    // Left DS; Right switch:
-		 				m_autonomousCommand = new AutoLeftSwitchNear(false);     // the short way around (left)
+		 				m_autonomousCommand = new AutoLeftSwitchFar(false);     // the short way around (left)
 		 			}
 		 		}
 		 		
-		 		PrevMsg = msg;
+		 		
 		 		break;
 		    case 2: 
 		 		if(ds_choice !=  PrevDsSelect){
@@ -251,7 +252,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+		updateAuton();
 	}
 	
 	/**
