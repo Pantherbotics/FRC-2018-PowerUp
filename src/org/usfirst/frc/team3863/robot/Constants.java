@@ -15,6 +15,9 @@ public class Constants {
 	//TODO: TUNE ME!!!!
 	public static double DRIVE_ROTATE_P = 0.8;
 	
+	//Seconds from neutral to full ramp
+	public static double DRIVE_RAMP_SECONDS = 0.2;
+	
 	//Drivetrain PID 
 	public static double DRIVE_PID_F = 0.0;
 	public static double DRIVE_PID_P = 0.55;

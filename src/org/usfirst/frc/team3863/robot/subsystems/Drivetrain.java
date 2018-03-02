@@ -57,6 +57,11 @@ public class Drivetrain extends Subsystem {
     	talonRightA.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT, timeout_ms);
     	talonRightB.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT, timeout_ms);
     	
+    	talonLeftA.configClosedloopRamp(Constants.DRIVE_RAMP_SECONDS, timeout_ms);
+    	talonLeftB.configClosedloopRamp(Constants.DRIVE_RAMP_SECONDS, timeout_ms);
+    	talonRightA.configClosedloopRamp(Constants.DRIVE_RAMP_SECONDS, timeout_ms);
+    	talonRightB.configClosedloopRamp(Constants.DRIVE_RAMP_SECONDS, timeout_ms);
+    	
     	initPID(1);
     	
     	zero_gyro();
