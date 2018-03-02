@@ -309,7 +309,7 @@ public class Robot extends TimedRobot {
 		
 		double t = Timer.getFPGATimestamp();
 		
-		if (Math.floor(t * 1000) % 100 == 0) {
+		if (Math.floor(t * 1000) % 2 == 0) {
 			//Update the SmartDashboard with debug + state info
 			updateSmartDashboard();
 		}
@@ -348,7 +348,7 @@ public class Robot extends TimedRobot {
 		
 		double t = Timer.getFPGATimestamp();
 		
-		if (Math.floor(t * 1000) % 100 == 0) {
+		if (Math.floor(t * 1000) % 2 == 0) {
 			//Update the SmartDashboard with debug + state info
 			updateSmartDashboard();
 		}
@@ -365,7 +365,7 @@ public class Robot extends TimedRobot {
 		
 		double t = Timer.getFPGATimestamp();
 		
-		if (Math.floor(t * 1000) % 100 == 0) {
+		if (Math.floor(t * 1000) % 2 == 0) {
 			//Update the SmartDashboard with debug + state info
 			updateSmartDashboard();
 		}
