@@ -13,11 +13,12 @@ public class EnableIntakeWheels extends Command {
 	boolean canfin = false;
     public EnableIntakeWheels(boolean reverse_direction) {
         reverse = reverse_direction;
-        requires(Robot.kIntake);
+        //requires(Robot.kIntake);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	canfin = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -37,6 +38,7 @@ public class EnableIntakeWheels extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.kIntake.setIntakeWheelPower(0);
+    	canfin = true;
     }
 
     // Called when another command which requires one or more of the same

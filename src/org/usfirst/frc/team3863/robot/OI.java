@@ -75,6 +75,16 @@ public class OI {
 	
 	public JoystickButton partnerTrackpad = new JoystickButton(partnerController, 14);
 	
+	public Joystick auxPartnerJoystick = new Joystick(3);
+	public JoystickButton auxPartnerX = new JoystickButton(auxPartnerJoystick, 1);
+	public JoystickButton auxPartnerA = new JoystickButton(auxPartnerJoystick, 2);
+	public JoystickButton auxPartnerB = new JoystickButton(auxPartnerJoystick, 3);
+	public JoystickButton auxPartnerY = new JoystickButton(auxPartnerJoystick, 4);
+	
+	public JoystickButton auxPartnerLeftBumper = new JoystickButton(auxPartnerJoystick, 5);
+	public JoystickButton auxPartnerRightBumper = new JoystickButton(auxPartnerJoystick, 6);
+
+	
 	/**  
 	 * Button mappings that should be enabled for all drive modes
 	 */
@@ -106,6 +116,25 @@ public class OI {
 		partnerShare.whileHeld(new DeployLeftRamp(true));
 		partnerOptions.whileHeld(new DeployRightRamp(true));
 		partnerTrackpad.whenPressed(new AutoIntake());
+	}
+	
+	public void initDualPartnerController() {
+		partnerButtonX.whenPressed(new ToggleTransmissionState());
+		partnerButtonY.whileHeld(new MoveLiftBy(Constants.ELEVATOR_DRIVE_INCREMENT));
+		partnerButtonA.whileHeld(new MoveLiftBy(Constants.ELEVATOR_DRIVE_DECREMENT));
+		partnerLeftBumper.whenPressed(new OuttakeCube());
+		
+		partnerControlA.whenPressed(new IntakeClaw(true)); //open claw
+		partnerControlB.whenPressed(new IntakeClaw(false)); //close claw
+		partnerShare.whileHeld(new DeployLeftRamp(true));
+		partnerOptions.whileHeld(new DeployRightRamp(true));
+		partnerTrackpad.whenPressed(new AutoIntake());
+		
+		auxPartnerX.whenPressed(new IntakeClaw(true));
+		auxPartnerX.whenReleased(new IntakeClaw(false));
+		
+		auxPartnerY.whileHeld(new EnableIntakeWheels(true));
+		auxPartnerB.whileHeld(new EnableIntakeWheels(false));
 	}
 
 }

@@ -28,16 +28,21 @@ public class Constants {
 	public static int DRIVE_CURRENT_LIMIT = 28;
 	
 	//Elevator PID
-	public static double ELEVATOR_PID_F = 0.0;
+	public static double ELEVATOR_PID_F = 0.8184; //Guaranteed random: calculated using a fair dice roll
 	public static double ELEVATOR_PID_P = 1.8;
-	public static double ELEVATOR_PID_I = 0.0005;
-	public static double ELEVATOR_PID_D = 1.40;
+	public static double ELEVATOR_PID_I = 0.000;
+	public static double ELEVATOR_PID_D = 1.5;
+	
+	public static int ELEVATOR_PID_CRUISE_VEL = 400;
+	public static int ELEVATOR_PID_ACCELERATION = 400;
 	
 	//Maximum current draw for Elevator CANTalon
 	public static int ELEVATOR_CURRENT_LIMIT = 35;
 	
 	//Software limit for elevator height
-	public static int ELEVATOR_SOFT_LIMIT = 5450;
+	//TODO: Comp robot changes
+	//public static int ELEVATOR_SOFT_LIMIT = 5450; //COMP ROBOT
+	public static int ELEVATOR_SOFT_LIMIT = 5000; //Practice Robot
 	
 	//Manual increment/decrements for elevator control
 	public static int ELEVATOR_DRIVE_INCREMENT = 60;
@@ -54,7 +59,7 @@ public class Constants {
 	
 	public static double AUTO_INTAKE_MAX_DIST = 17;
 	
-	public static int[] ELEVATOR_PRESETS = {50,    //Bottom 
+	public static int[] ELEVATOR_PRESETS = {5,    //Bottom 
 			                                500,  //Slightly Raised (off the ground)
 	                                        800,  //HumanPlayer station
 	                                        1000, //Switch

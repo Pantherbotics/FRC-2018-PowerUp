@@ -25,6 +25,7 @@ import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3863.robot.subsystems.Elevator;
 import org.usfirst.frc.team3863.robot.subsystems.Intake;
 import org.usfirst.frc.team3863.robot.subsystems.Ramps;
+import org.usfirst.frc.team3863.robot.teleop.TeleopDualPartnerController;
 import org.usfirst.frc.team3863.robot.teleop.TeleopSingleJoystick;
 import org.usfirst.frc.team3863.robot.teleop.TeleopSinglePartnerController;
 
@@ -150,6 +151,8 @@ public class Robot extends TimedRobot {
     	SmartDashboard.putNumber("IntakeLeftIR", kIntake.getLeftIR()); 
     	SmartDashboard.putNumber("IntakeRightIR", kIntake.getRightIR()); 
     	
+    	SmartDashboard.putNumber("elevVelocity", kElevator.getVel());
+    	
 	}
 	
 	/**
@@ -223,6 +226,8 @@ public class Robot extends TimedRobot {
 		//The options are instances of the given drive commands, 
 		m_drivechooser.addDefault("[PID] Single Partner Controller", new TeleopSinglePartnerController(true));
 		m_drivechooser.addObject("[PWR] Single Partner Controller", new TeleopSinglePartnerController(false));
+		m_drivechooser.addObject("[PID] Dual Partner Controller", new TeleopDualPartnerController(true));
+		m_drivechooser.addObject("[PWR] Dual Partner Controller", new TeleopDualPartnerController(false));
 		SmartDashboard.putData("Teleop Drive mode", m_drivechooser);
 		
 		//Initalize the Drivetrain subsystem, and add to the SmartDashboard
