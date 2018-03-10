@@ -62,7 +62,7 @@ public class Ramps extends Subsystem {
     public void deployRightRamp() {
     	right_servo.setAngle(Constants.RAMP_SERVO_RIGHT_OPEN_ANGLE);
     	System.out.println("Deployed Right Ramp");
-    	is_left_ramp_deployed = true;
+    	is_right_ramp_deployed = true;
     }
 }
 

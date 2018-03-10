@@ -56,8 +56,8 @@ public class TeleopDualPartnerController extends Command {
     		lastPOV = auxPov;
     	}
     	
-    	if (Math.abs(partnerY) > 0.2) {
-    		int pos_increment = (int) Math.round(Constants.ELEVATOR_DRIVE_INCREMENT * partnerY);
+    	if (Math.abs(partnerY) > 0.05) {
+    		int pos_increment = (int) Math.round(Constants.ELEVATOR_DRIVE_INCREMENT * -partnerY);
     		Robot.kElevator.setTargetPosition(Robot.kElevator.target + pos_increment);
     	}
     	

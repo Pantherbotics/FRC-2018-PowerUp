@@ -11,7 +11,7 @@ public class RaiseLeftRamp extends Command {
 
     public RaiseLeftRamp() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.kRamps);
+        //requires(Robot.kRamps);
     }
 
     // Called just before this Command runs the first time
@@ -22,6 +22,9 @@ public class RaiseLeftRamp extends Command {
     protected void execute() {
     	if (Robot.kRamps.is_left_ramp_deployed) {
     		Robot.kRamps.liftLeftRamp();
+    		System.out.println("Left Ramp Raised");
+    	}else {
+    		System.out.println("Left Ramp Not Raised");
     	}
     	
     }

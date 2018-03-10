@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class RaiseRightRamp extends Command {
     public RaiseRightRamp() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.kRamps);
+        //requires(Robot.kRamps);
     }
 
     // Called just before this Command runs the first time
@@ -21,6 +21,9 @@ public class RaiseRightRamp extends Command {
     protected void execute() {
     	if (Robot.kRamps.is_right_ramp_deployed) {
     		Robot.kRamps.liftRightRamp();
+    		System.out.println("Right Ramp Raised");
+    	}else {
+    		System.out.println("Right Ramp Not Raised");
     	}
     }
 

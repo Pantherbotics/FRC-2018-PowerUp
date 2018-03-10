@@ -29,9 +29,9 @@ public class Constants {
 	
 	//Elevator PID
 	public static double ELEVATOR_PID_F = 0.8184; //Guaranteed random: calculated using a fair dice roll
-	public static double ELEVATOR_PID_P = 1.8;
-	public static double ELEVATOR_PID_I = 0.000;
-	public static double ELEVATOR_PID_D = 1.5;
+	public static double ELEVATOR_PID_P = 2.1;
+	public static double ELEVATOR_PID_I = 0.0000;
+	public static double ELEVATOR_PID_D = 1.1;
 	
 	public static int ELEVATOR_PID_CRUISE_VEL = 400;
 	public static int ELEVATOR_PID_ACCELERATION = 400;
@@ -69,7 +69,7 @@ public class Constants {
 	//Ramp servo angles
 	public static double RAMP_SERVO_LEFT_LATCH_ANGLE = 90;
 	public static double RAMP_SERVO_RIGHT_LATCH_ANGLE = 90;
-	public static double RAMP_SERVO_RIGHT_OPEN_ANGLE = 0;
-	public static double RAMP_SERVO_LEFT_OPEN_ANGLE = 180;
+	public static double RAMP_SERVO_RIGHT_OPEN_ANGLE = -90;
+	public static double RAMP_SERVO_LEFT_OPEN_ANGLE = -170;
  	
 }
