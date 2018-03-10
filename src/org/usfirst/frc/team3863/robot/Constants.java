@@ -65,5 +65,11 @@ public class Constants {
 	                                        1000, //Switch
 	                                        5000, //Scale
 	                                        5450};//Max Travel
+	
+	//Ramp servo angles
+	public static double RAMP_SERVO_LEFT_LATCH_ANGLE = 90;
+	public static double RAMP_SERVO_RIGHT_LATCH_ANGLE = 90;
+	public static double RAMP_SERVO_RIGHT_OPEN_ANGLE = 0;
+	public static double RAMP_SERVO_LEFT_OPEN_ANGLE = 180;
  	
 }

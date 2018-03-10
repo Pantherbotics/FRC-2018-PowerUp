@@ -7,13 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * this code sucks - rewrite at some point!
  */
-public class DeployLeftRamp extends Command {
-	boolean can_retract;
+public class RaiseLeftRamp extends Command {
 
-    public DeployLeftRamp(boolean retractable) {
+    public RaiseLeftRamp() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.kRamps);
-        can_retract = retractable;
     }
 
     // Called just before this Command runs the first time
@@ -22,11 +20,7 @@ public class DeployLeftRamp extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (Robot.kRamps.is_left_ramp_deployed && !can_retract) {
-    		Robot.kRamps.liftLeftRamp();
-    	}else if (!can_retract){
-    		Robot.kRamps.deployLeftRamp();
-    	}else {
+    	if (Robot.kRamps.is_left_ramp_deployed) {
     		Robot.kRamps.liftLeftRamp();
     	}
     	
@@ -34,7 +28,7 @@ public class DeployLeftRamp extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return !can_retract;
+        return true;
     }
 
     // Called once after isFinished returns true
@@ -44,6 +38,5 @@ public class DeployLeftRamp extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.kRamps.retractLeftRamp();
     }
 }

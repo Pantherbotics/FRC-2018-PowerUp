@@ -334,6 +334,8 @@ public class Robot extends TimedRobot {
 		Command zero = new ZeroLift();
 		zero.start();
 		
+		Robot.kRamps.init();
+		
 		//Select the drive mode from the SmartDashboard
 		m_teleopDriveCommand = m_drivechooser.getSelected();
 		

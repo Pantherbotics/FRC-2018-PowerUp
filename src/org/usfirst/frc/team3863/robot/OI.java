@@ -13,11 +13,13 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team3863.robot.commands.MoveLiftBy;
 import org.usfirst.frc.team3863.robot.commands.OuttakeCube;
 import org.usfirst.frc.team3863.robot.commands.AutoIntake;
-import org.usfirst.frc.team3863.robot.commands.DeployLeftRamp;
-import org.usfirst.frc.team3863.robot.commands.DeployRightRamp;
+import org.usfirst.frc.team3863.robot.commands.RaiseLeftRamp;
+import org.usfirst.frc.team3863.robot.commands.RaiseRightRamp;
 import org.usfirst.frc.team3863.robot.commands.EnableIntakeWheels;
 import org.usfirst.frc.team3863.robot.commands.IntakeClaw;
 import org.usfirst.frc.team3863.robot.commands.ToggleTransmissionState;
+import org.usfirst.frc.team3863.robot.commands.TransmissionHighGear;
+import org.usfirst.frc.team3863.robot.commands.TransmissionLowGear;
 import org.usfirst.frc.team3863.robot.commands.ZeroLift;;
 
 /**
@@ -75,14 +77,21 @@ public class OI {
 	
 	public JoystickButton partnerTrackpad = new JoystickButton(partnerController, 14);
 	
-	public Joystick auxPartnerJoystick = new Joystick(3);
-	public JoystickButton auxPartnerX = new JoystickButton(auxPartnerJoystick, 1);
-	public JoystickButton auxPartnerA = new JoystickButton(auxPartnerJoystick, 2);
-	public JoystickButton auxPartnerB = new JoystickButton(auxPartnerJoystick, 3);
-	public JoystickButton auxPartnerY = new JoystickButton(auxPartnerJoystick, 4);
+	public Joystick auxPartnerController = new Joystick(3);
 	
-	public JoystickButton auxPartnerLeftBumper = new JoystickButton(auxPartnerJoystick, 5);
-	public JoystickButton auxPartnerRightBumper = new JoystickButton(auxPartnerJoystick, 6);
+	public JoystickButton auxPartnerX = new JoystickButton(auxPartnerController, 1);
+	public JoystickButton auxPartnerA = new JoystickButton(auxPartnerController, 2);
+	public JoystickButton auxPartnerB = new JoystickButton(auxPartnerController, 3);
+	public JoystickButton auxPartnerY = new JoystickButton(auxPartnerController, 4);
+	
+	public JoystickButton auxPartnerLeftBumper = new JoystickButton(auxPartnerController, 5);
+	public JoystickButton auxPartnerRightBumper = new JoystickButton(auxPartnerController, 6);
+	
+	public JoystickButton auxPartnerLeftTrigger = new JoystickButton(auxPartnerController, 7);
+	public JoystickButton auxPartnerRightTrigger = new JoystickButton(auxPartnerController, 8);
+	
+	public JoystickButton auxPartnerBack = new JoystickButton(auxPartnerController, 9);
+	public JoystickButton auxPartnerStart = new JoystickButton(auxPartnerController, 10);
 
 	
 	/**  
@@ -113,28 +122,28 @@ public class OI {
 		//partnerRightBumper.whileHeld(new EnableIntakeWheels(true)); //Wheels run in reverse direction
 		partnerControlA.whenPressed(new IntakeClaw(true)); //open claw
 		partnerControlB.whenPressed(new IntakeClaw(false)); //close claw
-		partnerShare.whileHeld(new DeployLeftRamp(true));
-		partnerOptions.whileHeld(new DeployRightRamp(true));
+		partnerShare.whileHeld(new RaiseLeftRamp());
+		partnerOptions.whileHeld(new RaiseRightRamp());
 		partnerTrackpad.whenPressed(new AutoIntake());
 	}
 	
 	public void initDualPartnerController() {
-		partnerButtonX.whenPressed(new ToggleTransmissionState());
-		partnerButtonY.whileHeld(new MoveLiftBy(Constants.ELEVATOR_DRIVE_INCREMENT));
-		partnerButtonA.whileHeld(new MoveLiftBy(Constants.ELEVATOR_DRIVE_DECREMENT));
-		partnerLeftBumper.whenPressed(new OuttakeCube());
+		partnerLeftBumper.whenPressed(new ToggleTransmissionState());
+		partnerRightBumper.whenPressed(new ToggleTransmissionState());
 		
-		partnerControlA.whenPressed(new IntakeClaw(true)); //open claw
-		partnerControlB.whenPressed(new IntakeClaw(false)); //close claw
-		partnerShare.whileHeld(new DeployLeftRamp(true));
-		partnerOptions.whileHeld(new DeployRightRamp(true));
-		partnerTrackpad.whenPressed(new AutoIntake());
+		partnerControlA.whenPressed(new TransmissionLowGear());
+		partnerControlB.whenPressed(new TransmissionHighGear());
 		
-		auxPartnerX.whenPressed(new IntakeClaw(true));
-		auxPartnerX.whenReleased(new IntakeClaw(false));
+		auxPartnerY.whenPressed(new OuttakeCube());
+		auxPartnerA.whenPressed(new AutoIntake());
+		auxPartnerX.whenPressed(new RaiseLeftRamp());
+		auxPartnerB.whenPressed(new RaiseRightRamp());
 		
-		auxPartnerY.whileHeld(new EnableIntakeWheels(true));
-		auxPartnerB.whileHeld(new EnableIntakeWheels(false));
+		auxPartnerLeftTrigger.whenPressed(new IntakeClaw(true));
+		auxPartnerRightTrigger.whenPressed(new IntakeClaw(false));
+		
+		auxPartnerLeftBumper.whileHeld(new EnableIntakeWheels(true));
+		auxPartnerRightBumper.whileHeld(new EnableIntakeWheels(false));
 	}
 
 }

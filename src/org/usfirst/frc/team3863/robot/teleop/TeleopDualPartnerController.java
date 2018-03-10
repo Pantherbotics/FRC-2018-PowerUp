@@ -28,13 +28,15 @@ public class TeleopDualPartnerController extends Command {
     protected void execute() {
     	double twist = Robot.m_oi.partnerController.getZ();
     	double y = Robot.m_oi.partnerController.getY();
-    	int pov = Robot.m_oi.partnerController.getPOV();
+    	double partnerY = Robot.m_oi.auxPartnerController.getY();
+    	int auxPov = Robot.m_oi.auxPartnerController.getPOV();
     	if (Math.abs(twist) <= Constants.CONTROLLER_DEADBAND) { twist = 0;}
     	if (Math.abs(y) <= Constants.CONTROLLER_DEADBAND) { y = 0;}
+    	if (Math.abs(partnerY) <= Constants.CONTROLLER_DEADBAND) { partnerY = 0;}
     	
-    	if (lastPOV == null || pov != lastPOV) {
+    	if (lastPOV == null || auxPov != lastPOV) {
     		Command povCommand = null;
-    		switch (pov){
+    		switch (auxPov){
 	    		case 0:
 	    			povCommand = new ElevatorSetpoint(5); //Top
 	    			break;
@@ -51,7 +53,12 @@ public class TeleopDualPartnerController extends Command {
     		if (povCommand != null) {
     			povCommand.start();
     		}
-    		lastPOV = pov;
+    		lastPOV = auxPov;
+    	}
+    	
+    	if (Math.abs(partnerY) > 0.2) {
+    		int pos_increment = (int) Math.round(Constants.ELEVATOR_DRIVE_INCREMENT * partnerY);
+    		Robot.kElevator.setTargetPosition(Robot.kElevator.target + pos_increment);
     	}
     	
     	double elevDampen = 1.0 - Robot.kElevator.getHeightPercent();
@@ -65,6 +72,11 @@ public class TeleopDualPartnerController extends Command {
     		Robot.kDrivetrain.setVelocityTargets(left, right);
     	}else {
     		Robot.kDrivetrain.setDrivePower(left, right);
+    	}
+    	    	
+    	if (Robot.m_oi.auxPartnerStart.get() && Robot.m_oi.auxPartnerBack.get()) {
+    		Robot.kRamps.deployLeftRamp();
+    		Robot.kRamps.deployRightRamp();
     	}
     	
     }
