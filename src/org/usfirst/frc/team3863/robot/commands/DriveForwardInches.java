@@ -9,8 +9,9 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */   
 public class DriveForwardInches extends Command {
-	boolean finished = false;
 	double distance;
+	boolean done = false;
+	double counter = 0;
 	  
     public DriveForwardInches(double inches) {
     	requires (Robot.kDrivetrain);
@@ -19,27 +20,37 @@ public class DriveForwardInches extends Command {
 
     
     protected void initialize() {
+    	System.out.println("Driving forward "+ distance + " inches");
+    	Robot.kDrivetrain.zeroEncoderPositions();
+    	//double currentPos[] = Robot.kDrivetrain.getEncoderPositions();
+    	done = false;
+    	counter = 0;
     	double ticks = distance / Constants.DRIVE_WHEEL_DIAMETER * Constants.DRIVE_ENCODER_TICKS;
-    	Robot.kDrivetrain.setPositionTargetIncrements(-ticks, -ticks*0.75);
+    	System.out.println(ticks);
+    	Robot.kDrivetrain.setPositionTargetIncrements(-ticks, -ticks);
+    	//targetPos = ((currentPos[0] + currentPos[1]) /2) - ticks;
     	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
+    	//Black voodoo magic to calculate PID AND drive error
+    	double err = Robot.kDrivetrain.pidErrorAverage();
+    	//double currentPos[] = Robot.kDrivetrain.getEncoderPositions();
+    	//double perr = ((currentPos[0] + currentPos[1]) /2) - targetPos;
+    	System.out.println("err:"+(err));
+    	done = (Math.abs(err)<200 && !(err==0.0) && counter > 100);
+    	counter += 1;
     }
 
     
     protected boolean isFinished() {    	
-    	double err = Robot.kDrivetrain.pidErrorAverage();
-    	System.out.println(err);
-        return (Math.abs(err)<200 && !(err==0.0));
-        
-        
+    	return done;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	
     }
 
     // Called when another command which requires one or more of the same

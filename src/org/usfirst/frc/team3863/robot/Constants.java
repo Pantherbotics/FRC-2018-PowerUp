@@ -13,16 +13,16 @@ public class Constants {
 	
 	//multiplier for error in RotateDegrees
 	//TODO: TUNE ME!!!!
-	public static double DRIVE_ROTATE_P = 0.01;
+	public static double DRIVE_ROTATE_P = 0.0111;
 	
 	//Seconds from neutral to full ramp
 	public static double DRIVE_RAMP_SECONDS = 0.2;
 	
 	//Drivetrain PID 
 	public static double DRIVE_PID_F = 0.0;
-	public static double DRIVE_PID_P = 0.55;
-	public static double DRIVE_PID_I = 0.000;
-	public static double DRIVE_PID_D = 0.00;
+	public static double DRIVE_PID_P = 0.60;
+	public static double DRIVE_PID_I = 0.00001;
+	public static double DRIVE_PID_D = 0.0001;
 	
 	//Maximum current draw for each drivetrain CANTalon
 	public static int DRIVE_CURRENT_LIMIT = 28;
