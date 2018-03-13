@@ -10,6 +10,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutoBaseline extends CommandGroup {
 
     public AutoBaseline() {
-        addSequential(new DriveForwardInches(95.0));
+        addSequential(new DriveForwardInches(120.0));
     }
 }

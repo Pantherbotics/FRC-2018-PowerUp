@@ -1,50 +1,45 @@
 package org.usfirst.frc.team3863.robot.commands;
 
-import org.usfirst.frc.team3863.robot.Constants;
 import org.usfirst.frc.team3863.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * this code sucks - rewrite at some point!
  */
-public class EnableIntakeWheels extends Command {
-	boolean reverse;
-	boolean canfin = false;
-    public EnableIntakeWheels(boolean reverse_direction) {
-        reverse = reverse_direction;
-        //requires(Robot.kIntake);
+public class RaiseLeftRamp extends Command {
+
+    public RaiseLeftRamp() {
+        // Use requires() here to declare subsystem dependencies
+        //requires(Robot.kRamps);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	canfin = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (reverse) {
-    		Robot.kIntake.setIntakeWheelPower(-Constants.INTAKE_MOTOR_POWER);
+    	if (Robot.kRamps.is_left_ramp_deployed) {
+    		Robot.kRamps.liftLeftRamp();
+    		System.out.println("Left Ramp Raised");
     	}else {
-    		Robot.kIntake.setIntakeWheelPower(Constants.INTAKE_MOTOR_POWER);
+    		System.out.println("Left Ramp Not Raised");
     	}
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return canfin;
+        return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.kIntake.setIntakeWheelPower(0);
-    	canfin = true;
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.kIntake.setIntakeWheelPower(0);
-    	canfin = true;
     }
 }

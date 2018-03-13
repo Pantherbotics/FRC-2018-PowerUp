@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3863.robot.subsystems;
 
+import org.usfirst.frc.team3863.robot.Constants;
 import org.usfirst.frc.team3863.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -28,10 +29,11 @@ public class Ramps extends Subsystem {
     }
     
     public void init() {
-    	left_servo.setAngle(90);
-    	right_servo.setAngle(90);
+    	left_servo.setAngle(Constants.RAMP_SERVO_LEFT_LATCH_ANGLE);
+    	right_servo.setAngle(Constants.RAMP_SERVO_RIGHT_LATCH_ANGLE);
     	retractLeftRamp();
     	retractRightRamp();
+    	System.out.println("init");
     };
     
     
@@ -52,13 +54,15 @@ public class Ramps extends Subsystem {
     }
     
     public void deployLeftRamp() {
-    	left_servo.setAngle(170);
+    	left_servo.setAngle(Constants.RAMP_SERVO_LEFT_OPEN_ANGLE);
+    	System.out.println("Deployed Left Ramp");
     	is_left_ramp_deployed = true;
     }
     
     public void deployRightRamp() {
-    	right_servo.setAngle(170);
-    	is_left_ramp_deployed = true;
+    	right_servo.setAngle(Constants.RAMP_SERVO_RIGHT_OPEN_ANGLE);
+    	System.out.println("Deployed Right Ramp");
+    	is_right_ramp_deployed = true;
     }
 }
 

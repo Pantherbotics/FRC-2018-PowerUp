@@ -24,6 +24,7 @@ public class RotateDegrees extends Command {
     protected void initialize() {
     	start_degrees = Robot.kDrivetrain.getGyroAngle();
     	target_degrees = start_degrees + degree_offset;	
+    	System.out.println("Rotating from "+ start_degrees + " to "+target_degrees);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -31,13 +32,13 @@ public class RotateDegrees extends Command {
     	error = target_degrees - Robot.kDrivetrain.getGyroAngle();
     	double left = error * Constants.DRIVE_ROTATE_P * -1;
     	double right = error * Constants.DRIVE_ROTATE_P ;
-    	System.out.println(""+error+" "+left+" "+right);
+    	//System.out.println(""+error+" "+left+" "+right);
     	Robot.kDrivetrain.setVelocityTargets(left, right);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(error) < 2;
+        return Math.abs(error) < 4;
     }
 
     // Called once after isFinished returns true

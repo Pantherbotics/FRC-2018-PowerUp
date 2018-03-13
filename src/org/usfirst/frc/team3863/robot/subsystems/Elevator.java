@@ -51,13 +51,14 @@ public class Elevator extends Subsystem {
         elevDriveTalon.config_kI(pid_id, Constants.ELEVATOR_PID_I, timeout_ms);
         elevDriveTalon.config_kD(pid_id, Constants.ELEVATOR_PID_D, timeout_ms);
         
+        elevDriveTalon.configMotionCruiseVelocity(Constants.ELEVATOR_PID_CRUISE_VEL, timeout_ms);
+        elevDriveTalon.configMotionAcceleration(Constants.ELEVATOR_PID_ACCELERATION, timeout_ms);
+        
         elevDriveTalon.configForwardSoftLimitThreshold(Constants.ELEVATOR_SOFT_LIMIT, timeout_ms);
         elevDriveTalon.configForwardSoftLimitEnable(true, timeout_ms);
         elevDriveTalon.configReverseSoftLimitThreshold(0, timeout_ms);
         elevDriveTalon.configReverseSoftLimitEnable(true, timeout_ms);
         
-        
-                
         setTargetPosition(elevDriveTalon.getSelectedSensorPosition(timeout_ms));
     }
     
@@ -65,11 +66,11 @@ public class Elevator extends Subsystem {
     	elevDriveTalon.configReverseSoftLimitEnable(true, timeout_ms);
     	if (new_target > Constants.ELEVATOR_SOFT_LIMIT) {
     		new_target = Constants.ELEVATOR_SOFT_LIMIT;
-    	}else if (new_target < 50) {
-    		new_target = 50;
+    	}else if (new_target < 5) {
+    		new_target = 5;
     	}
         target = new_target;
-    	elevDriveTalon.set(ControlMode.Position, new_target);
+    	elevDriveTalon.set(ControlMode.MotionMagic, new_target);
     }
     
     public void setMotorPower(double power) {
@@ -108,6 +109,10 @@ public class Elevator extends Subsystem {
 	
 	public double getHeightPercent() {
 		return (getPos() / Constants.ELEVATOR_SOFT_LIMIT);
+	}
+
+	public double getVel() {
+		return elevDriveTalon.getSelectedSensorVelocity(timeout_ms);
 	}
     
     

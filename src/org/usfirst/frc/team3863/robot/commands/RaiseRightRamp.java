@@ -5,15 +5,12 @@ import org.usfirst.frc.team3863.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * this code sucks - rewrite at some point!
+ *
  */
-public class DeployLeftRamp extends Command {
-	boolean can_retract;
-
-    public DeployLeftRamp(boolean retractable) {
+public class RaiseRightRamp extends Command {
+    public RaiseRightRamp() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.kRamps);
-        can_retract = retractable;
+        //requires(Robot.kRamps);
     }
 
     // Called just before this Command runs the first time
@@ -22,19 +19,17 @@ public class DeployLeftRamp extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (Robot.kRamps.is_left_ramp_deployed && !can_retract) {
-    		Robot.kRamps.liftLeftRamp();
-    	}else if (!can_retract){
-    		Robot.kRamps.deployLeftRamp();
+    	if (Robot.kRamps.is_right_ramp_deployed) {
+    		Robot.kRamps.liftRightRamp();
+    		System.out.println("Right Ramp Raised");
     	}else {
-    		Robot.kRamps.liftLeftRamp();
+    		System.out.println("Right Ramp Not Raised");
     	}
-    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return !can_retract;
+        return true;
     }
 
     // Called once after isFinished returns true
@@ -44,6 +39,5 @@ public class DeployLeftRamp extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.kRamps.retractLeftRamp();
     }
 }
