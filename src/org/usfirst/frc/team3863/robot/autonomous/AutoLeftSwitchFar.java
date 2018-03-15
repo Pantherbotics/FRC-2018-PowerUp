@@ -24,7 +24,7 @@ public class AutoLeftSwitchFar extends CommandGroup {
     	addSequential(new ElevatorSetpoint(1));
     	addSequential(new DriveForwardInches(245.0));
     	addSequential(new RotateDegrees(90 * right_invert));
-    	addSequential(new DriveForwardInches(128.0)); //real field: 200
+    	addSequential(new DriveForwardInches(128.0));
     	addSequential(new ElevatorSetpoint(3));
     	addSequential(new RotateDegrees(90 * right_invert));
     	addSequential(new OuttakeCube());
