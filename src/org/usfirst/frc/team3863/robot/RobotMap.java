@@ -39,11 +39,11 @@ public class RobotMap {
 	public static int PCM_INTAKE_RETRACT = 7;
 	public static int PCM_INTAKE_EXTEND = 6;
 	
-	public static int PCM_LEFT_RAMP_DEPLOY = 0;
-	public static int PCM_LEFT_RAMP_RETRACT = 1;
+	public static int PCM_LEFT_RAMP_DEPLOY = 1;
+	public static int PCM_LEFT_RAMP_RETRACT = 0;
 	
-	public static int PCM_RIGHT_RAMP_DEPLOY = 2;
-	public static int PCM_RIGHT_RAMP_RETRACT = 3;
+	public static int PCM_RIGHT_RAMP_DEPLOY = 3;
+	public static int PCM_RIGHT_RAMP_RETRACT = 2;
 	
 	//Sensor Inputs
 	public static int SENSOR_INTAKE_ULTRASONIC = 0;
