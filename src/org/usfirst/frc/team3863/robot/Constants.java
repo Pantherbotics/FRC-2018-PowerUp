@@ -15,6 +15,13 @@ public class Constants {
 	//TODO: TUNE ME!!!!
 	public static double DRIVE_ROTATE_P = 0.0111;
 	
+	//Auton Rotate PID
+	//TODO: TUNE ME @ PRACTICE FIELD!!!
+	public static double ROTATE_PID_F = 0.0;
+	public static double ROTATE_PID_P = 0.0111;
+	public static double ROTATE_PID_I = 0.0;
+	public static double ROTATE_PID_D = 0.0;
+	
 	//Seconds from neutral to full ramp
 	public static double DRIVE_RAMP_SECONDS = 0.2;
 	
@@ -23,6 +30,8 @@ public class Constants {
 	public static double DRIVE_PID_P = 0.6;
 	public static double DRIVE_PID_I = 0.000001;
 	public static double DRIVE_PID_D = 0.0000;
+	
+	
 	
 	//Maximum current draw for each drivetrain CANTalon
 	public static int DRIVE_CURRENT_LIMIT = 28;
