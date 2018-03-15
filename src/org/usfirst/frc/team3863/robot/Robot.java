@@ -155,6 +155,7 @@ public class Robot extends TimedRobot {
 		if (msg.length() < 3){
 			return false;
 		}
+		
 		boolean is_ds_right_side = ds.getLocation() == 3;
 		boolean is_goal_right_side = (msg.charAt(0) == 'R'); 
 		if (is_goal_right_side == is_ds_right_side) {

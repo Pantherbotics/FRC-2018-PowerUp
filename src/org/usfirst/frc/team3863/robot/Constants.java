@@ -20,9 +20,9 @@ public class Constants {
 	
 	//Drivetrain PID 
 	public static double DRIVE_PID_F = 0.0;
-	public static double DRIVE_PID_P = 0.60;
-	public static double DRIVE_PID_I = 0.00001;
-	public static double DRIVE_PID_D = 0.0001;
+	public static double DRIVE_PID_P = 0.6;
+	public static double DRIVE_PID_I = 0.000001;
+	public static double DRIVE_PID_D = 0.0000;
 	
 	//Maximum current draw for each drivetrain CANTalon
 	public static int DRIVE_CURRENT_LIMIT = 28;
