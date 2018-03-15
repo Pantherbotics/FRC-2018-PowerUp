@@ -3,8 +3,8 @@ package org.usfirst.frc.team3863.robot;
 public class Constants {
 	//Drivetrain ticks/rev
 	//TODO: CHANGE ME FOR COMPETITION ROBOT!!!!!!!!!!!!!!!!
-	//public static int DRIVE_ENCODER_TICKS = 1440;  //400: practice; 1440: competition 
-	public static int DRIVE_ENCODER_TICKS = 400;
+	public static int DRIVE_ENCODER_TICKS = 1440;  //400: practice; 1440: competition 
+	//public static int DRIVE_ENCODER_TICKS = 400;
 	public static double DRIVE_WHEEL_DIAMETER = 18.850;
 	public static double DRIVE_TRANSMISSION_RATIO = 2.4; //high speed is 2.4 times faster than low speed
 	
