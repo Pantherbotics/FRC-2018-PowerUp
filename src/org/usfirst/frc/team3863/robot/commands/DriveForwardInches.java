@@ -38,7 +38,7 @@ public class DriveForwardInches extends Command {
     	double err = Robot.kDrivetrain.pidErrorAverage();
     	//double currentPos[] = Robot.kDrivetrain.getEncoderPositions();
     	//double perr = ((currentPos[0] + currentPos[1]) /2) - targetPos;
-    	//System.out.println("err:"+(err));
+    	System.out.println("err:"+(err));
     	done = (Math.abs(err)<300 && !(err==0.0) && counter > 100);
     	counter += 1;
     }

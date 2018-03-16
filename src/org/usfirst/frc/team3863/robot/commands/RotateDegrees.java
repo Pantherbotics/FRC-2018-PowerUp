@@ -32,7 +32,7 @@ public class RotateDegrees extends Command {
     	error = target_degrees - Robot.kDrivetrain.getGyroAngle();
     	double left = error * Constants.DRIVE_ROTATE_P * -1;
     	double right = error * Constants.DRIVE_ROTATE_P ;
-    	//System.out.println(""+error+" "+left+" "+right);
+    	System.out.println(""+error+" "+left+" "+right);
     	Robot.kDrivetrain.setVelocityTargets(left, right);
     }
 
