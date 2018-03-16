@@ -75,8 +75,12 @@ public class TeleopDualPartnerController extends Command {
     	}
     	    	
     	if (Robot.m_oi.auxPartnerStart.get() && Robot.m_oi.auxPartnerBack.get()) {
-    		Robot.kRamps.deployLeftRamp();
-    		Robot.kRamps.deployRightRamp();
+    		if (!Robot.kRamps.is_left_ramp_deployed) {
+    			Robot.kRamps.deployLeftRamp();
+    		}
+    		if (!Robot.kRamps.is_right_ramp_deployed) {
+    			Robot.kRamps.deployRightRamp();
+    		}
     	}
     	
     }
