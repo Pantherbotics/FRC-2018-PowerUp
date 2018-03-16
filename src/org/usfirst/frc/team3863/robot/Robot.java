@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 import org.usfirst.frc.team3863.robot.autonomous.AutoBaseline;
+import org.usfirst.frc.team3863.robot.autonomous.AutoBaselineOpenLoop;
 import org.usfirst.frc.team3863.robot.autonomous.AutoLeftSwitchFar;
 import org.usfirst.frc.team3863.robot.autonomous.AutoLeftSwitchNear;
 import org.usfirst.frc.team3863.robot.commands.ZeroLift;
@@ -195,7 +196,11 @@ public class Robot extends TimedRobot {
 		 		return true;
 		    case 2: 
 		 		m_autonomousCommand = new AutoBaseline();
-		 		System.out.println("Baseline auto mode selected");
+		 		System.out.println("PID Baseline auto mode selected");
+		 		return false;
+		    case 3: 
+		 		m_autonomousCommand = new AutoBaselineOpenLoop();
+		 		System.out.println("Openloop Baseline auto mode selected");
 		 		return false;
 		 	default:
 		 		m_autonomousCommand = null;
@@ -219,7 +224,8 @@ public class Robot extends TimedRobot {
 		//The options are integers, accessed later via a switch statement. 
 		m_chooser.addDefault("None", 0);
 		m_chooser.addObject("AutoSelect Score Switch", 1);
-		m_chooser.addObject("Baseline", 2);
+		m_chooser.addObject("[PID] Baseline", 2);
+		m_chooser.addObject("[OPL] Baseline", 3);
 		SmartDashboard.putData("Auto mode", m_chooser);
 		
 		//Add options to the Drive Mode chooser, and add it to the SmartDashboard
