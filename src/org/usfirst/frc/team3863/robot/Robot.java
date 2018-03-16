@@ -76,6 +76,7 @@ public class Robot extends TimedRobot {
 	
 	public boolean is_auton_started = false;
 	boolean does_auto_need_field_data = false;
+	int override_ds_loc = -1;
 	
 	Timer timerInstance = new Timer();
 	
@@ -151,15 +152,24 @@ public class Robot extends TimedRobot {
 	/**
 	 * Determine which autonomous mode should run (based on SmartDashboard selection AND field state)
 	 */
-	public boolean runAutoWithFieldData() {
+	public boolean runAutoWithFieldData(int force_ds_location) {
 		String msg = ds.getGameSpecificMessage();
+		int ds_loc;
 		if (msg.length() < 3){
 			return false;
 		}
+		if (force_ds_location > 0) {
+			ds_loc = force_ds_location;
+			System.out.println("Overriding DS Location (field: " +  ds.getLocation() + ")");
+		}else {
+			ds_loc = ds.getLocation();
+		}
 		
-		boolean is_ds_right_side = ds.getLocation() == 3;
-		System.out.println("We are in DS #" + ds.getLocation());
+		boolean is_ds_right_side = (ds_loc == 3);
+		System.out.println("We are in DS #" + ds_loc);
+		
 		boolean is_goal_right_side = (msg.charAt(0) == 'R'); 
+		
 		if (is_goal_right_side == is_ds_right_side) {
 			if (is_ds_right_side) {
 				System.out.println("AUTON: Near Right Switch");
@@ -192,8 +202,20 @@ public class Robot extends TimedRobot {
 		switch(ds_choice) { 
 			//Option 1: Automatically determine auton mode based on field status
 		 	case 1:
-		 		System.out.println("Waiting for field data...");
+		 		System.out.println("Automatic DS switch auto mode selected");
+		 		override_ds_loc = -1;
 		 		return true;
+		 		
+		 	case 4:
+		 		System.out.println("Override Left switch auto mode selected");
+		 		override_ds_loc = 1;
+		 		return true;
+		 		
+		 	case 5:
+		 		System.out.println("Override Right  switch auto mode selected");
+		 		override_ds_loc = 3;
+		 		return true;
+		 		
 		    case 2: 
 		 		m_autonomousCommand = new AutoBaseline();
 		 		System.out.println("PID Baseline auto mode selected");
@@ -224,8 +246,10 @@ public class Robot extends TimedRobot {
 		//The options are integers, accessed later via a switch statement. 
 		m_chooser.addDefault("None", 0);
 		m_chooser.addObject("AutoSelect Score Switch", 1);
+		m_chooser.addObject("Left Score Switch", 4);
+		m_chooser.addObject("Right Score Switch", 5);
 		m_chooser.addObject("[PID] Baseline", 2);
-		m_chooser.addObject("[OPL] Baseline", 3);
+		m_chooser.addObject("[PWR] Baseline", 3);
 		SmartDashboard.putData("Auto mode", m_chooser);
 		
 		//Add options to the Drive Mode chooser, and add it to the SmartDashboard
@@ -304,9 +328,12 @@ public class Robot extends TimedRobot {
 		//updateSmartDashboard();
 		is_auton_started = false;
 		does_auto_need_field_data = false;
-		
+		override_ds_loc = -1;
 		
 		does_auto_need_field_data = selectAuto();
+		if (does_auto_need_field_data) {
+			System.out.println("Waiting for field data...");
+		}
 		
 		kDrivetrain.zero_gyro();
 				
@@ -322,7 +349,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		if (does_auto_need_field_data) {
-			boolean has_field_data = runAutoWithFieldData();
+			boolean has_field_data = runAutoWithFieldData(override_ds_loc);
 			if (has_field_data) {
 				does_auto_need_field_data = false;
 				System.out.println("Auton field data registered");
