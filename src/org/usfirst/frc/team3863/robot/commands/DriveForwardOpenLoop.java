@@ -25,7 +25,8 @@ public class DriveForwardOpenLoop extends Command {
     	//double currentPos[] = Robot.kDrivetrain.getEncoderPositions();
     	done = false;
     	counter = 0;
-    	Robot.kDrivetrain.setDrivePower(-0.9, -0.9);
+    	Robot.kDrivetrain.setTransmissionLow();
+    	Robot.kDrivetrain.setDrivePower(-0.75, -0.75);
     	//targetPos = ((currentPos[0] + currentPos[1]) /2) - ticks;
     	
     }
