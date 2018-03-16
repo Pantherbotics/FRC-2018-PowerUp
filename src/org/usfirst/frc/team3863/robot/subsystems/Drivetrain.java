@@ -161,6 +161,11 @@ public class Drivetrain extends Subsystem {
 		return ahrs_gyro.getAngle();
 		
 	}
+	
+	public void updateAutoTransmission() {
+		//Upshift higher than downshift
+		
+	}
 
     
 }
