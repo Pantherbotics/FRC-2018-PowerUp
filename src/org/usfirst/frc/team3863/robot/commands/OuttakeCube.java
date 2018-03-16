@@ -24,7 +24,7 @@ public class OuttakeCube extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.kIntake.setIntakeWheelPower(Constants.INTAKE_MOTOR_POWER);
-    	Robot.kIntake.openClaw();
+    	//Robot.kIntake.openClaw();
     	counter += 1;
     }
 
