@@ -30,7 +30,7 @@ public class OuttakeCube extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return counter > 100;
+        return counter > 40;
     }
 
     // Called once after isFinished returns true
