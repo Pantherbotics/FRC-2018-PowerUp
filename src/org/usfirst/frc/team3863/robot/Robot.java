@@ -184,6 +184,7 @@ public class Robot extends TimedRobot {
 		 		return true;
 		    case 2: 
 		 		m_autonomousCommand = new AutoBaseline();
+		 		System.out.println("Baseline auto mode selected");
 		 		return false;
 		 	default:
 		 		m_autonomousCommand = null;
