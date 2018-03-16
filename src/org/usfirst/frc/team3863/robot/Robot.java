@@ -157,12 +157,23 @@ public class Robot extends TimedRobot {
 		}
 		
 		boolean is_ds_right_side = ds.getLocation() == 3;
+		System.out.println("We are in DS #" + ds.getLocation());
 		boolean is_goal_right_side = (msg.charAt(0) == 'R'); 
 		if (is_goal_right_side == is_ds_right_side) {
+			if (is_ds_right_side) {
+				System.out.println("AUTON: Near Right Switch");
+			}else {
+				System.out.println("AUTON: Near Left Switch");
+			}
 			m_autonomousCommand = new AutoLeftSwitchNear(is_ds_right_side);
 			m_autonomousCommand.start();
 			return true;
 		}else if (is_goal_right_side != is_ds_right_side) {
+			if (is_ds_right_side) {
+				System.out.println("AUTON: Far Right Switch");
+			}else {
+				System.out.println("AUTON: Far Left Switch");
+			}
 			m_autonomousCommand = new AutoLeftSwitchFar(is_ds_right_side);
 			m_autonomousCommand.start();
 			return true;
