@@ -8,6 +8,11 @@ public class Constants {
 	public static double DRIVE_WHEEL_DIAMETER = 18.850;
 	public static double DRIVE_TRANSMISSION_RATIO = 2.4; //high speed is 2.4 times faster than low speed
 	
+	public static double DRIVE_TRANSMISSION_LOW_SPEED = 600;
+	public static double DRIVE_TRANSMISSION_HIGH_MIN_SPEED_PERCENT = 0.6;
+	public static double DRIVE_TRANSMISSION_UPSHIFT_SPEED_PERCENT = 0.6;
+	public static double DRIVE_TRANSMISSION_DOWNSHIFT_SPEED_PERCENT = 0.20;
+	
 	//Drivetrain ticks/rev
 	public static int LIFT_ENCODER_TICKS = 100;
 	

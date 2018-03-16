@@ -325,6 +325,8 @@ public class Robot extends TimedRobot {
 			//Update the SmartDashboard with debug + state info
 			updateSmartDashboard();
 		}
+		
+		Robot.kDrivetrain.updateAutoTransmission();
 	}
 
 	@Override
@@ -367,6 +369,8 @@ public class Robot extends TimedRobot {
 			//Update the SmartDashboard with debug + state info
 			updateSmartDashboard();
 		}
+		
+		Robot.kDrivetrain.updateAutoTransmission();
 	}
 
 	/**
