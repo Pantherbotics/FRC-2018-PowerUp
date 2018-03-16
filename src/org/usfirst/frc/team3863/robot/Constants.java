@@ -67,9 +67,12 @@ public class Constants {
 	                                        5450};//Max Travel
 	
 	//Ramp servo angles
-	public static double RAMP_SERVO_LEFT_LATCH_ANGLE = 90;
-	public static double RAMP_SERVO_RIGHT_LATCH_ANGLE = 90;
-	public static double RAMP_SERVO_RIGHT_OPEN_ANGLE = -90;
-	public static double RAMP_SERVO_LEFT_OPEN_ANGLE = -170;
+	public static double RAMP_SERVO_LEFT_OFFSET = 75;
+	public static double RAMP_SERVO_RIGHT_OFFSET = -90;
+	
+	public static double RAMP_SERVO_LEFT_LATCH_ANGLE = 0 + RAMP_SERVO_LEFT_OFFSET;
+	public static double RAMP_SERVO_RIGHT_LATCH_ANGLE = 200 + RAMP_SERVO_RIGHT_OFFSET;
+	public static double RAMP_SERVO_LEFT_OPEN_ANGLE = 35 + RAMP_SERVO_LEFT_OFFSET;
+	public static double RAMP_SERVO_RIGHT_OPEN_ANGLE = 160 + RAMP_SERVO_RIGHT_OFFSET;
  	
 }
