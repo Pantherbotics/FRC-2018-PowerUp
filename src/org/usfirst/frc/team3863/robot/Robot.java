@@ -346,10 +346,12 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		
+		//Stop the auton command if it is running
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
 		
+		//Stop the teleop drive command if it is running
 		if (m_teleopDriveCommand != null) {
 			m_teleopDriveCommand.cancel();
 		}
