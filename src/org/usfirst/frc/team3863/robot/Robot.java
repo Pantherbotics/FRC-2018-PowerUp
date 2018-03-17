@@ -75,10 +75,15 @@ public class Robot extends TimedRobot {
 	//SmartDashboard dropdown menu for selecting teleop drive modes. 
 	SendableChooser<Command> m_drivechooser = new SendableChooser<Command>(); 
 	
+	//True if autonomous command has been started (prevents starting it multiple times)
 	public boolean is_auton_started = false;
+	//True if autonomous mode depends on FMS data (switch/scale position)
 	boolean does_auto_need_field_data = false;
+	//-1 if we want to use the DS position as the robot position, 
+	//otherwise 1,2,3 for L,C,R robot positions
 	int override_ds_loc = -1;
 	
+	//Timer to limit number of SmartDashboard updates per second
 	Timer timerInstance = new Timer();
 	
 	/**
@@ -131,21 +136,25 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Left Velocity", vels[0]);
         SmartDashboard.putNumber("Right Velocity", vels[1]);
         
-        //Add the elevator's target position, and actual position to the SmartDashboard
+        //Add the Drivetrain L/R encoder positions to the SmartDashboard
         double[] poss = kDrivetrain.getEncoderPositions();
         SmartDashboard.putNumber("Left Pos", poss[0]);
         SmartDashboard.putNumber("Right Pos", poss[1]);
         
+        //Add the elevator's target position, and actual position to the SmartDashboard
         SmartDashboard.putNumber("Elevator target", kElevator.target);
     	SmartDashboard.putNumber("Elevator pos", kElevator.getPos());
     	SmartDashboard.putBoolean("ElevatorLimit", kElevator.isLiftLowered());
     	
+    	//Add the gyro angle 
     	SmartDashboard.putNumber("Gyro", kDrivetrain.getGyroAngle());
     	
+    	//Add the Ultrasonic and IR sensors (freq and voltage)
     	SmartDashboard.putNumber("IntakeUltrasonic", kIntake.getAverageDistance());    
     	SmartDashboard.putNumber("IntakeLeftIR", kIntake.getLeftIR()); 
     	SmartDashboard.putNumber("IntakeRightIR", kIntake.getRightIR()); 
     	
+    	//Add the elevator's velocity
     	SmartDashboard.putNumber("elevVelocity", kElevator.getVel());
     	    	
 	}
@@ -154,49 +163,70 @@ public class Robot extends TimedRobot {
 	 * Determine which autonomous mode should run (based on SmartDashboard selection AND field state)
 	 */
 	public boolean runAutoWithFieldData(int force_ds_location) {
+		//Get the FMS field data (example: "LRL"
+		// L <== Our switch scoring position
+		// R <== Center scale scoring position
+		// L <== Opponent's switch scoring position
 		String msg = ds.getGameSpecificMessage();
-		int ds_loc;
+		
+		//Don't process anything because we don't have valid field data yet
+		//Tell autonomousPeriodic that we are still waiting for FMS data
 		if (msg.length() < 3){
 			return false;
 		}
+		
+		//Will store Robot/Driverstation location (1,2,3 for Left, Center, Right)
+		int ds_loc;
+	
+		//If we want to override the DS/robot location, set ds_loc to the
+		//override value, otherwise get the DS/robot location from the field
 		if (force_ds_location > 0) {
 			ds_loc = force_ds_location;
 			System.out.println("Overriding DS Location (field: " +  ds.getLocation() + ")");
 		}else {
 			ds_loc = ds.getLocation();
 		}
-		
-		boolean is_ds_right_side = (ds_loc == 3);
 		System.out.println("We are in DS #" + ds_loc);
 		
+		//Test both the robot and goal locations
+		boolean is_ds_right_side = (ds_loc == 3);
 		boolean is_goal_right_side = (msg.charAt(0) == 'R'); 
 		
-		if (ds_loc == 2) { //Centered!
+		//Center auto for robot in center of field
+		if (ds_loc == 2) { 
 			if (is_goal_right_side) {
 				System.out.println("AUTON: Center Right Switch");
 			}else {
 				System.out.println("AUTON: Center Left Switch");
 			}
+			// Center switch auto, runs left side of field by default. 
+			// When is_goal_right_side is true, the auto mode will 
+			// go to the right side
 			m_autonomousCommand = new AutoLeftSwitchCenter(is_goal_right_side);
 			m_autonomousCommand.start();
 			return true;
 		}
 		
+		//Near auto when robot and goal are on the same side
 		if (is_goal_right_side == is_ds_right_side) {
 			if (is_ds_right_side) {
 				System.out.println("AUTON: Near Right Switch");
 			}else {
 				System.out.println("AUTON: Near Left Switch");
 			}
+			// Near switch auto, runs left side of field by default. 
 			m_autonomousCommand = new AutoLeftSwitchNear(is_ds_right_side);
 			m_autonomousCommand.start();
 			return true;
+		
+		//Far auto when robot and goal are on opposite sides
 		}else if (is_goal_right_side != is_ds_right_side) {
 			if (is_ds_right_side) {
 				System.out.println("AUTON: Far Right Switch");
 			}else {
 				System.out.println("AUTON: Far Left Switch");
 			}
+			// Far switch auto, runs left side of field by default. 
 			m_autonomousCommand = new AutoLeftSwitchFar(is_ds_right_side);
 			m_autonomousCommand.start();
 			return true;
@@ -212,35 +242,43 @@ public class Robot extends TimedRobot {
 	boolean selectAuto() {
 		int ds_choice = m_chooser.getSelected();
 		switch(ds_choice) { 
-			//Option 1: Automatically determine auton mode based on field status
+			//Automatically determine robot location from DS location, and run switch auto
 		 	case 1:
 		 		System.out.println("Automatic DS switch auto mode selected");
 		 		override_ds_loc = -1;
 		 		return true;
 		 		
+		 	//Force robot to left side of field, and run switch auto
 		 	case 4:
 		 		System.out.println("Override Left switch auto mode selected");
 		 		override_ds_loc = 1;
 		 		return true;
 		 		
+		 	//Force robot to right side of field, and run switch auto	
 		 	case 5:
 		 		System.out.println("Override Right switch auto mode selected");
 		 		override_ds_loc = 3;
 		 		return true;
 		 		
+		 	//Force robot to Center side of field, and run switch auto
 		 	case 6:
 		 		System.out.println("Override Center switch auto mode selected");
 		 		override_ds_loc = 2;
 		 		return true;
 		 		
+		 	//Run Baseline with PID control
 		    case 2: 
 		 		m_autonomousCommand = new AutoBaseline();
 		 		System.out.println("PID Baseline auto mode selected");
 		 		return false;
+		    
+		 	//Run Baseline without PID control (OpenLoop)
 		    case 3: 
 		 		m_autonomousCommand = new AutoBaselineOpenLoop();
 		 		System.out.println("Openloop Baseline auto mode selected");
 		 		return false;
+		 		
+		 	//No auton selected
 		 	default:
 		 		m_autonomousCommand = null;
 		 		return false;
@@ -278,19 +316,21 @@ public class Robot extends TimedRobot {
 		m_drivechooser.addObject("[PWR] Dual Partner Controller", new TeleopDualPartnerController(false));
 		SmartDashboard.putData("Teleop Drive mode", m_drivechooser);
 		
-		//Initalize the Drivetrain subsystem, and add to the SmartDashboard
+		//Initialize the Drivetrain subsystem, and add to the SmartDashboard
 		kDrivetrain.init();
 		SmartDashboard.putData("Drivetrain", kDrivetrain);
 		
 		kIntake.init();
 		SmartDashboard.putData("Intake", kIntake);
 		
-		//Initalize the Elevator subsystem and add to the SmartDashboard
+		//Initialize the Elevator subsystem and add to the SmartDashboard
 		kElevator.initPID();
 		SmartDashboard.putData("Elevator", kElevator);
 		
+		//Initialize Ramp subsystem (set to default safe state)
 		kRamps.init();
 		
+		//Enable the USB CameraServers
 		kCameras.enableCameras();
 		
 		//Reset the SmartDashboard auton description
