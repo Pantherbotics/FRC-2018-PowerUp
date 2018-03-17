@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 import org.usfirst.frc.team3863.robot.autonomous.AutoBaseline;
 import org.usfirst.frc.team3863.robot.autonomous.AutoBaselineOpenLoop;
+import org.usfirst.frc.team3863.robot.autonomous.AutoLeftSwitchCenter;
 import org.usfirst.frc.team3863.robot.autonomous.AutoLeftSwitchFar;
 import org.usfirst.frc.team3863.robot.autonomous.AutoLeftSwitchNear;
 import org.usfirst.frc.team3863.robot.commands.ZeroLift;
@@ -170,6 +171,17 @@ public class Robot extends TimedRobot {
 		
 		boolean is_goal_right_side = (msg.charAt(0) == 'R'); 
 		
+		if (ds_loc == 2) { //Centered!
+			if (is_goal_right_side) {
+				System.out.println("AUTON: Center Right Switch");
+			}else {
+				System.out.println("AUTON: Center Left Switch");
+			}
+			m_autonomousCommand = new AutoLeftSwitchCenter(is_goal_right_side);
+			m_autonomousCommand.start();
+			return true;
+		}
+		
 		if (is_goal_right_side == is_ds_right_side) {
 			if (is_ds_right_side) {
 				System.out.println("AUTON: Near Right Switch");
@@ -212,8 +224,13 @@ public class Robot extends TimedRobot {
 		 		return true;
 		 		
 		 	case 5:
-		 		System.out.println("Override Right  switch auto mode selected");
+		 		System.out.println("Override Right switch auto mode selected");
 		 		override_ds_loc = 3;
+		 		return true;
+		 		
+		 	case 6:
+		 		System.out.println("Override Center switch auto mode selected");
+		 		override_ds_loc = 2;
 		 		return true;
 		 		
 		    case 2: 
@@ -247,6 +264,7 @@ public class Robot extends TimedRobot {
 		m_chooser.addDefault("None", 0);
 		m_chooser.addObject("AutoSelect Score Switch", 1);
 		m_chooser.addObject("Left Score Switch", 4);
+		m_chooser.addObject("Center Score Switch", 6);
 		m_chooser.addObject("Right Score Switch", 5);
 		m_chooser.addObject("[PID] Baseline", 2);
 		m_chooser.addObject("[PWR] Baseline", 3);
