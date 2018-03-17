@@ -36,9 +36,10 @@ public class DriveForwardInches extends Command {
     protected void execute() {
     	//Black voodoo magic to calculate PID AND drive error
     	double err = Robot.kDrivetrain.pidErrorAverage();
+    	double[] vels = Robot.kDrivetrain.getEncoderVelocities();
     	//double currentPos[] = Robot.kDrivetrain.getEncoderPositions();
     	//double perr = ((currentPos[0] + currentPos[1]) /2) - targetPos;
-    	System.out.println("err:"+(err));
+    	System.out.println("err: "+err+"vLeft: "+vels[0]+" vRight: "+vels[1]);
     	done = (Math.abs(err)<300 && !(err==0.0) && counter > 100);
     	counter += 1;
     }
