@@ -67,8 +67,8 @@ public class TeleopDualPartnerController extends Command {
   
     	
     	double elevDampen = 1.0 - Robot.kElevator.getHeightPercent();
-    	if (elevDampen < 0.6) {
-    		elevDampen = 0.6;
+    	if (elevDampen < 0.8) {
+    		elevDampen = 0.8;
     	}
     	
     	if (lastPRY == -20 || lastPRY != partnerRY) {
