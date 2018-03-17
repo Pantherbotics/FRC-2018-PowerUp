@@ -30,7 +30,7 @@ public class TeleopDualPartnerController extends Command {
     	double twist = Robot.m_oi.partnerController.getZ();
     	double y = Robot.m_oi.partnerController.getY();
     	double partnerY = Robot.m_oi.auxPartnerController.getY();
-    	double partnerRY = Robot.m_oi.auxPartnerController.getZ();
+    	double partnerRY = Robot.m_oi.auxPartnerController.getRawAxis(3);
     	
     	int auxPov = Robot.m_oi.auxPartnerController.getPOV();
     	if (Math.abs(twist) <= Constants.CONTROLLER_DEADBAND) { twist = 0;}
@@ -77,7 +77,7 @@ public class TeleopDualPartnerController extends Command {
     			System.out.println("Partner Override Zero Intake");
     		}
     		if (Math.abs(partnerRY) != 0) {
-        		Robot.kIntake.setIntakeWheelPower(partnerRY);
+        		Robot.kIntake.setIntakeWheelPower(-partnerRY);
         	}
     		lastPRY = partnerRY;
     	}
