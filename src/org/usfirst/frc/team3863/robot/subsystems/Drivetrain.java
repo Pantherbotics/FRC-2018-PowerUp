@@ -13,8 +13,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
-import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 /**
  Controls the four CANTalons dedicated to the Drivetrain
  */
@@ -162,12 +160,6 @@ public class Drivetrain extends Subsystem {
 		//System.out.println(ahrs_gyro.getCompassHeading());
 		return ahrs_gyro.getAngle();
 		
-	}
-	
-	public void patchEncoder() {
-		talonRightA.configRemoteFeedbackFilter(talonLeftA.getDeviceID(),
-				                               RemoteSensorSource.TalonSRX_SelectedSensor, 
-				                               pid_id, timeout_ms);
 	}
 
     
