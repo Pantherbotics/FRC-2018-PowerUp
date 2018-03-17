@@ -227,7 +227,7 @@ public class Robot extends TimedRobot {
 				System.out.println("AUTON: Far Left Switch");
 			}
 			// Far switch auto, runs left side of field by default. 
-			m_autonomousCommand = new AutoLeftSwitchFar(is_ds_right_side);
+			//m_autonomousCommand = new AutoLeftSwitchFar(is_ds_right_side);
 			m_autonomousCommand.start();
 			return true;
 		}else {
