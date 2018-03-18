@@ -21,9 +21,8 @@ public class AutoLeftSwitchNear extends CommandGroup {
         	//System.out.println("Near Auto Left");
         }
     	
-    	addSequential(new DeployIntake());
-    	addSequential(new ElevatorSetpoint(2));
-    	addSequential(new DriveForwardInches(115.0));
+    	addSequential(new DriveForwardInches(135.0));
+    	addSequential(new ElevatorSetpoint(3));
     	addSequential(new RotateDegrees(90 * right_invert));
     	addSequential(new OuttakeCube());
     }

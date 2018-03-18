@@ -18,7 +18,7 @@ public class DeployIntake extends Command {
     protected void initialize() {
     	counter = 0;
     	//Robot.kIntake.setIntakeWheelPower(-1);
-    	Robot.kIntake.openClaw();
+    	//Robot.kIntake.openClaw();
     	
     }
 
@@ -34,7 +34,7 @@ public class DeployIntake extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.kIntake.closeClaw();
+    	//Robot.kIntake.closeClaw();
     }
 
     // Called when another command which requires one or more of the same

@@ -99,6 +99,7 @@ public class Intake extends Subsystem {
     	return rightIRSensor.getVoltage();
     }
     
+    //TODO: Remove Magic Numbers, they are evil!!!
     private boolean isIRCubeEmpty(double voltage) {
     	//0.2 = open
     	//1.5 = cube in
@@ -107,7 +108,7 @@ public class Intake extends Subsystem {
     }
     
     private boolean isIRCubeInIntake(double voltage) {
-    	return (Math.abs(voltage - 1.0) < 0.3);
+    	return (Math.abs(voltage - 1.5) < 0.3);
     }
     
     private boolean isIRCubeInfrontOfIntake(double voltage) {

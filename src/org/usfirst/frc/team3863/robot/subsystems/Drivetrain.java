@@ -57,6 +57,11 @@ public class Drivetrain extends Subsystem {
     	talonRightA.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT, timeout_ms);
     	talonRightB.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT, timeout_ms);
     	
+    	talonLeftA.configClosedloopRamp(Constants.DRIVE_RAMP_SECONDS, timeout_ms);
+    	talonLeftB.configClosedloopRamp(Constants.DRIVE_RAMP_SECONDS, timeout_ms);
+    	talonRightA.configClosedloopRamp(Constants.DRIVE_RAMP_SECONDS, timeout_ms);
+    	talonRightB.configClosedloopRamp(Constants.DRIVE_RAMP_SECONDS, timeout_ms);
+    	
     	initPID(1);
     	
     	zero_gyro();
@@ -108,8 +113,8 @@ public class Drivetrain extends Subsystem {
     }
     
     public void setPositionTargetIncrements(double leftOffset, double rightOffset) {
-    	double lTarget = talonLeftA.getSelectedSensorPosition(timeout_ms) + leftOffset;
-    	double rTarget = talonRightA.getSelectedSensorPosition(timeout_ms) + rightOffset;
+    	double lTarget = talonLeftA.get() + leftOffset;
+    	double rTarget = talonRightA.get() + rightOffset;
     	talonLeftA.set(ControlMode.Position, lTarget);
     	talonRightA.set(ControlMode.Position, rTarget);
     }
@@ -136,6 +141,13 @@ public class Drivetrain extends Subsystem {
 		
 	}
 	
+	public void zeroEncoderPositions() {
+		talonLeftA.set(ControlMode.Position, 0);
+    	talonRightA.set(ControlMode.Position, 0);
+		talonLeftA.setSelectedSensorPosition(0, pid_id, timeout_ms);
+		talonRightA.setSelectedSensorPosition(0, pid_id, timeout_ms);
+	}
+	
 	public void zero_gyro() {
 		System.out.print("Zeroing Gyro...");
 		ahrs_gyro.reset();
@@ -149,7 +161,7 @@ public class Drivetrain extends Subsystem {
 		return ahrs_gyro.getAngle();
 		
 	}
-	
+
     
 }
 
