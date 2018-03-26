@@ -21,6 +21,7 @@ import org.usfirst.frc.team3863.robot.autonomous.AutoLeftSwitchFar;
 import org.usfirst.frc.team3863.robot.autonomous.AutoLeftSwitchNear;
 import org.usfirst.frc.team3863.robot.commands.ZeroLift;
 import org.usfirst.frc.team3863.robot.subsystems.Cameras;
+import org.usfirst.frc.team3863.robot.subsystems.Climber;
 import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3863.robot.subsystems.Elevator;
 import org.usfirst.frc.team3863.robot.subsystems.Intake;
@@ -46,6 +47,8 @@ public class Robot extends TimedRobot {
 	public static final Elevator kElevator = new Elevator();        
 	//Instance of the Intake subsystem. Controls Intake wheels + servo arm. 
 	public static final Intake kIntake = new Intake(); 
+	
+	public static final Climber kClimber = new Climber();
 	
 	//Previous Message - Previous Driverstation Select
     String PrevMsg = "";
@@ -144,6 +147,7 @@ public class Robot extends TimedRobot {
     	SmartDashboard.putNumber("IntakeRightIR", kIntake.getRightIR()); 
     	
     	SmartDashboard.putNumber("elevVelocity", kElevator.getVel());
+    	SmartDashboard.putNumber("Hook Arm Position", kClimber.getArmPos());
     	    	
 	}
 	
