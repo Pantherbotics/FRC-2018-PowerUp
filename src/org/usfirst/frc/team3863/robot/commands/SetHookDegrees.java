@@ -1,15 +1,20 @@
 package org.usfirst.frc.team3863.robot.commands;
 
+import org.usfirst.frc.team3863.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
 public class SetHookDegrees extends Command {
+	private double setpoint;
 
-    public SetHookDegrees() {
+    public SetHookDegrees(double degrees) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.kClimber);
+    	setpoint = ((degrees%360)/360)*4096;
     }
 
     // Called just before this Command runs the first time
@@ -18,6 +23,7 @@ public class SetHookDegrees extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.kClimber.setArmPos(setpoint);
     }
 
     // Make this return true when this Command no longer needs to run execute()

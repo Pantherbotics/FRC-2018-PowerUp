@@ -26,7 +26,10 @@ public class RobotMap {
 	//Intake CAN IDs
 	public static int LEFT_INTAKE_TALON_ID = 0;
 	public static int RIGHT_INTAKE_TALON_ID = 1;
-	public static int INTAKE_PIVOT_TALON_ID = 15;
+	
+	//Climber CAN IDs
+	public static int CLIMBER_WINCH_TALON_ID = 15;
+	public static int CLIMBER_ARM_TALON_ID = 4;
 	
 	//PCM and PDP CAN IDs (defaults to 0, IDs only need to be unique across the same type)
 	public static int PDP_ID = 0;

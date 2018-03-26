@@ -71,5 +71,11 @@ public class Constants {
 	public static double RAMP_SERVO_RIGHT_LATCH_ANGLE = 90;
 	public static double RAMP_SERVO_RIGHT_OPEN_ANGLE = -90;
 	public static double RAMP_SERVO_LEFT_OPEN_ANGLE = -170;
+	
+	//Hook Delivery Arm PID
+	public static double HOOK_PID_P = 0.0;
+	public static double HOOK_PID_I = 0.0;
+	public static double HOOK_PID_D = 0.0;
+	
  	
 }

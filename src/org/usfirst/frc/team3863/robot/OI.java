@@ -15,6 +15,8 @@ import org.usfirst.frc.team3863.robot.commands.OuttakeCube;
 import org.usfirst.frc.team3863.robot.commands.AutoIntake;
 import org.usfirst.frc.team3863.robot.commands.RaiseLeftRamp;
 import org.usfirst.frc.team3863.robot.commands.RaiseRightRamp;
+import org.usfirst.frc.team3863.robot.commands.RunClimber;
+import org.usfirst.frc.team3863.robot.commands.SetHookDegrees;
 import org.usfirst.frc.team3863.robot.commands.EnableIntakeWheels;
 import org.usfirst.frc.team3863.robot.commands.IntakeClaw;
 import org.usfirst.frc.team3863.robot.commands.ToggleTransmissionState;
@@ -133,6 +135,9 @@ public class OI {
 		
 		partnerControlA.whenPressed(new TransmissionLowGear());
 		partnerControlB.whenPressed(new TransmissionHighGear());
+		
+		partnerButtonX.whenPressed(new RunClimber());
+		partnerButtonY.whenPressed(new SetHookDegrees(90));
 		
 		auxPartnerY.whenPressed(new OuttakeCube());
 		auxPartnerA.whenPressed(new AutoIntake());
