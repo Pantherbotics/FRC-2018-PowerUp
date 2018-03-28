@@ -138,7 +138,7 @@ public class OI {
 		partnerControlA.whenPressed(new TransmissionLowGear());
 		partnerControlB.whenPressed(new TransmissionHighGear());
 		
-		partnerButtonX.whenPressed(new RunClimber());
+		partnerButtonX.whileHeld(new RunClimber());
 		partnerButtonY.whenPressed(new RaiseHook());
 		partnerButtonA.whenPressed(new LowerHook());
 		
