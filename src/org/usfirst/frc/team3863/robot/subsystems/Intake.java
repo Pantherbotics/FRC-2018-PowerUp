@@ -48,6 +48,7 @@ public class Intake extends Subsystem {
     }
     
     public void setIntakeWheelPower(double power) {
+    	if(power < 0.1){power =0.2;}
     	leftIntakeTalon.set(ControlMode.PercentOutput, power);
     	rightIntakeTalon.set(ControlMode.PercentOutput, -power);
     }
