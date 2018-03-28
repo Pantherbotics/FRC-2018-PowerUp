@@ -38,6 +38,8 @@ public class Intake extends Subsystem {
 		leftIntakeTalon.enableCurrentLimit(true);
 		rightIntakeTalon.configContinuousCurrentLimit(Constants.INTAKE_CURRENT_LIMIT, timeout_ms);
 		rightIntakeTalon.enableCurrentLimit(true);
+		leftIntakeTalon.enableVoltageCompensation(true);
+		rightIntakeTalon.enableVoltageCompensation(true);
 		
 		ultrasonicCounter.setSemiPeriodMode(false);
 	}
