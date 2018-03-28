@@ -62,7 +62,7 @@ public class Constants {
 	public static int[] ELEVATOR_PRESETS = {5,    //Bottom 
 			                                500,  //Slightly Raised (off the ground)
 	                                        800,  //HumanPlayer station
-	                                        1750, //Switch
+	                                        1850, //Switch
 	                                        5000, //Scale
 	                                        5450};//Max Travel
 	
