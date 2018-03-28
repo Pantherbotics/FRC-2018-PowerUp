@@ -8,26 +8,25 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */   
-public class DriveForwardInches extends Command {
-	double distance;
+public class DriveForwardOpenLoop extends Command {
+	double loops;
 	boolean done = false;
 	double counter = 0;
 	  
-    public DriveForwardInches(double inches) {
+    public DriveForwardOpenLoop(double loopsToRun) {
     	requires (Robot.kDrivetrain);
-    	distance = inches;
+    	loops = loopsToRun;
     }
 
     
     protected void initialize() {
-    	System.out.println("Driving forward "+ distance + " inches");
+    	System.out.println("Driving forward "+ loops + " iters");
     	//Robot.kDrivetrain.zeroEncoderPositions();
     	//double currentPos[] = Robot.kDrivetrain.getEncoderPositions();
     	done = false;
     	counter = 0;
-    	double ticks = distance / Constants.DRIVE_WHEEL_DIAMETER * Constants.DRIVE_ENCODER_TICKS;
-    	System.out.println(ticks);
-    	Robot.kDrivetrain.setPositionTargetIncrements(-ticks, -ticks);
+    	Robot.kDrivetrain.setTransmissionLow();
+    	Robot.kDrivetrain.setDrivePower(-0.75, -0.75);
     	//targetPos = ((currentPos[0] + currentPos[1]) /2) - ticks;
     	
     }
@@ -35,12 +34,13 @@ public class DriveForwardInches extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//Black voodoo magic to calculate PID AND drive error
-    	double err = Robot.kDrivetrain.pidErrorAverage();
-    	double[] vels = Robot.kDrivetrain.getEncoderVelocities();
     	//double currentPos[] = Robot.kDrivetrain.getEncoderPositions();
     	//double perr = ((currentPos[0] + currentPos[1]) /2) - targetPos;
-    	System.out.println("err: "+err+"vLeft: "+vels[0]+" vRight: "+vels[1]);
-    	done = (Math.abs(err)<300 && !(err==0.0) && counter > 100);
+    	System.out.println("iter:"+(counter));
+    	done = (counter > loops);
+    	if (done) {
+    		Robot.kDrivetrain.setDrivePower(0, 0);
+    	}
     	counter += 1;
     }
 

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TeleopDualPartnerController extends Command {
     boolean usepid;
+    double lastPRY = -20;
     Integer lastPOV;
     public TeleopDualPartnerController(boolean usePIDDrive) {
         // Use requires() here to declare subsystem dependencies
@@ -29,10 +30,13 @@ public class TeleopDualPartnerController extends Command {
     	double twist = Robot.m_oi.partnerController.getZ();
     	double y = Robot.m_oi.partnerController.getY();
     	double partnerY = Robot.m_oi.auxPartnerController.getY();
+    	double partnerRY = Robot.m_oi.auxPartnerController.getRawAxis(3);
+    	
     	int auxPov = Robot.m_oi.auxPartnerController.getPOV();
     	if (Math.abs(twist) <= Constants.CONTROLLER_DEADBAND) { twist = 0;}
     	if (Math.abs(y) <= Constants.CONTROLLER_DEADBAND) { y = 0;}
     	if (Math.abs(partnerY) <= Constants.CONTROLLER_DEADBAND) { partnerY = 0;}
+    	if (Math.abs(partnerRY) <= Constants.CONTROLLER_DEADBAND) { partnerRY = 0;}
     	
     	if (lastPOV == null || auxPov != lastPOV) {
     		Command povCommand = null;
@@ -60,14 +64,28 @@ public class TeleopDualPartnerController extends Command {
     		int pos_increment = (int) Math.round(Constants.ELEVATOR_DRIVE_INCREMENT * -partnerY);
     		Robot.kElevator.setTargetPosition(Robot.kElevator.target + pos_increment);
     	}
+  
     	
     	double elevDampen = 1.0 - Robot.kElevator.getHeightPercent();
-    	if (elevDampen < 0.6) {
-    		elevDampen = 0.6;
+    	if (elevDampen < 0.8) {
+    		elevDampen = 0.8;
     	}
+    	
+    	if (lastPRY == -20 || lastPRY != partnerRY) {
+    		if (partnerRY == 0 && Math.abs(lastPRY) > 0) {
+    			Robot.kIntake.setIntakeWheelPower(0);
+    			System.out.println("Partner Override Zero Intake");
+    		}
+    		if (Math.abs(partnerRY) != 0) {
+        		Robot.kIntake.setIntakeWheelPower(-partnerRY);
+        	}
+    		lastPRY = partnerRY;
+    	}
+    	
     	
     	double left = (y - twist) * elevDampen;
     	double right = (y + twist) * elevDampen;
+    	
     	if (usepid) {
     		Robot.kDrivetrain.setVelocityTargets(left, right);
     	}else {
@@ -75,8 +93,12 @@ public class TeleopDualPartnerController extends Command {
     	}
     	    	
     	if (Robot.m_oi.auxPartnerStart.get() && Robot.m_oi.auxPartnerBack.get()) {
-    		Robot.kRamps.deployLeftRamp();
-    		Robot.kRamps.deployRightRamp();
+    		if (!Robot.kRamps.is_left_ramp_deployed) {
+    			Robot.kRamps.deployLeftRamp();
+    		}
+    		if (!Robot.kRamps.is_right_ramp_deployed) {
+    			Robot.kRamps.deployRightRamp();
+    		}
     	}
     	
     }
