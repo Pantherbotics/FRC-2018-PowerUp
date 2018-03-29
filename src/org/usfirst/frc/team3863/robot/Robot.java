@@ -304,6 +304,7 @@ public class Robot extends TimedRobot {
 		//Add options to the Auton Mode chooser, and add it to the SmartDashboard
 		//The options are integers, accessed later via a switch statement. 
 		m_chooser.addDefault("None", 0);
+		
 		m_chooser.addObject("AutoSelect Score Switch", 1);
 		m_chooser.addObject("Left Score Switch", 4);
 		m_chooser.addObject("Center Score Switch", 6);
@@ -406,6 +407,7 @@ public class Robot extends TimedRobot {
 		Command zero = new ZeroLift();
 		zero.start();
 		Robot.kIntake.closeClaw();
+		Robot.kIntake.setIntakeWheelPower(Constants.INTAKE_IDLE_POWER);
 		
 	}
 

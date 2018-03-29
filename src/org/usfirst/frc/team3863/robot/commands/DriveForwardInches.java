@@ -21,12 +21,13 @@ public class DriveForwardInches extends Command {
     
     protected void initialize() {
     	System.out.println("Driving forward "+ distance + " inches");
-    	//Robot.kDrivetrain.zeroEncoderPositions();
+    	Robot.kDrivetrain.zeroEncoderPositions();
     	//double currentPos[] = Robot.kDrivetrain.getEncoderPositions();
+    	Robot.kDrivetrain.setTransmissionHigh();
     	done = false;
     	counter = 0;
     	double ticks = distance / Constants.DRIVE_WHEEL_DIAMETER * Constants.DRIVE_ENCODER_TICKS;
-    	System.out.println(ticks);
+    	System.out.println("ticks: " + ticks);
     	Robot.kDrivetrain.setPositionTargetIncrements(-ticks, -ticks);
     	//targetPos = ((currentPos[0] + currentPos[1]) /2) - ticks;
     	
