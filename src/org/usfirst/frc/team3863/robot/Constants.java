@@ -52,7 +52,11 @@ public class Constants {
 	//percent-output for intake motors (when enabled)
 	public static final double INTAKE_MOTOR_POWER = 0.75;
 	
+	//Evil current limit! (useless...)
 	public static final int INTAKE_CURRENT_LIMIT = 15;
+	
+	//idle power for intake
+	public static final double INTAKE_IDLE_POWER = -0.2;
 	
 	//Deadband (dead-zone) for various input devices. 
 	public static final double JOYSTICK_DEADBAND = 0.05;
@@ -80,7 +84,6 @@ public class Constants {
 	
 	public static final double HOOK_RAISED_POSITION = 1600;
 	public static final double HOOK_LOWERED_POSITION = 10;
-	public static final double INTAKE_IDLE_POWER = -0.2;
 	
  	
 }
