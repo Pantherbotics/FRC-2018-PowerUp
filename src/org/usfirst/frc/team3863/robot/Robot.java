@@ -337,6 +337,8 @@ public class Robot extends TimedRobot {
 		//Enable the USB CameraServers
 		kCameras.enableCameras();
 		
+		kClimber.init();
+		
 		//Reset the SmartDashboard auton description
 		SmartDashboard.putString("Autosomis Mode", "Auton Not Running");
 	}

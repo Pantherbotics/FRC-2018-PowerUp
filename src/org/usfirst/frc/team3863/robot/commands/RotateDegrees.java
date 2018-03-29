@@ -23,7 +23,8 @@ public class RotateDegrees extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	start_degrees = Robot.kDrivetrain.getGyroAngle();
-    	target_degrees = start_degrees + degree_offset;	
+    	//Invert for comp robot gyro mounting? 
+    	target_degrees = start_degrees - degree_offset;	
     	System.out.println("Rotating from "+ start_degrees + " to "+target_degrees);
     }
 

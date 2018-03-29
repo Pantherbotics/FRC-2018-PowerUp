@@ -23,6 +23,7 @@ public class Climber extends Subsystem {
 	
 	public void init(){
 		armTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, armPidID, timeout);
+		zeroEncoder();
 		armTalon.config_kP(armPidID, Constants.HOOK_PID_P, timeout);
 		armTalon.config_kI(armPidID, Constants.HOOK_PID_I, timeout);
 		armTalon.config_kD(armPidID, Constants.HOOK_PID_D, timeout);
@@ -38,6 +39,11 @@ public class Climber extends Subsystem {
 	
 	public double getArmPos(){
 		return armTalon.getSelectedSensorPosition(timeout);
+	}
+	
+	public void zeroEncoder() {
+		armTalon.setSelectedSensorPosition(0, armPidID, timeout);
+		armTalon.set(ControlMode.Position, 0);
 	}
 
 }

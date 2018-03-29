@@ -14,7 +14,7 @@ public class Constants {
 	
 	//multiplier for error in RotateDegrees
 	//TODO: Increase to account for carpet
-	public static final double DRIVE_ROTATE_P = 0.02;
+	public static final double DRIVE_ROTATE_P = 0.030;
 	
 	//Seconds from neutral to full ramp
 	public static final double DRIVE_RAMP_SECONDS = 0.2;
@@ -74,12 +74,13 @@ public class Constants {
 	public static final double RAMP_SERVO_LEFT_OPEN_ANGLE = -170;
 	
 	//Hook Delivery Arm PID
-	public static final double HOOK_PID_P = 0.4;
-	public static final double HOOK_PID_I = 0.0001;
-	public static final double HOOK_PID_D = 0.2;
+	public static final double HOOK_PID_P = 0.75;
+	public static final double HOOK_PID_I = 0.0005;
+	public static final double HOOK_PID_D = 0.10;
 	
-	public static final double HOOK_RAISED_POSITION = -1856;
-	public static final double HOOK_LOWERED_POSITION = 0;
+	public static final double HOOK_RAISED_POSITION = 1600;
+	public static final double HOOK_LOWERED_POSITION = 10;
+	public static final double INTAKE_IDLE_POWER = -0.2;
 	
  	
 }

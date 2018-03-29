@@ -33,7 +33,7 @@ public class AutoIntake extends Command {
 				}else {
 					System.out.println("Looking to pick up a cube");
 					Robot.kElevator.goToPreset(0);     // Robot is waiting for a cube
-					Robot.kIntake.setIntakeWheelPower(0);
+					Robot.kIntake.setIntakeWheelPower(Constants.INTAKE_IDLE_POWER);
 					Robot.kIntake.openClaw();
 					
 					state = 4;
@@ -78,7 +78,7 @@ public class AutoIntake extends Command {
 				}
 	    		
 	    	case 5:
-	    		Robot.kIntake.setIntakeWheelPower(0);
+	    		Robot.kIntake.setIntakeWheelPower(Constants.INTAKE_IDLE_POWER);
 	    		Robot.kElevator.goToPreset(1);
 	    		state = 6;
 	    		
@@ -97,7 +97,7 @@ public class AutoIntake extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	
+    	Robot.kIntake.setIntakeWheelPower(Constants.INTAKE_IDLE_POWER);
     }
 
     // Called when another command which requires one or more of the same
@@ -105,6 +105,6 @@ public class AutoIntake extends Command {
     protected void interrupted() {
     	state = 0;
     	isComplete = true;
-    	Robot.kIntake.setIntakeWheelPower(0);
+    	Robot.kIntake.setIntakeWheelPower(Constants.INTAKE_IDLE_POWER);
     }
 }
