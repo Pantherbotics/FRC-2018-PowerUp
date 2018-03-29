@@ -28,6 +28,10 @@ public class RotateDegrees extends Command {
     }
 
     // Called repeatedly when this Command is scheduled to run
+    // TODO: Direct motor power instead of velocity (elim. encoder feedback)
+    // three step: < 33%, lower gain
+    //             < 66%, full gain
+    //             < 100%, slower gain      
     protected void execute() {
     	error = target_degrees - Robot.kDrivetrain.getGyroAngle();
     	double left = error * Constants.DRIVE_ROTATE_P * -1;
