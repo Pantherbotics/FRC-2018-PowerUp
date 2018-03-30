@@ -22,10 +22,15 @@ public class AutoLeftSwitchCenter extends CommandGroup {
         	//System.out.println("Near Auto Left");
         }
     	
-    	addSequential(new ElevatorSetpoint(1));
+    	//addSequential(new ElevatorSetpoint(1));
     	addSequential(new DriveForwardInches(36.0));
     	addSequential(new RotateDegrees(-90 * right_invert));
-    	addSequential(new DriveForwardInches(45.0)); //54
+    	if (start_right) {
+    		addSequential(new DriveForwardInches(30.0)); //54
+    	}else {
+    		addSequential(new DriveForwardInches(45.0)); //54
+    	}
+    	
     	addSequential(new ElevatorSetpoint(3));
     	addSequential(new RotateDegrees(90 * right_invert));
     	addSequential(new DriveForwardInches(40.5)); //54.5
