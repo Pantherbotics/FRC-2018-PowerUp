@@ -152,6 +152,8 @@ public class OI {
 		
 		auxPartnerLeftBumper.whileHeld(new EnableIntakeWheels(true));
 		auxPartnerRightBumper.whileHeld(new EnableIntakeWheels(false));
+		
+		auxPartnerStart.whenPressed(new ZeroLift());
 	}
 
 }
