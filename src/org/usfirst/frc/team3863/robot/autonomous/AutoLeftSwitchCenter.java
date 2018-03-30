@@ -35,5 +35,6 @@ public class AutoLeftSwitchCenter extends CommandGroup {
     	addSequential(new RotateDegrees(90 * right_invert));
     	addSequential(new DriveForwardInches(40.5)); //54.5
     	addSequential(new DropCube());
+    	addSequential(new DriveForwardInches(-20.0));
     }
 }
