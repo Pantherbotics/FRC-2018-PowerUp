@@ -44,7 +44,7 @@ public class RotateDegrees extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(error) < 4;
+        return Math.abs(error) < 6;
     }
 
     // Called once after isFinished returns true
