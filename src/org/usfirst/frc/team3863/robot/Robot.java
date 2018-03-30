@@ -479,6 +479,8 @@ public class Robot extends TimedRobot {
 			//Update the SmartDashboard with debug + state info
 			updateSmartDashboard();
 		}
+		
+		kDrivetrain.updateAutoTransmission();
 	}
 
 	/**

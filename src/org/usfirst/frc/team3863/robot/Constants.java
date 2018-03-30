@@ -85,5 +85,10 @@ public class Constants {
 	public static final double HOOK_RAISED_POSITION = 1600;
 	public static final double HOOK_LOWERED_POSITION = 10;
 	
+	public static final double DRIVE_TRANSMISSION_LOW_SPEED = 600;
+	public static final double DRIVE_TRANSMISSION_HIGH_MIN_SPEED_PERCENT = 0.5 * 0.5;
+	public static final double DRIVE_TRANSMISSION_UPSHIFT_SPEED_PERCENT = 0.6 * 0.5;
+	public static final double DRIVE_TRANSMISSION_DOWNSHIFT_SPEED_PERCENT = 0.20 * 0.5;
+	
  	
 }

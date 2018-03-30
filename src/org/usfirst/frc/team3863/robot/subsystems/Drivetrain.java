@@ -90,6 +90,16 @@ public class Drivetrain extends Subsystem {
     	
     }
     
+    public double getEncShiftMaxVel() {
+    	double multiplier = Constants.DRIVE_TRANSMISSION_LOW_SPEED * Constants.DRIVE_TRANSMISSION_RATIO;
+    	if (transmission_in_low) {
+    		multiplier = 600;
+    		multiplier = Constants.DRIVE_TRANSMISSION_LOW_SPEED;
+    	}
+    	return multiplier;
+    }
+    
+    
     public double[] getEncoderVelocities() {
     	double l = talonLeftA.getSelectedSensorVelocity(timeout_ms);
     	double r = talonRightA.getSelectedSensorVelocity(timeout_ms);
@@ -109,11 +119,8 @@ public class Drivetrain extends Subsystem {
     }
     
     public void setVelocityTargets(double left, double right) {
-    	double multiplier = 600 * Constants.DRIVE_TRANSMISSION_RATIO;
-    	if (transmission_in_low) {
-    		multiplier = 600;
-    	}
-    	//System.out.println(" " + multiplier + " " + left + " " + right);
+    	double multiplier = getEncShiftMaxVel();
+    	System.out.println(" " + multiplier + " " + left + " " + right);
     	talonLeftA.set(ControlMode.Velocity, left * multiplier * 3);
     	talonRightA.set(ControlMode.Velocity, right * multiplier * 3);
     }
@@ -132,7 +139,13 @@ public class Drivetrain extends Subsystem {
     	transmissiom_solenoid.set(DoubleSolenoid.Value.kForward);
     }
     
-	public void setTransmissionHigh() {
+    public void setTransmissionHigh() {
+		double vel = getAvgEncoderVelocity(); 
+		double mult = getEncShiftMaxVel();
+		if (vel < mult * Constants.DRIVE_TRANSMISSION_HIGH_MIN_SPEED_PERCENT) {
+			System.out.println("Refusing to switch to high gear when robot is at speed: " + vel);
+			return;
+		}
 		System.out.println("Transmission in High Gear");
 		transmission_in_low = false;
 		initPID(1/Constants.DRIVE_TRANSMISSION_RATIO);
@@ -166,6 +179,24 @@ public class Drivetrain extends Subsystem {
 		//System.out.print(" ");
 		//System.out.println(ahrs_gyro.getCompassHeading());
 		return ahrs_gyro.getAngle();
+		
+	}
+	
+	public double getAvgEncoderVelocity() {
+		double[] vels = getEncoderVelocities();
+		double avg = Math.abs((vels[0] + vels[1])/2);
+		return avg;
+	}
+	
+	public void updateAutoTransmission() {
+		//Upshift higher than downshift
+		double mult = getEncShiftMaxVel();
+		double vel = getAvgEncoderVelocity();
+		if (transmission_in_low && vel > mult * Constants.DRIVE_TRANSMISSION_UPSHIFT_SPEED_PERCENT) {
+			setTransmissionHigh();
+		}else if (!transmission_in_low && vel < mult * Constants.DRIVE_TRANSMISSION_DOWNSHIFT_SPEED_PERCENT) {
+			setTransmissionLow();
+		}
 		
 	}
 
