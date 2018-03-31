@@ -198,18 +198,23 @@ public class Robot extends TimedRobot {
 		//Test both the robot and goal locations
 		boolean is_ds_right_side = (ds_loc == 3);
 		boolean is_goal_right_side = (msg.charAt(0) == 'R'); 
+		boolean is_scale_goal_right_side = (msg.charAt(1) == 'R'); 
 		
 		if (ds_choice == 7 || ds_choice == 8) {
-			if (is_goal_right_side == is_ds_right_side) {
-				System.out.println("AUTON: BLESS THE RNG");
+			if (is_scale_goal_right_side == is_ds_right_side) {
+				System.out.println("AUTON: BLESS THE RNG!!!!!!!!");
 				if (ds_choice == 7) {
 					System.out.println("AUTON: Left Scale");
+					// Left scale auto, runs left side of field only. 
+					// Should only run when scale is on left side
 					m_autonomousCommand = new AutoLeftScale(false);
 					m_autonomousCommand.start();
 					return true;
 					
 				} else if (ds_choice == 8) {
 					System.out.println("AUTON: Right Scale");
+					// Right scale auto, runs right side of field only. 
+					// Should only run when scale is on right
 					m_autonomousCommand = new AutoLeftScale(true);
 					m_autonomousCommand.start();
 					return true;
