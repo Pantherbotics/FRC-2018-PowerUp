@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 import org.usfirst.frc.team3863.robot.autonomous.AutoBaseline;
 import org.usfirst.frc.team3863.robot.autonomous.AutoBaselineOpenLoop;
+import org.usfirst.frc.team3863.robot.autonomous.AutoLeftScale;
 import org.usfirst.frc.team3863.robot.autonomous.AutoLeftSwitchCenter;
 import org.usfirst.frc.team3863.robot.autonomous.AutoLeftSwitchFar;
 import org.usfirst.frc.team3863.robot.autonomous.AutoLeftSwitchNear;
@@ -192,9 +193,34 @@ public class Robot extends TimedRobot {
 		}
 		System.out.println("We are in DS #" + ds_loc);
 		
+		int ds_choice = m_chooser.getSelected();
+		
 		//Test both the robot and goal locations
 		boolean is_ds_right_side = (ds_loc == 3);
 		boolean is_goal_right_side = (msg.charAt(0) == 'R'); 
+		
+		if (ds_choice == 7 || ds_choice == 8) {
+			if (is_goal_right_side == is_ds_right_side) {
+				System.out.println("AUTON: BLESS THE RNG");
+				if (ds_choice == 7) {
+					System.out.println("AUTON: Left Scale");
+					m_autonomousCommand = new AutoLeftScale(false);
+					m_autonomousCommand.start();
+					return true;
+					
+				} else if (ds_choice == 8) {
+					System.out.println("AUTON: Right Scale");
+					m_autonomousCommand = new AutoLeftScale(true);
+					m_autonomousCommand.start();
+					return true;
+				}
+			}else {
+				System.out.println("AUTON: GOD DAMN RNG!!");
+				m_autonomousCommand = null;
+				return true;
+			}
+			
+		}
 		
 		//Center auto for robot in center of field
 		if (ds_loc == 2) { 
@@ -270,6 +296,16 @@ public class Robot extends TimedRobot {
 		 		override_ds_loc = 2;
 		 		return true;
 		 		
+		 	case 7:
+		 		System.out.println("Override Left half scale auto mode selected");
+		 		override_ds_loc = 1;
+		 		return true;
+		 		
+		 	case 8:
+		 		System.out.println("Override Right half scale auto mode selected");
+		 		override_ds_loc = 3;
+		 		return true;
+		 			
 		 	//Run Baseline with PID control
 		    case 2: 
 		 		m_autonomousCommand = new AutoBaseline();
@@ -309,6 +345,8 @@ public class Robot extends TimedRobot {
 		m_chooser.addObject("Left Score Switch", 4);
 		m_chooser.addObject("Center Score Switch", 6);
 		m_chooser.addObject("Right Score Switch", 5);
+		m_chooser.addObject("Left Half Score Scale", 7);
+		m_chooser.addObject("Right Half Score Scale", 8);
 		m_chooser.addObject("[PID] Baseline", 2);
 		m_chooser.addObject("[PWR] Baseline", 3);
 		SmartDashboard.putData("Auto mode", m_chooser);
