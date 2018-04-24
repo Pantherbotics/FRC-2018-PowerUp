@@ -18,11 +18,13 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 import org.usfirst.frc.team3863.robot.autonomous.AutoBaseline;
 import org.usfirst.frc.team3863.robot.autonomous.AutoBaselineOpenLoop;
+import org.usfirst.frc.team3863.robot.autonomous.AutoLeftScale;
 import org.usfirst.frc.team3863.robot.autonomous.AutoLeftSwitchCenter;
 import org.usfirst.frc.team3863.robot.autonomous.AutoLeftSwitchFar;
 import org.usfirst.frc.team3863.robot.autonomous.AutoLeftSwitchNear;
 import org.usfirst.frc.team3863.robot.commands.ZeroLift;
 import org.usfirst.frc.team3863.robot.subsystems.Cameras;
+import org.usfirst.frc.team3863.robot.subsystems.Climber;
 import org.usfirst.frc.team3863.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team3863.robot.subsystems.Elevator;
 import org.usfirst.frc.team3863.robot.subsystems.Intake;
@@ -48,6 +50,8 @@ public class Robot extends TimedRobot {
 	public static final Elevator kElevator = new Elevator();        
 	//Instance of the Intake subsystem. Controls Intake wheels + servo arm. 
 	public static final Intake kIntake = new Intake(); 
+	
+	public static final Climber kClimber = new Climber();
 	
 	//Previous Message - Previous Driverstation Select
     String PrevMsg = "";
@@ -156,6 +160,7 @@ public class Robot extends TimedRobot {
     	
     	//Add the elevator's velocity
     	SmartDashboard.putNumber("elevVelocity", kElevator.getVel());
+    	SmartDashboard.putNumber("Hook Arm Position", kClimber.getArmPos());
     	    	
 	}
 	
@@ -188,9 +193,39 @@ public class Robot extends TimedRobot {
 		}
 		System.out.println("We are in DS #" + ds_loc);
 		
+		int ds_choice = m_chooser.getSelected();
+		
 		//Test both the robot and goal locations
 		boolean is_ds_right_side = (ds_loc == 3);
 		boolean is_goal_right_side = (msg.charAt(0) == 'R'); 
+		boolean is_scale_goal_right_side = (msg.charAt(1) == 'R'); 
+		
+		if (ds_choice == 7 || ds_choice == 8) {
+			if (is_scale_goal_right_side == is_ds_right_side) {
+				System.out.println("AUTON: BLESS THE RNG!!!!!!!!");
+				if (ds_choice == 7) {
+					System.out.println("AUTON: Left Scale");
+					// Left scale auto, runs left side of field only. 
+					// Should only run when scale is on left side
+					m_autonomousCommand = new AutoLeftScale(false);
+					m_autonomousCommand.start();
+					return true;
+					
+				} else if (ds_choice == 8) {
+					System.out.println("AUTON: Right Scale");
+					// Right scale auto, runs right side of field only. 
+					// Should only run when scale is on right
+					m_autonomousCommand = new AutoLeftScale(true);
+					m_autonomousCommand.start();
+					return true;
+				}
+			}else {
+				System.out.println("AUTON: GOD DAMN RNG!!");
+				m_autonomousCommand = null;
+				return true;
+			}
+			
+		}
 		
 		//Center auto for robot in center of field
 		if (ds_loc == 2) { 
@@ -266,6 +301,16 @@ public class Robot extends TimedRobot {
 		 		override_ds_loc = 2;
 		 		return true;
 		 		
+		 	case 7:
+		 		System.out.println("Override Left half scale auto mode selected");
+		 		override_ds_loc = 1;
+		 		return true;
+		 		
+		 	case 8:
+		 		System.out.println("Override Right half scale auto mode selected");
+		 		override_ds_loc = 3;
+		 		return true;
+		 			
 		 	//Run Baseline with PID control
 		    case 2: 
 		 		m_autonomousCommand = new AutoBaseline();
@@ -300,10 +345,13 @@ public class Robot extends TimedRobot {
 		//Add options to the Auton Mode chooser, and add it to the SmartDashboard
 		//The options are integers, accessed later via a switch statement. 
 		m_chooser.addDefault("None", 0);
+		
 		m_chooser.addObject("AutoSelect Score Switch", 1);
 		m_chooser.addObject("Left Score Switch", 4);
 		m_chooser.addObject("Center Score Switch", 6);
 		m_chooser.addObject("Right Score Switch", 5);
+		m_chooser.addObject("Left Half Score Scale", 7);
+		m_chooser.addObject("Right Half Score Scale", 8);
 		m_chooser.addObject("[PID] Baseline", 2);
 		m_chooser.addObject("[PWR] Baseline", 3);
 		SmartDashboard.putData("Auto mode", m_chooser);
@@ -332,6 +380,8 @@ public class Robot extends TimedRobot {
 		
 		//Enable the USB CameraServers
 		kCameras.enableCameras();
+		
+		kClimber.init();
 		
 		//Reset the SmartDashboard auton description
 		SmartDashboard.putString("Autosomis Mode", "Auton Not Running");
@@ -400,6 +450,7 @@ public class Robot extends TimedRobot {
 		Command zero = new ZeroLift();
 		zero.start();
 		Robot.kIntake.closeClaw();
+		Robot.kIntake.setIntakeWheelPower(Constants.INTAKE_IDLE_POWER);
 		
 	}
 

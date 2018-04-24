@@ -34,10 +34,12 @@ public class Intake extends Subsystem {
     boolean claw_closed;
 	
 	public void init() {
-		leftIntakeTalon.configContinuousCurrentLimit(Constants.INTAKE_CURRENT_LIMIT, timeout_ms);
-		leftIntakeTalon.enableCurrentLimit(true);
-		rightIntakeTalon.configContinuousCurrentLimit(Constants.INTAKE_CURRENT_LIMIT, timeout_ms);
-		rightIntakeTalon.enableCurrentLimit(true);
+		//leftIntakeTalon.configContinuousCurrentLimit(Constants.INTAKE_CURRENT_LIMIT, timeout_ms);
+		//leftIntakeTalon.enableCurrentLimit(true);
+		//rightIntakeTalon.configContinuousCurrentLimit(Constants.INTAKE_CURRENT_LIMIT, timeout_ms);
+		//rightIntakeTalon.enableCurrentLimit(true);
+		//leftIntakeTalon.enableVoltageCompensation(true);
+		//rightIntakeTalon.enableVoltageCompensation(true);
 		
 		ultrasonicCounter.setSemiPeriodMode(false);
 	}
@@ -48,6 +50,8 @@ public class Intake extends Subsystem {
     }
     
     public void setIntakeWheelPower(double power) {
+    	if (power == 0) {power = -0.2;}
+    	System.out.println(power);
     	leftIntakeTalon.set(ControlMode.PercentOutput, power);
     	rightIntakeTalon.set(ControlMode.PercentOutput, -power);
     }

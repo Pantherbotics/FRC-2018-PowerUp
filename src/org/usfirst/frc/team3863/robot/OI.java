@@ -12,11 +12,15 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team3863.robot.commands.MoveLiftBy;
 import org.usfirst.frc.team3863.robot.commands.OuttakeCube;
+import org.usfirst.frc.team3863.robot.commands.RaiseHook;
 import org.usfirst.frc.team3863.robot.commands.AutoIntake;
 import org.usfirst.frc.team3863.robot.commands.RaiseLeftRamp;
 import org.usfirst.frc.team3863.robot.commands.RaiseRightRamp;
+import org.usfirst.frc.team3863.robot.commands.RunClimber;
+import org.usfirst.frc.team3863.robot.commands.SetHookDegrees;
 import org.usfirst.frc.team3863.robot.commands.EnableIntakeWheels;
 import org.usfirst.frc.team3863.robot.commands.IntakeClaw;
+import org.usfirst.frc.team3863.robot.commands.LowerHook;
 import org.usfirst.frc.team3863.robot.commands.ToggleTransmissionState;
 import org.usfirst.frc.team3863.robot.commands.TransmissionHighGear;
 import org.usfirst.frc.team3863.robot.commands.TransmissionLowGear;
@@ -134,6 +138,10 @@ public class OI {
 		partnerControlA.whenPressed(new TransmissionLowGear());
 		partnerControlB.whenPressed(new TransmissionHighGear());
 		
+		partnerButtonX.whileHeld(new RunClimber());
+		partnerButtonY.whenPressed(new RaiseHook());
+		partnerButtonA.whenPressed(new LowerHook());
+		
 		auxPartnerY.whenPressed(new OuttakeCube());
 		auxPartnerA.whenPressed(new AutoIntake());
 		auxPartnerX.whenPressed(new RaiseLeftRamp());
@@ -144,6 +152,8 @@ public class OI {
 		
 		auxPartnerLeftBumper.whileHeld(new EnableIntakeWheels(true));
 		auxPartnerRightBumper.whileHeld(new EnableIntakeWheels(false));
+		
+		auxPartnerStart.whenPressed(new ZeroLift());
 	}
 
 }

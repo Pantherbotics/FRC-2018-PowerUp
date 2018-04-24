@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 /**
  Controls the four CANTalons dedicated to the Drivetrain
  */
@@ -44,10 +45,15 @@ public class Drivetrain extends Subsystem {
     	talonLeftB.setInverted(true);
     	
     	talonLeftA.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, pid_id, timeout_ms);
-    	talonLeftA.setSensorPhase(true);
+    	talonLeftA.setSensorPhase(false);
     	
     	talonRightA.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, pid_id, timeout_ms);
-    	talonRightA.setSensorPhase(true);
+    	talonRightA.setSensorPhase(false);
+    	
+    	talonRightA.setNeutralMode(NeutralMode.Coast);
+    	talonRightB.setNeutralMode(NeutralMode.Coast);
+    	talonLeftA.setNeutralMode(NeutralMode.Coast);
+    	talonLeftB.setNeutralMode(NeutralMode.Coast);
     	
     	talonLeftB.follow(talonLeftA);
     	talonRightB.follow(talonRightA);
@@ -142,10 +148,11 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public void zeroEncoderPositions() {
-		talonLeftA.set(ControlMode.Position, 0);
-    	talonRightA.set(ControlMode.Position, 0);
 		talonLeftA.setSelectedSensorPosition(0, pid_id, timeout_ms);
 		talonRightA.setSelectedSensorPosition(0, pid_id, timeout_ms);
+		talonLeftA.set(ControlMode.Position, 0);
+    	talonRightA.set(ControlMode.Position, 0);
+		
 	}
 	
 	public void zero_gyro() {

@@ -21,11 +21,12 @@ public class AutoLeftSwitchFar extends CommandGroup {
         	//System.out.println("Far Auto Left");
         }
     	addSequential(new ElevatorSetpoint(1));
-    	addSequential(new DriveForwardInches(200.0));
+    	addSequential(new DriveForwardInches(230.0));
     	addSequential(new RotateDegrees(90 * right_invert));
     	addSequential(new DriveForwardInches(128.0)); //real field: 200
     	addSequential(new ElevatorSetpoint(3));
     	addSequential(new RotateDegrees(90 * right_invert));
     	addSequential(new OuttakeCube());
+    	addSequential(new DriveForwardInches(-20.0));
     }
 }

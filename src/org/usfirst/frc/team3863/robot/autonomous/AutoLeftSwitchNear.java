@@ -25,5 +25,6 @@ public class AutoLeftSwitchNear extends CommandGroup {
     	addSequential(new ElevatorSetpoint(3));
     	addSequential(new RotateDegrees(90 * right_invert));
     	addSequential(new OuttakeCube());
+    	addSequential(new DriveForwardInches(-20.0));
     }
 }

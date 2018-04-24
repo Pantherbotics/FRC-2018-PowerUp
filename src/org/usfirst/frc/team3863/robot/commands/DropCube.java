@@ -35,7 +35,7 @@ public class DropCube extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.kIntake.setIntakeWheelPower(0);
+    	Robot.kIntake.setIntakeWheelPower(Constants.INTAKE_IDLE_POWER);
     }
 
     // Called when another command which requires one or more of the same
