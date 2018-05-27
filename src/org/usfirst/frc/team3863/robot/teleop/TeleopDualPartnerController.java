@@ -5,6 +5,8 @@ import org.usfirst.frc.team3863.robot.Robot;
 import org.usfirst.frc.team3863.robot.commands.ElevatorSetpoint;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team3863.robot.util.CheesyDriveHelper;
+import org.usfirst.frc.team3863.robot.util.DriveSignal;
 
 /**
  *
@@ -13,10 +15,12 @@ public class TeleopDualPartnerController extends Command {
     boolean usepid;
     double lastPRY = -20;
     Integer lastPOV;
+    CheesyDriveHelper cheesyDriveHelper;
     public TeleopDualPartnerController(boolean usePIDDrive) {
         // Use requires() here to declare subsystem dependencies
     	requires(Robot.kDrivetrain);
     	usepid = usePIDDrive;
+    	cheesyDriveHelper = new CheesyDriveHelper();
     }
 
     // Called just before this Command runs the first time
@@ -81,15 +85,13 @@ public class TeleopDualPartnerController extends Command {
         	}
     		lastPRY = partnerRY;
     	}
-    	
-    	
-    	double left = (y - twist) * elevDampen;
-    	double right = (y + twist) * elevDampen;
+
+    	DriveSignal drive = cheesyDriveHelper.cheesyDrive(y, twist, !Robot.kDrivetrain.transmission_in_low);
     	
     	if (usepid) {
-    		Robot.kDrivetrain.setVelocityTargets(left, right);
+    		Robot.kDrivetrain.setVelocityTargets(drive.getLeft(), drive.getRight());
     	}else {
-    		Robot.kDrivetrain.setDrivePower(left, right);
+    		Robot.kDrivetrain.setDrivePower(drive.getLeft(), drive.getRight());
     	}
     	    	
     	if (Robot.m_oi.auxPartnerStart.get() && Robot.m_oi.auxPartnerBack.get()) {
