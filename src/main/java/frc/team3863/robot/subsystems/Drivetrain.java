@@ -1,13 +1,10 @@
 package frc.team3863.robot.subsystems;
 
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.team3863.robot.Constants;
 import frc.team3863.robot.RobotMap;
-
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.I2C;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
@@ -17,7 +14,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 /**
  Controls the four CANTalons dedicated to the Drivetrain
  */
-public class Drivetrain extends Subsystem {
+public class Drivetrain  extends Subsystem implements PIDSource, PIDOutput {
 	
 	//ADXRS450_Gyro gyro = new ADXRS450_Gyro();
     AHRS ahrs_gyro = new AHRS(I2C.Port.kOnboard);
@@ -169,6 +166,25 @@ public class Drivetrain extends Subsystem {
 		
 	}
 
-    
+
+	@Override
+	public void pidWrite(double output) {
+		setDrivePower(output, -output);
+	}
+
+	@Override
+	public void setPIDSourceType(PIDSourceType pidSource) {
+
+	}
+
+	@Override
+	public PIDSourceType getPIDSourceType() {
+		return null;
+	}
+
+	@Override
+	public double pidGet() {
+		return getGyroAngle();
+	}
 }
 
