@@ -17,7 +17,7 @@ public class Paths {
     }
 
     public static Waypoint[] CenterSwitch = new Waypoint[]{
-      new Waypoint(0, 0, 0), new Waypoint(0, 3, 0), new Waypoint (-1, 5, -90), new Waypoint (-5, 5, -90)
+      new Waypoint(0, 0, 0), new Waypoint(3, 0, 0), new Waypoint (5, -1, -90), new Waypoint (5, -5, -90)
     };
 
     public Trajectory getLeft(){
