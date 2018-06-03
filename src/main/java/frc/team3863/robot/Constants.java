@@ -90,6 +90,12 @@ public class Constants {
 	public static final double TURN_I = 0.0;
 	public static final double TURN_D = 0.0;
 	public static final double TURN_F = 0.0;
-	
+
+	public static final int PATHFINDER_ENC_TICKS = 128*4;
+	public static final double PATHFINDER_WHEEL_DIA = 0.5; //ft
+	public static final double PATHFINDER_P = 1.0;
+	public static final double PATHFINDER_I = 0.0;
+	public static final double PATHFINDER_D = 0.0;
+	public static final double PATHFINDER_A = 0.0;
  	
 }
