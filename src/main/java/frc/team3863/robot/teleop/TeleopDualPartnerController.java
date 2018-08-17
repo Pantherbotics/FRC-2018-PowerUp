@@ -81,7 +81,8 @@ public class TeleopDualPartnerController extends Command {
     			System.out.println("Partner Override Zero Intake");
     		}
     		if (Math.abs(partnerRY) != 0) {
-        		Robot.kIntake.setIntakeWheelPower(-partnerRY);
+				double sign = Math.signum(partnerRY);
+        		Robot.kIntake.setIntakeWheelPower(-1 * sign * Math.pow(partnerRY, 2));
         	}
     		lastPRY = partnerRY;
     	}
