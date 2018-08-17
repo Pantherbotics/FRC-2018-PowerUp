@@ -31,7 +31,7 @@ public class CheesyDriveHelper {
         public DriveSignal cheesyDrive(double throttle, double wheel,
                                        boolean isHighGear) {
 
-            boolean isQuickTurn = 0.01 > Math.abs(wheel);
+            boolean isQuickTurn = 0.05 > Math.abs(throttle);
             wheel = handleDeadband(wheel, kWheelDeadband);
             throttle = handleDeadband(throttle, kThrottleDeadband);
 
