@@ -160,7 +160,11 @@ public class Robot extends TimedRobot {
     	
     	//Add the elevator's velocity
     	SmartDashboard.putNumber("elevVelocity", kElevator.getVel());
-    	SmartDashboard.putNumber("Hook Arm Position", kClimber.getArmPos());
+		SmartDashboard.putNumber("Hook Arm Position", kClimber.getArmPos());
+		
+		SmartDashboard.putNumber("Robot X Position", kDrivetrain.getOdometry()[0]);
+		SmartDashboard.putNumber("Robot Y Position", kDrivetrain.getOdometry()[1]);
+		SmartDashboard.putNumber("Robot Heading (rad)", kDrivetrain.getOdometry()[2]);
     	    	
 	}
 	

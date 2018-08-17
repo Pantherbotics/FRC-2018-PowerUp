@@ -29,6 +29,7 @@ public class Drivetrain  extends Subsystem implements PIDSource, PIDOutput {
 	int pid_id = 0;
 	public int timeout_ms = 0;
 	
+	volatile double x,y, theta;
 		
 	public boolean transmission_in_low = true;
 	
@@ -69,7 +70,18 @@ public class Drivetrain  extends Subsystem implements PIDSource, PIDOutput {
     	
     	zero_gyro();
     	
-    	setTransmissionLow();
+		setTransmissionLow();
+		
+		x = 0;
+		y = 0;
+		theta = 0;
+		new Thread (()->{
+			while(true){
+				x += Math.cos(Math.toRadians(ahrs_gyro.getAngle())) * talonNativeToFPS(((talonLeftA.getSelectedSensorVelocity(0) + talonRightA.getSelectedSensorVelocity(0)) / 2));
+				y += Math.sin(Math.toRadians(ahrs_gyro.getAngle())) * talonNativeToFPS(((talonLeftA.getSelectedSensorVelocity(0) + talonRightA.getSelectedSensorVelocity(0)) / 2));
+				theta = Math.toRadians(ahrs_gyro.getAngle());
+			}
+		}).start();
     }
     
     private void initPID(double multiplier) {
@@ -185,6 +197,18 @@ public class Drivetrain  extends Subsystem implements PIDSource, PIDOutput {
 	@Override
 	public double pidGet() {
 		return getGyroAngle();
+	}
+
+	public double talonNativeToFPS(double something){
+        return (Math.PI * 10 * 6 * something) / (4 * 128);
+    }
+
+	public double[] getOdometry(){
+		double[] odo = new double[3];
+		odo[0] = x;
+		odo[1] = y;
+		odo[2] = theta;
+		return odo;
 	}
 }
 
