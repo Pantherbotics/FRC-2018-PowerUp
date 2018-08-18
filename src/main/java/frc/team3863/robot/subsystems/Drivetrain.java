@@ -77,7 +77,7 @@ public class Drivetrain  extends Subsystem implements PIDSource, PIDOutput {
 		theta = 0;
 		new Thread (()->{
 			while(true){
-				x += Math.cos(Math.toRadians(ahrs_gyro.getAngle())) * talonNativeToFPS(((talonLeftA.getSelectedSensorVelocity(0) + talonRightA.getSelectedSensorVelocity(0)) / 2));
+				x += -1 * Math.cos(Math.toRadians(ahrs_gyro.getAngle())) * talonNativeToFPS(((talonLeftA.getSelectedSensorVelocity(0) + talonRightA.getSelectedSensorVelocity(0)) / 2));
 				y += Math.sin(Math.toRadians(ahrs_gyro.getAngle())) * talonNativeToFPS(((talonLeftA.getSelectedSensorVelocity(0) + talonRightA.getSelectedSensorVelocity(0)) / 2));
 				theta = Math.toRadians(ahrs_gyro.getAngle());
 			}
@@ -200,7 +200,7 @@ public class Drivetrain  extends Subsystem implements PIDSource, PIDOutput {
 	}
 
 	public double talonNativeToFPS(double something){
-        return (Math.PI * 10 * 6 * something) / (4 * 128);
+        return (something) * (1/(4*128)) * (6*Math.PI) * (1/12) * 1000;
     }
 
 	public double[] getOdometry(){
@@ -209,6 +209,15 @@ public class Drivetrain  extends Subsystem implements PIDSource, PIDOutput {
 		odo[1] = y;
 		odo[2] = theta;
 		return odo;
+	}
+
+	public WPI_TalonSRX[] getTalons(){
+		WPI_TalonSRX[] array = {talonLeftA, talonRightA};
+		return array;
+	}
+
+	public AHRS getGyro(){
+		return ahrs_gyro;
 	}
 }
 

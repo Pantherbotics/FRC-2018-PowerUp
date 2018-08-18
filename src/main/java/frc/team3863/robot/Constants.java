@@ -97,5 +97,6 @@ public class Constants {
 	public static final double PATHFINDER_I = 0.0;
 	public static final double PATHFINDER_D = 0.0;
 	public static final double PATHFINDER_A = 0.0;
- 	
+	 
+	public static final double WHEEL_BASE = 26/12;
 }
