@@ -137,9 +137,11 @@ public class Robot extends TimedRobot {
         
         //Get the drivetrain encoder velocities, and add them to the SmartDashboard
         double[] vels = kDrivetrain.getEncoderVelocities();
-        SmartDashboard.putNumber("Left Velocity", vels[0]);
-        SmartDashboard.putNumber("Right Velocity", vels[1]);
-        
+        SmartDashboard.putNumber("Left Velocity (Native)", vels[0]);
+        SmartDashboard.putNumber("Right Velocity (Native)", vels[1]);
+		
+		SmartDashboard.putNumber("Left Velocity (ft/s)", Robot.kDrivetrain.talonNativeToFPS(vels[0]));
+		SmartDashboard.putNumber("Right Velocity (ft/s)", Robot.kDrivetrain.talonNativeToFPS(vels[1]));
         //Add the Drivetrain L/R encoder positions to the SmartDashboard
         double[] poss = kDrivetrain.getEncoderPositions();
         SmartDashboard.putNumber("Left Pos", poss[0]);
