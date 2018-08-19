@@ -21,8 +21,8 @@ public class RamseteFollower{
 
     volatile double x, y, theta;
 
-    static final double b = 2; // greater than zero
-    static final double zeta = 0.7; // between zero and one
+    static final double b = 1; // greater than zero
+    static final double zeta = 0; // between zero and one
     static final double wheelDiameter = 6;
     static final double HIGH_GEAR_MAX_SPEED = 20;
 
@@ -57,6 +57,7 @@ public class RamseteFollower{
         calcVel(current.x, current.y, current.heading, current.velocity, current.heading/current.dt);
         calcAngleVel(current.x, current.y, current.heading, current.velocity, current.heading/current.dt);
 
+        
         System.out.println(current.heading/current.dt);
         System.out.println("Velocity " + v + " Angular Velocity " + w);
 
@@ -77,6 +78,7 @@ public class RamseteFollower{
         theta = odometry[2];
     }
     public void calcVel(double x_d, double y_d, double theta_d, double v_d, double w_d){
+    	theta = -Math.toRadians(gyro.getAngle()) % Math.PI/2;
         calcK(v_d, w_d);
         double calcV = v_d * Math.cos(theta_d - Math.toRadians(gyro.getAngle())) + k_1 * (Math.cos(theta)*(x_d - x) + Math.sin(theta)*(y_d-y));
         v = calcV;
@@ -84,13 +86,17 @@ public class RamseteFollower{
 
     public void calcAngleVel(double x_d, double y_d, double theta_d, double v_d, double w_d){
         calcK(v_d, w_d);
-        theta = Math.toRadians(gyro.getAngle()) % Math.PI/2;
+        theta = -Math.toRadians(gyro.getAngle()) % Math.PI/2;
         System.out.println("Theta " + theta);
         double thetaError = theta_d-theta;
+        double variable = 0;
         if(thetaError < 0.001)
-        	theta = .0001;
-        double calcW = w_d + k_2 * v_d * (Math.sin(theta_d-theta) / (thetaError)) * (Math.cos(y_d - y) - Math.sin(theta)*(x_d - x)) + k_3 * (thetaError);
+        	variable = 1;
+        else
+        	variable = Math.sin(theta_d-theta) / (thetaError);
+        double calcW = w_d + k_2 * v_d * (variable) * (Math.cos(y_d - y) - Math.sin(theta)*(x_d - x)) + k_3 * (thetaError);
         w = calcW;
+        w %= 2*Math.PI;
     }
 
     public void calcK(double v_d, double w_d){

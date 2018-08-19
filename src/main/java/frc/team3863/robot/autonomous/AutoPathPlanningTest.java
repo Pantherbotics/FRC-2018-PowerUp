@@ -16,8 +16,7 @@ public class AutoPathPlanningTest extends Command {
     RamseteFollower follower;
     public AutoPathPlanningTest(){
         requires(Robot.kDrivetrain);
-        Trajectory.Config configuration = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH, .005, 12, 4, 20);
-        Trajectory traj = Pathfinder.generate(Paths.CenterSwitch, configuration);
+        Trajectory traj = Paths.getLastTraj();
         System.out.println(traj.length());
         follower = new RamseteFollower(Robot.kDrivetrain.getTalons()[0], Robot.kDrivetrain.getTalons()[1], Constants.WHEEL_BASE, traj, Robot.kDrivetrain.getGyro());
         System.out.println("Created new Follower");

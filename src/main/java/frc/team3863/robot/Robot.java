@@ -8,6 +8,7 @@
 package frc.team3863.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import jaci.pathfinder.Trajectory;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -15,7 +16,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
-
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Pathfinder;
 import frc.team3863.robot.autonomous.AutoBaseline;
 import frc.team3863.robot.autonomous.AutoBaselineOpenLoop;
 import frc.team3863.robot.autonomous.AutoLeftScale;
@@ -23,6 +25,7 @@ import frc.team3863.robot.autonomous.AutoLeftSwitchCenter;
 import frc.team3863.robot.autonomous.AutoLeftSwitchFar;
 import frc.team3863.robot.autonomous.AutoLeftSwitchNear;
 import frc.team3863.robot.autonomous.AutoPathPlanningTest;
+import frc.team3863.robot.autonomous.Paths;
 import frc.team3863.robot.commands.ZeroLift;
 import frc.team3863.robot.subsystems.Cameras;
 import frc.team3863.robot.subsystems.Climber;
@@ -392,10 +395,16 @@ public class Robot extends TimedRobot {
 		
 		//Reset the SmartDashboard auton description
 		SmartDashboard.putString("Autosomis Mode", "Auton Not Running");
+		
+		System.out.println("GEnerating Path");
+		Trajectory.Config configuration = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH, .005, 12, 4, 20);
+        Trajectory traj = Pathfinder.generate(Paths.CenterSwitch, configuration);
+        System.out.println("finished");
+        Paths.addTraj(traj);
 	}
 
 	/**
-	 * This function is called once each time the robot enters Disabled mode.
+	 * This function is called once each time the robot enters Disabled mode.	
 	 * You can use it to reset any subsystem information you want to clear when
 	 * the robot is disabled.
 	 * 
