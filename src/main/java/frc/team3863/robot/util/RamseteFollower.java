@@ -29,32 +29,45 @@ public class RamseteFollower{
     int index, numSegments;
     //where v = linear velocity (feet/s) and w = angular velocity (rad/s)
     public RamseteFollower(TalonSRX left, TalonSRX right, double wheelBase, Trajectory path, AHRS gyro){
+    	System.out.println("initializing follower");
         this.left = left;
         this.right = right;
         this.gyro = gyro;
         this.wheelBase = wheelBase;
+        this.path = path;
         k_2 = b;
         index = 0;
         numSegments = path.length()-1;
     }
 
+    public void setOdometry(double x, double y) {
+    	this.x = x;
+    	this.y = y;
+    }
     public DriveSignal getNextWheelCommand(){
-        double left = 0;
+    	double left = 0;
         double right = 0;
-        if(index == numSegments){
+        if(index == numSegments-1){
             return new DriveSignal(left, right);
         }
+        System.out.println("Getting segment index number: " + index + "out of " + path.length() + " segments");
+        
         Segment current = path.get(index);
         index++;
-        calcVel(current.x, current.y, Math.toRadians(current.heading), current.velocity, Math.toRadians(current.heading)/current.dt);
-        calcAngleVel(current.x, current.y, Math.toRadians(current.heading), current.velocity, Math.toRadians(current.heading)/current.dt);
+        calcVel(current.x, current.y, current.heading, current.velocity, current.heading/current.dt);
+        calcAngleVel(current.x, current.y, current.heading, current.velocity, current.heading/current.dt);
 
+        System.out.println(current.heading/current.dt);
+        System.out.println("Velocity " + v + " Angular Velocity " + w);
 
         left = (-wheelBase*w)/2 + v;
         right = (+wheelBase*w)/2 + v;
 
         left /= HIGH_GEAR_MAX_SPEED;
         right /=HIGH_GEAR_MAX_SPEED;
+        
+        left *= -1;
+        right *= -1;
         return new DriveSignal(left, right);
     }
 
@@ -71,7 +84,12 @@ public class RamseteFollower{
 
     public void calcAngleVel(double x_d, double y_d, double theta_d, double v_d, double w_d){
         calcK(v_d, w_d);
-        double calcW = w_d + k_2 * v_d * (Math.sin(theta_d - theta) / (theta_d - theta)) * (Math.cos(y_d - y) - Math.sin(theta)*(x_d - x)) + k_3 * (theta_d - theta);
+        theta = Math.toRadians(gyro.getAngle()) % Math.PI/2;
+        System.out.println("Theta " + theta);
+        double thetaError = theta_d-theta;
+        if(thetaError < 0.001)
+        	theta = .0001;
+        double calcW = w_d + k_2 * v_d * (Math.sin(theta_d-theta) / (thetaError)) * (Math.cos(y_d - y) - Math.sin(theta)*(x_d - x)) + k_3 * (thetaError);
         w = calcW;
     }
 
@@ -81,7 +99,7 @@ public class RamseteFollower{
     }
 
     public boolean isFinished(){
-        return index == numSegments;
+        return index == numSegments+1;
     }
 
 

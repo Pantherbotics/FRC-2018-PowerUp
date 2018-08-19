@@ -3,26 +3,26 @@ package frc.team3863.robot.util;
 
 public class CheesyDriveHelper {
 
-        private static final double kThrottleDeadband = 0.02;
-        private static final double kWheelDeadband = 0.02;
+        private static final double kThrottleDeadband = 0.00;
+        private static final double kWheelDeadband = 0.00;
 
         // These factor determine how fast the wheel traverses the "non linear" sine curve.
         private static final double kHighWheelNonLinearity = 0.65;
         private static final double kLowWheelNonLinearity = 0.5;
 
-        private static final double kHighNegInertiaScalar = 4.0;
+        private static final double kHighNegInertiaScalar = 2.0;
 
-        private static final double kLowNegInertiaThreshold = 0.65;
+        private static final double kLowNegInertiaThreshold = 0.8;
         private static final double kLowNegInertiaTurnScalar = 3.5;
-        private static final double kLowNegInertiaCloseScalar = 4.0;
-        private static final double kLowNegInertiaFarScalar = 5.0;
+        private static final double kLowNegInertiaCloseScalar = 2.0;
+        private static final double kLowNegInertiaFarScalar = 3.0;
 
         private static final double kHighSensitivity = 0.95;
         private static final double kLowSensitiity = 1.3;
 
         private static final double kQuickStopDeadband = 0.2;
         private static final double kQuickStopWeight = 0.1;
-        private static final double kQuickStopScalar = 5.0;
+        private static final double kQuickStopScalar = 3.0;
 
         private double mOldWheel = 0.0;
         private double mQuickStopAccumlator = 0.0;
@@ -31,10 +31,12 @@ public class CheesyDriveHelper {
         public DriveSignal cheesyDrive(double throttle, double wheel,
                                        boolean isHighGear) {
 
-            boolean isQuickTurn = 0.05 > Math.abs(throttle);
+            boolean isQuickTurn = 0.01 > Math.abs(throttle);
             wheel = handleDeadband(wheel, kWheelDeadband);
             throttle = handleDeadband(throttle, kThrottleDeadband);
-
+            
+            double sign = Math.signum(wheel);
+            wheel = sign * wheel * wheel;
             double negInertia = wheel - mOldWheel;
             mOldWheel = wheel;
 

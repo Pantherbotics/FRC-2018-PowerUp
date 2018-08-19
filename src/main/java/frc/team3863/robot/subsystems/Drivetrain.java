@@ -71,14 +71,23 @@ public class Drivetrain  extends Subsystem implements PIDSource, PIDOutput {
     	zero_gyro();
     	
 		setTransmissionLow();
+		talonLeftA.configPeakCurrentLimit(60, 0);
+		talonLeftA.configPeakCurrentDuration(20, 0);
+		talonLeftA.configContinuousCurrentLimit(35, 0);
+
+		talonRightA.configPeakCurrentLimit(60, 0);
+		talonRightA.configPeakCurrentDuration(20, 0);
+		talonRightA.configContinuousCurrentLimit(35, 0);
 		
+		talonLeftA.enableCurrentLimit(true);
+		talonRightA.enableCurrentLimit(true);
 		x = 0;
 		y = 0;
 		theta = 0;
 		new Thread (()->{
 			while(true){
 				x += -1 * Math.cos(Math.toRadians(ahrs_gyro.getAngle())) * talonNativeToFPS(((talonLeftA.getSelectedSensorVelocity(0) + talonRightA.getSelectedSensorVelocity(0)) / 2));
-				y += Math.sin(Math.toRadians(ahrs_gyro.getAngle())) * talonNativeToFPS(((talonLeftA.getSelectedSensorVelocity(0) + talonRightA.getSelectedSensorVelocity(0)) / 2));
+				y += -1 * Math.sin(Math.toRadians(ahrs_gyro.getAngle())) * talonNativeToFPS(((talonLeftA.getSelectedSensorVelocity(0) + talonRightA.getSelectedSensorVelocity(0)) / 2));
 				theta = Math.toRadians(ahrs_gyro.getAngle());
 			}
 		}).start();
@@ -200,7 +209,8 @@ public class Drivetrain  extends Subsystem implements PIDSource, PIDOutput {
 	}
 
 	public double talonNativeToFPS(double something){
-        return (something) * (1/(4*128)) * (6*Math.PI) * (1/12) * 1000;
+        return something * 2.55663465 / 24850.407;
+		//return (something) * (1/(4*128)) * (6*Math.PI) * (1/12) * 1000;
     }
 
 	public double[] getOdometry(){

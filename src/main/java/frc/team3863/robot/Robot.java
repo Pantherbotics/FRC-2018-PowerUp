@@ -22,6 +22,7 @@ import frc.team3863.robot.autonomous.AutoLeftScale;
 import frc.team3863.robot.autonomous.AutoLeftSwitchCenter;
 import frc.team3863.robot.autonomous.AutoLeftSwitchFar;
 import frc.team3863.robot.autonomous.AutoLeftSwitchNear;
+import frc.team3863.robot.autonomous.AutoPathPlanningTest;
 import frc.team3863.robot.commands.ZeroLift;
 import frc.team3863.robot.subsystems.Cameras;
 import frc.team3863.robot.subsystems.Climber;
@@ -137,8 +138,8 @@ public class Robot extends TimedRobot {
         
         //Get the drivetrain encoder velocities, and add them to the SmartDashboard
         double[] vels = kDrivetrain.getEncoderVelocities();
-        SmartDashboard.putNumber("Left Velocity (Native)", vels[0]);
-        SmartDashboard.putNumber("Right Velocity (Native)", vels[1]);
+        //SmartDashboard.putNumber("Left Velocity (Native)", vels[0]);
+        //SmartDashboard.putNumber("Right Velocity (Native)", vels[1]);
 		
 		SmartDashboard.putNumber("Left Velocity (ft/s)", Robot.kDrivetrain.talonNativeToFPS(vels[0]));
 		SmartDashboard.putNumber("Right Velocity (ft/s)", Robot.kDrivetrain.talonNativeToFPS(vels[1]));
@@ -325,8 +326,8 @@ public class Robot extends TimedRobot {
 		    
 		 	//Run Baseline without PID control (OpenLoop)
 		    case 3: 
-		 		m_autonomousCommand = new AutoBaselineOpenLoop();
-		 		System.out.println("Openloop Baseline auto mode selected");
+		 		m_autonomousCommand = new AutoPathPlanningTest();
+		 		System.out.println("Path Planning Test!");
 		 		return false;
 		 		
 		 	//No auton selected
@@ -478,6 +479,7 @@ public class Robot extends TimedRobot {
 			System.out.println("Start Auton");
 			m_autonomousCommand.start();
 		}
+		
 		Scheduler.getInstance().run();
 		
 		double t = Timer.getFPGATimestamp();

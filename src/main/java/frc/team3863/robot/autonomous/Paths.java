@@ -17,7 +17,7 @@ public class Paths {
     }
 
     public static Waypoint[] CenterSwitch = new Waypoint[]{
-      new Waypoint(0, 0, 0), new Waypoint(3, 0, 0), new Waypoint (5, -1, -Math.PI/4), new Waypoint (5, -5, -Math.PI/2)
+      new Waypoint(0, 0, 0), new Waypoint(5, 0, 0), new Waypoint(10, 0, -0)
     };
 
 }

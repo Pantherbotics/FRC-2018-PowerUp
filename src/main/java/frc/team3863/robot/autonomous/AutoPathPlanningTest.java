@@ -16,9 +16,11 @@ public class AutoPathPlanningTest extends Command {
     RamseteFollower follower;
     public AutoPathPlanningTest(){
         requires(Robot.kDrivetrain);
-        Trajectory.Config configuration = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH, 1/200, 12, 4, 20);
+        Trajectory.Config configuration = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH, .005, 12, 4, 20);
         Trajectory traj = Pathfinder.generate(Paths.CenterSwitch, configuration);
+        System.out.println(traj.length());
         follower = new RamseteFollower(Robot.kDrivetrain.getTalons()[0], Robot.kDrivetrain.getTalons()[1], Constants.WHEEL_BASE, traj, Robot.kDrivetrain.getGyro());
+        System.out.println("Created new Follower");
     }
 
     protected void initialize() {
@@ -28,6 +30,9 @@ public class AutoPathPlanningTest extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	follower.setOdometry(Robot.kDrivetrain.getOdometry()[0], Robot.kDrivetrain.getOdometry()[1]);
+    	System.out.println("executing!");
+    	System.out.println(follower.getNextWheelCommand().getLeft() + ", " + follower.getNextWheelCommand().getRight());
         Robot.kDrivetrain.setDrivePower(follower.getNextWheelCommand().getLeft(), follower.getNextWheelCommand().getRight());
     }
 
