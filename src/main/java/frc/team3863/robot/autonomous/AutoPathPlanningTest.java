@@ -32,7 +32,7 @@ public class AutoPathPlanningTest extends Command {
     	follower.setOdometry(Robot.kDrivetrain.getOdometry()[0], Robot.kDrivetrain.getOdometry()[1]);
     	System.out.println("executing!");
     	System.out.println(follower.getNextWheelCommand().getLeft() + ", " + follower.getNextWheelCommand().getRight());
-        Robot.kDrivetrain.setDrivePower(follower.getNextWheelCommand().getLeft(), follower.getNextWheelCommand().getRight());
+        Robot.kDrivetrain.setFPS(follower.getNextWheelCommand().getLeft(), follower.getNextWheelCommand().getRight());
     }
 
     // Make this return true when this Command no longer needs to run execute()

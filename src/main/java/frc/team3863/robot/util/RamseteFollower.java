@@ -84,8 +84,6 @@ public class RamseteFollower{
         left = (-wheelBase*w)/2 + v;
         right = (+wheelBase*w)/2 + v;
 
-        left /= HIGH_GEAR_MAX_SPEED;
-        right /=HIGH_GEAR_MAX_SPEED;
         
         left *= -1;
         right *= -1;

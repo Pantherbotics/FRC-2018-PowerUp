@@ -6,7 +6,7 @@ public class Constants {
 	public static final double DRIVE_ENCODER_TICKS = 512 * 1.5; //128 * 4 
 	//public static final int DRIVE_ENCODER_TICKS = 1440;  //400: practice; 1440: competition 
 	//public static int DRIVE_ENCODER_TICKS = 400;
-	public static final double DRIVE_WHEEL_DIAMETER = 18.850;
+	public static final double DRIVE_WHEEL_DIAMETER = 6;
 	public static final double DRIVE_TRANSMISSION_RATIO = 2.4; //high speed is 2.4 times faster than low speed
 	
 	//Drivetrain ticks/rev
@@ -20,10 +20,15 @@ public class Constants {
 	public static final double DRIVE_RAMP_SECONDS = 0.2;
 	
 	//Drivetrain PID 
-	public static final double DRIVE_PID_F = 0.0;
-	public static final double DRIVE_PID_P = 0.70;
-	public static final double DRIVE_PID_I = 0.00005;
-	public static final double DRIVE_PID_D = 0.0001;
+	public static final double HIGH_DRIVE_PID_F = 0.0;
+	public static final double HIGH_DRIVE_PID_P = 0.70;
+	public static final double HIGH_DRIVE_PID_I = 0.00005;
+	public static final double HIGH_DRIVE_PID_D = 0.0001;
+
+	public static final double LOW_DRIVE_PID_F = 0.0;
+	public static final double LOW_DRIVE_PID_P = 0.70;
+	public static final double LOW_DRIVE_PID_I = 0.00005;
+	public static final double LOW_DRIVE_PID_D = 0.0001;
 	
 	//Maximum current draw for each drivetrain CANTalon
 	public static final int DRIVE_CURRENT_LIMIT = 28;
