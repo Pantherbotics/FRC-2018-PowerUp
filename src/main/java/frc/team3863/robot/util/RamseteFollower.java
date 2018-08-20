@@ -51,7 +51,7 @@ public class RamseteFollower{
         lastTheta = path.get(thetaIdx).heading;
         double nextTheta = path.get(thetaIdx+1).heading;
         double diffTheta = nextTheta - lastTheta;
-        w_d = diffTheta/path.get(thetaIdx).heading;
+        w_d = diffTheta/path.get(thetaIdx).dt;
         }
         else
             w_d = 0;
