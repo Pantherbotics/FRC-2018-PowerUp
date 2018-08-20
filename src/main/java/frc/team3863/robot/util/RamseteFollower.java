@@ -65,7 +65,7 @@ public class RamseteFollower{
     public DriveSignal getNextWheelCommand(){
     	double left = 0;
         double right = 0;
-        if(index == numSegments-1){
+        if(isFinished()){
             return new DriveSignal(left, right);
         }
         System.out.println("Getting segment index number: " + index + "out of " + path.length() + " segments");
@@ -125,7 +125,7 @@ public class RamseteFollower{
     }
 
     public boolean isFinished(){
-        return index == numSegments+1;
+        return index == numSegments-1;
     }
 
 
