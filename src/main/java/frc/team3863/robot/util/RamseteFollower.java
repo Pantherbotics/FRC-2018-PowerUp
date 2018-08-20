@@ -47,7 +47,7 @@ public class RamseteFollower{
     }
 
     public void setW_d(){
-        if(thetaIdx < path.length()){
+        if(thetaIdx < path.length()-1){
         lastTheta = path.get(thetaIdx).heading;
         double nextTheta = path.get(thetaIdx+1).heading;
         double diffTheta = nextTheta - lastTheta;
