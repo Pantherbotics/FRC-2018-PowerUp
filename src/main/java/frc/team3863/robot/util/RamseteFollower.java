@@ -19,6 +19,9 @@ public class RamseteFollower{
     AHRS gyro;
     Trajectory path;
 
+    double lastTheta;
+    int thetaIdx;
+
     volatile double x, y, theta;
 
     static final double b = 1; // greater than zero
@@ -38,6 +41,21 @@ public class RamseteFollower{
         k_2 = b;
         index = 0;
         numSegments = path.length()-1;
+
+        thetaIdx = 0;
+        
+    }
+
+    public void setW_d(){
+        if(thetaIdx < path.length()){
+        lastTheta = path.get(thetaIdx).heading;
+        double nextTheta = path.get(thetaIdx+1).heading;
+        double diffTheta = nextTheta - lastTheta;
+        w_d = diffTheta/path.get(thetaIdx).heading;
+        }
+        else
+            w_d = 0;
+        thetaIdx++;
     }
 
     public void setOdometry(double x, double y) {
@@ -54,8 +72,10 @@ public class RamseteFollower{
         
         Segment current = path.get(index);
         index++;
-        calcVel(current.x, current.y, current.heading, current.velocity, current.heading/current.dt);
-        calcAngleVel(current.x, current.y, current.heading, current.velocity, current.heading/current.dt);
+
+        setW_d();
+        calcVel(current.x, current.y, current.heading, current.velocity, w_d);
+        calcAngleVel(current.x, current.y, current.heading, current.velocity, w_d);
 
         
         System.out.println(current.heading/current.dt);
@@ -90,11 +110,11 @@ public class RamseteFollower{
         System.out.println("Theta " + theta);
         double thetaError = theta_d-theta;
         double variable = 0;
-        if(thetaError < 0.001)
+        if(thetaError < 0.00001)
         	variable = 1;
         else
         	variable = Math.sin(theta_d-theta) / (thetaError);
-        double calcW = w_d + k_2 * v_d * (variable) * (Math.cos(y_d - y) - Math.sin(theta)*(x_d - x)) + k_3 * (thetaError);
+        double calcW = w_d + k_2 * v_d * (variable) * (Math.cos(theta) * (y_d - y) - Math.sin(theta)*(x_d - x)) + k_3 * (thetaError);
         w = calcW;
         w %= 2*Math.PI;
     }
