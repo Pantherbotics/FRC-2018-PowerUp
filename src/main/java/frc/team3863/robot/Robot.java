@@ -7,6 +7,7 @@
 
 package frc.team3863.robot;
 
+import java.io.File;
 import edu.wpi.first.wpilibj.TimedRobot;
 import jaci.pathfinder.Trajectory;
 import edu.wpi.first.wpilibj.command.Command;
@@ -396,9 +397,21 @@ public class Robot extends TimedRobot {
 		//Reset the SmartDashboard auton description
 		SmartDashboard.putString("Autosomis Mode", "Auton Not Running");
 		
-		System.out.println("GEnerating Path");
-		Trajectory.Config configuration = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH, .005, 12, 4, 20);
-        Trajectory traj = Pathfinder.generate(Paths.CenterSwitch, configuration);
+
+
+		System.out.println("Generating Paths");
+		String name = "testTraj";
+		boolean check = new File(name).exists();
+		Trajectory traj;
+
+		if(check){
+			File pathFile = new File(name + ".traj");
+			traj = Pathfinder.readFromFile(pathFile);
+		}
+		else{
+			Trajectory.Config configuration = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH, .005, 12, 4, 20);
+			traj = Pathfinder.generate(Paths.CenterSwitch, configuration);
+		}
         System.out.println("finished");
         Paths.addTraj(traj);
 	}

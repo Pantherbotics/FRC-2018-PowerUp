@@ -25,7 +25,7 @@ public class RamseteFollower{
     volatile double x, y, theta;
 
     static final double b = 1; // greater than zero
-    static final double zeta = 0; // between zero and one
+    static final double zeta = 0.2; // between zero and one
     static final double wheelDiameter = 6;
     static final double HIGH_GEAR_MAX_SPEED = 20;
 
