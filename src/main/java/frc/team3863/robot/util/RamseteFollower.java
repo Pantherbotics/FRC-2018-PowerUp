@@ -100,7 +100,7 @@ public class RamseteFollower{
     public void calcVel(double x_d, double y_d, double theta_d, double v_d, double w_d){
     	theta = -Math.toRadians(gyro.getAngle()) % Math.PI/2;
         calcK(v_d, w_d);
-        double calcV = v_d * Math.cos(theta_d - Math.toRadians(gyro.getAngle())) + k_1 * (Math.cos(theta)*(x_d - x) + Math.sin(theta)*(y_d-y));
+        double calcV = v_d * Math.cos(theta_d - theta) + k_1 * (Math.cos(theta)*(x_d - x) + Math.sin(theta)*(y_d-y));
         v = calcV;
     }
 
