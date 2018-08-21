@@ -62,11 +62,6 @@ public class Drivetrain extends Subsystem {
 		talonLeftB.follow(talonLeftA);
 		talonRightB.follow(talonRightA);
 
-		talonLeftA.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT, timeout_ms);
-		talonLeftB.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT, timeout_ms);
-		talonRightA.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT, timeout_ms);
-		talonRightB.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT, timeout_ms);
-
 		talonLeftA.configClosedloopRamp(Constants.DRIVE_RAMP_SECONDS, timeout_ms);
 		talonLeftB.configClosedloopRamp(Constants.DRIVE_RAMP_SECONDS, timeout_ms);
 		talonRightA.configClosedloopRamp(Constants.DRIVE_RAMP_SECONDS, timeout_ms);
@@ -77,16 +72,17 @@ public class Drivetrain extends Subsystem {
 		zero_gyro();
 
 		setTransmissionLow();
-		talonLeftA.configPeakCurrentLimit(60, 0);
-		talonLeftA.configPeakCurrentDuration(20, 0);
-		talonLeftA.configContinuousCurrentLimit(35, 0);
+		talonLeftA.configPeakCurrentLimit(Constants.DRIVE_CURRENT_LIMIT_PEAK, 0);
+		talonLeftA.configPeakCurrentDuration(Constants.DRIVE_CURRENT_LIMIT_PEAK_TIME, 0);
+		talonLeftA.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT_SUSTAINED, 0);
 
-		talonRightA.configPeakCurrentLimit(60, 0);
-		talonRightA.configPeakCurrentDuration(20, 0);
-		talonRightA.configContinuousCurrentLimit(35, 0);
+		talonRightA.configPeakCurrentLimit(Constants.DRIVE_CURRENT_LIMIT_PEAK, 0);
+		talonRightA.configPeakCurrentDuration(Constants.DRIVE_CURRENT_LIMIT_PEAK_TIME, 0);
+		talonRightA.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT_SUSTAINED, 0);
 
 		talonLeftA.enableCurrentLimit(true);
 		talonRightA.enableCurrentLimit(true);
+
 		x = 0;
 		y = 0;
 		theta = 0;

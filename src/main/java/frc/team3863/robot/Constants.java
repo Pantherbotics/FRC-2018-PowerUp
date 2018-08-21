@@ -31,7 +31,9 @@ public class Constants {
 	public static final double LOW_DRIVE_PID_D = 0.0001;
 	
 	//Maximum current draw for each drivetrain CANTalon
-	public static final int DRIVE_CURRENT_LIMIT = 28;
+	public static final int DRIVE_CURRENT_LIMIT_SUSTAINED = 36;
+	public static final int DRIVE_CURRENT_LIMIT_PEAK = 80;
+	public static final int DRIVE_CURRENT_LIMIT_PEAK_TIME = 10;  //ms
 	
 	//Elevator PID
 	public static final double ELEVATOR_PID_F = 0.8184; //Guaranteed random: calculated using a fair dice roll
