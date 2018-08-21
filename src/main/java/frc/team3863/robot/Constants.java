@@ -40,7 +40,7 @@ public class Constants {
 	public static final double ELEVATOR_PID_D = 1.1;
 	
 	public static final int ELEVATOR_PID_CRUISE_VEL = 400;
-	public static final int ELEVATOR_PID_ACCELERATION = 400;
+	public static final int ELEVATOR_PID_ACCELERATION = 300;
 	
 	//Maximum current draw for Elevator CANTalon
 	public static final int ELEVATOR_CURRENT_LIMIT = 35;
@@ -56,9 +56,7 @@ public class Constants {
 	
 	//percent-output for intake motors (when enabled)
 	public static final double INTAKE_MOTOR_POWER = 0.75;
-	
-	//Evil current limit! (useless...)
-	public static final int INTAKE_CURRENT_LIMIT = 15;
+
 	
 	//idle power for intake
 	public static final double INTAKE_IDLE_POWER = -0.2;
@@ -96,12 +94,6 @@ public class Constants {
 	public static final double TURN_D = 0.0;
 	public static final double TURN_F = 0.0;
 
-	public static final int PATHFINDER_ENC_TICKS = 128*4;
-	public static final double PATHFINDER_WHEEL_DIA = 0.5; //ft
-	public static final double PATHFINDER_P = 1.0;
-	public static final double PATHFINDER_I = 0.0;
-	public static final double PATHFINDER_D = 0.0;
-	public static final double PATHFINDER_A = 0.0;
 	 
 	public static final double WHEEL_BASE = 26/12;
 }
