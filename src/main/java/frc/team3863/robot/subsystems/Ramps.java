@@ -34,10 +34,10 @@ public class Ramps extends Subsystem {
     	retractLeftRamp();
     	retractRightRamp();
     	System.out.println("init");
-    };
-    
-    
-    public void liftLeftRamp() {
+    }
+
+
+	public void liftLeftRamp() {
     	left_ramp_solenoid.set(DoubleSolenoid.Value.kForward);
     }
     

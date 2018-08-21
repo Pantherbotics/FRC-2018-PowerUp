@@ -15,7 +15,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 /**
  * Controls the four CANTalons dedicated to the Drivetrain
  */
-public class Drivetrain extends Subsystem implements PIDSource, PIDOutput {
+public class Drivetrain extends Subsystem {
 
 	// ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 	AHRS ahrs_gyro = new AHRS(I2C.Port.kOnboard);
@@ -225,26 +225,6 @@ public class Drivetrain extends Subsystem implements PIDSource, PIDOutput {
 
 	}
 
-	@Override
-	public void pidWrite(double output) {
-		setDrivePower(output, -output);
-	}
-
-	@Override
-	public void setPIDSourceType(PIDSourceType pidSource) {
-
-	}
-
-	@Override
-	public PIDSourceType getPIDSourceType() {
-		return null;
-	}
-
-	@Override
-	public double pidGet() {
-		return getGyroAngle();
-	}
-
 	public double talonNativeToFPS(double something) {
 		return something * 2.55663465 / 24850.407;
 		// return (something) * (1/(4*128)) * (6*Math.PI) * (1/12) * 1000;
@@ -254,13 +234,8 @@ public class Drivetrain extends Subsystem implements PIDSource, PIDOutput {
 		double[] odo = new double[3];
 		odo[0] = x;
 		odo[1] = y;
-		odo[2] = theta;
+		odo[2] = -theta % (Math.PI * 2);
 		return odo;
-	}
-
-	public WPI_TalonSRX[] getTalons() {
-		WPI_TalonSRX[] array = { talonLeftA, talonRightA };
-		return array;
 	}
 
 	public AHRS getGyro() {

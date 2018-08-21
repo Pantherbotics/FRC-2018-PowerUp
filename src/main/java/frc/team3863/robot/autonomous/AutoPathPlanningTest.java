@@ -3,7 +3,6 @@ package frc.team3863.robot.autonomous;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3863.robot.Constants;
 import frc.team3863.robot.Robot;
-import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.EncoderFollower;
 import frc.team3863.robot.util.RamseteFollower;
@@ -18,7 +17,7 @@ public class AutoPathPlanningTest extends Command {
         requires(Robot.kDrivetrain);
         Trajectory traj = Paths.getLastTraj();
         System.out.println(traj.length());
-        follower = new RamseteFollower(Robot.kDrivetrain.getTalons()[0], Robot.kDrivetrain.getTalons()[1], Constants.WHEEL_BASE, traj, Robot.kDrivetrain.getGyro());
+        follower = new RamseteFollower(Constants.WHEEL_BASE, traj);
         System.out.println("Created new Follower");
     }
 
@@ -29,10 +28,10 @@ public class AutoPathPlanningTest extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	follower.setOdometry(Robot.kDrivetrain.getOdometry()[0], Robot.kDrivetrain.getOdometry()[1]);
-    	System.out.println("executing!");
-    	System.out.println(follower.getNextWheelCommand().getLeft() + ", " + follower.getNextWheelCommand().getRight());
-        Robot.kDrivetrain.setFPS(follower.getNextWheelCommand().getLeft(), follower.getNextWheelCommand().getRight());
+    	follower.setOdometry(Robot.kDrivetrain.getOdometry());
+    	System.out.println("Getting next DriveSignal");
+    	System.out.println(follower.getNextDriveSignal().getLeft() + ", " + follower.getNextDriveSignal().getRight());
+        Robot.kDrivetrain.setFPS(follower.getNextDriveSignal().getLeft(), follower.getNextDriveSignal().getRight());
     }
 
     // Make this return true when this Command no longer needs to run execute()

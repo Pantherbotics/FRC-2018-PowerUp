@@ -24,7 +24,7 @@ import frc.team3863.robot.commands.LowerHook;
 import frc.team3863.robot.commands.ToggleTransmissionState;
 import frc.team3863.robot.commands.TransmissionHighGear;
 import frc.team3863.robot.commands.TransmissionLowGear;
-import frc.team3863.robot.commands.ZeroLift;;
+import frc.team3863.robot.commands.ZeroLift;
 
 /**
  * This class is the glue that binds the controls on the physical operator

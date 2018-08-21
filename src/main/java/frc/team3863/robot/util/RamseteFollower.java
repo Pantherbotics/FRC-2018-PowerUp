@@ -1,129 +1,105 @@
 package frc.team3863.robot.util;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.AnalogGyro;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Trajectory.Segment;
-import frc.team3863.robot.util.DriveSignal;
-import com.kauailabs.navx.frc.AHRS;
 
 //3863 implementation of https://www.dis.uniroma1.it/~labrob/pub/papers/Ramsete01.pdf
 //special thanks to Solomon and Prateek
 //thanks to Jaci for her work on Pathfinder!
 
-public class RamseteFollower{
-
-    TalonSRX left, right;
-    double k_1, k_2, k_3, v, w, v_d, w_d, theta_d, x_d, y_d;
-    double wheelBase;
-    AHRS gyro;
-    Trajectory path;
-
-    double lastTheta;
-    int thetaIdx;
-
-    volatile double x, y, theta;
+public class RamseteFollower {
 
     static final double b = 1; // greater than zero
     static final double zeta = 0.2; // between zero and one
-    static final double wheelDiameter = 6;
-    static final double HIGH_GEAR_MAX_SPEED = 20;
+    double k_1, k_2, k_3, v, w, v_d, w_d, theta_d, x_d, y_d;
+    double wheelBase;
+    Trajectory path;
+    double lastTheta;
+    volatile double x, y, theta;
+    int segmentIndex;
 
-    int index, numSegments;
     //where v = linear velocity (feet/s) and w = angular velocity (rad/s)
-    public RamseteFollower(TalonSRX left, TalonSRX right, double wheelBase, Trajectory path, AHRS gyro){
-    	System.out.println("initializing follower");
-        this.left = left;
-        this.right = right;
-        this.gyro = gyro;
+    public RamseteFollower(double wheelBase, Trajectory path) {
+        System.out.println("Initializing Ramsete Follower");
         this.wheelBase = wheelBase;
         this.path = path;
         k_2 = b;
-        index = 0;
-        numSegments = path.length()-1;
-
-        thetaIdx = 0;
-        
+        segmentIndex = 0;
     }
 
-    public void setW_d(){
-        if(thetaIdx < path.length()-1){
-        lastTheta = path.get(thetaIdx).heading;
-        double nextTheta = path.get(thetaIdx+1).heading;
-        double diffTheta = nextTheta - lastTheta;
-        w_d = diffTheta/path.get(thetaIdx).dt;
-        }
-        else
+    public void setW_d() {
+        if (segmentIndex < path.length() - 1) {
+            lastTheta = path.get(segmentIndex).heading;
+            double nextTheta = path.get(segmentIndex + 1).heading;
+            double diffTheta = nextTheta - lastTheta;
+            w_d = diffTheta / path.get(segmentIndex).dt;
+        } else
             w_d = 0;
-        thetaIdx++;
+        segmentIndex++;
     }
 
-    public void setOdometry(double x, double y) {
-    	this.x = x;
-    	this.y = y;
-    }
-    public DriveSignal getNextWheelCommand(){
-    	double left = 0;
+    public DriveSignal getNextDriveSignal() {
+        double left = 0;
         double right = 0;
-        if(isFinished()){
+        if (isFinished()) {
             return new DriveSignal(left, right);
         }
-        System.out.println("Getting segment index number: " + index + "out of " + path.length() + " segments");
-        
-        Segment current = path.get(index);
-        index++;
+        System.out.println("Getting segment segmentIndex number: " + segmentIndex + "out of " + path.length() + " segments");
 
-        setW_d();
+        Segment current = path.get(segmentIndex);   //look at segment of path
+        segmentIndex++;
+
+        setW_d();   //need to find wanted rate of change of heading
         calcVel(current.x, current.y, current.heading, current.velocity, w_d);
         calcAngleVel(current.x, current.y, current.heading, current.velocity, w_d);
 
-        
-        System.out.println(current.heading/current.dt);
+
+        System.out.println(current.heading / current.dt);
         System.out.println("Velocity " + v + " Angular Velocity " + w);
 
-        left = (-wheelBase*w)/2 + v;
-        right = (+wheelBase*w)/2 + v;
+        left = (-wheelBase * w) / 2 + v;  //do math to convert angular velocity + linear velocity into left and right wheel speeds (fps)
+        right = (+wheelBase * w) / 2 + v;
 
-        
-        left *= -1;
+
+        left *= -1; //robot was going backwards...? dunno why
         right *= -1;
+
         return new DriveSignal(left, right);
     }
 
-    public void setOdometry(double[] odometry){
+    public void setOdometry(double[] odometry) {
         x = odometry[0];
         y = odometry[1];
         theta = odometry[2];
+
     }
-    public void calcVel(double x_d, double y_d, double theta_d, double v_d, double w_d){
-    	theta = -Math.toRadians(gyro.getAngle()) % Math.PI/2;
+
+    public void calcVel(double x_d, double y_d, double theta_d, double v_d, double w_d) {
         calcK(v_d, w_d);
-        double calcV = v_d * Math.cos(theta_d - theta) + k_1 * (Math.cos(theta)*(x_d - x) + Math.sin(theta)*(y_d-y));
+        double calcV = v_d * Math.cos(theta_d - theta) + k_1 * (Math.cos(theta) * (x_d - x) + Math.sin(theta) * (y_d - y)); //eq. 5.12
         v = calcV;
     }
 
-    public void calcAngleVel(double x_d, double y_d, double theta_d, double v_d, double w_d){
+    public void calcAngleVel(double x_d, double y_d, double theta_d, double v_d, double w_d) {
         calcK(v_d, w_d);
-        theta = -Math.toRadians(gyro.getAngle()) % Math.PI/2;
         System.out.println("Theta " + theta);
-        double thetaError = theta_d-theta;
-        double variable = 0;
-        if(thetaError < 0.00001)
-        	variable = 1;
+        double thetaError = theta_d - theta;
+        double sinThetaErrOverThetaErr = 0;
+        if (thetaError < 0.00001)
+            sinThetaErrOverThetaErr = 1; //this is the limit as sin(x)/x approaches zero
         else
-        	variable = Math.sin(theta_d-theta) / (thetaError);
-        double calcW = w_d + k_2 * v_d * (variable) * (Math.cos(theta) * (y_d - y) - Math.sin(theta)*(x_d - x)) + k_3 * (thetaError);
-        w = calcW;
-        w %= 2*Math.PI;
+            sinThetaErrOverThetaErr = Math.sin(theta_d - theta) / (thetaError);
+        double calcW = w_d + k_2 * v_d * (sinThetaErrOverThetaErr) * (Math.cos(theta) * (y_d - y) - Math.sin(theta) * (x_d - x)) + k_3 * (thetaError); //from eq. 5.12
+        w = calcW % (2 * Math.PI); // bind it! [-2pi, 2pi]
     }
 
-    public void calcK(double v_d, double w_d){
-        k_1 = 2 * zeta * Math.sqrt(Math.pow(w_d,2)+ k_2*Math.pow(v_d, 2));
+    public void calcK(double v_d, double w_d) {
+        k_1 = 2 * zeta * Math.sqrt(Math.pow(w_d, 2) + k_2 * Math.pow(v_d, 2)); //from eq. 5.12
         k_3 = k_1;
     }
 
-    public boolean isFinished(){
-        return index == numSegments-1;
+    public boolean isFinished() {
+        return segmentIndex == path.length() - 1;
     }
 
 
