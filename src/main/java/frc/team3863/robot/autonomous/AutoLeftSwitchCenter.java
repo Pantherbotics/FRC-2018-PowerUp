@@ -19,14 +19,14 @@ public class AutoLeftSwitchCenter extends CommandGroup {
     	
     	//addSequential(new ElevatorSetpoint(1));
     	addSequential(new DriveForwardInches(36.0));
-    	addSequential(new RotatePIDDegrees(-90 * right_invert, 5));
+    	addSequential(new RotateDegrees(-90 * right_invert));
     	if (start_right) {
     		addSequential(new DriveForwardInches(30.0)); //54
     	}else {
     		addSequential(new DriveForwardInches(45.0)); //54
     	}
     	
-    	addSequential(new RotatePIDDegrees(90 * right_invert, 5));
+    	addSequential(new RotateDegrees(90 * right_invert));
     	addSequential(new ElevatorSetpoint(3));
     	addSequential(new DriveForwardInches(40)); //54.5
     	addSequential(new DropCube());

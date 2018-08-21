@@ -90,12 +90,5 @@ public class Constants {
 	public static final double HOOK_RAISED_POSITION = 1600;
 	public static final double HOOK_LOWERED_POSITION = 10;
 
-	//Turning PID
-	public static final double TURN_P = 0.0;
-	public static final double TURN_I = 0.0;
-	public static final double TURN_D = 0.0;
-	public static final double TURN_F = 0.0;
-
-	 
 	public static final double WHEEL_BASE = 26/12;
 }
