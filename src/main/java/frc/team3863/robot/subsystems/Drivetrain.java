@@ -46,14 +46,14 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public void init() {
+		talonLeftA.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, timeout_ms);
+		talonLeftA.setSensorPhase(true);
+
+		talonRightA.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, timeout_ms);
+		talonRightA.setSensorPhase(true);
+
 		talonLeftA.setInverted(true);
 		talonLeftB.setInverted(true);
-
-		talonLeftA.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, high_pid_id, timeout_ms);
-		talonLeftA.setSensorPhase(false);
-
-		talonRightA.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, high_pid_id, timeout_ms);
-		talonRightA.setSensorPhase(false);
 
 		talonRightA.setNeutralMode(NeutralMode.Coast);
 		talonRightB.setNeutralMode(NeutralMode.Coast);

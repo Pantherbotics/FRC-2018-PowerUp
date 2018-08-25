@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3a56d071-b3fc-4c2c-ba84-d14e6cadcac4" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/subsystems/Drivetrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/subsystems/Drivetrain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopDualPartnerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopDualPartnerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopSingleJoystick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopSingleJoystick.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopSinglePartnerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopSinglePartnerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/RamseteFollower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/RamseteFollower.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -95,11 +93,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RamseteFollower.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RamseteFollower.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/RamseteFollower.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="672">
-              <caret line="72" column="28" lean-forward="true" selection-start-line="72" selection-start-column="28" selection-end-line="72" selection-end-column="28" />
+            <state relative-caret-position="468">
+              <caret line="60" column="41" lean-forward="true" selection-start-line="60" selection-start-column="41" selection-end-line="60" selection-end-column="41" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -134,11 +132,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Drivetrain.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Drivetrain.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/subsystems/Drivetrain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="802">
-              <caret line="185" column="34" lean-forward="true" selection-start-line="185" selection-start-column="34" selection-end-line="185" selection-end-column="34" />
+            <state relative-caret-position="-2262">
+              <caret line="60" column="53" lean-forward="true" selection-start-line="60" selection-start-column="53" selection-end-line="60" selection-end-column="53" />
               <folding>
                 <element signature="e#5180#5181#0" expanded="true" />
                 <element signature="e#5219#5220#0" expanded="true" />
@@ -193,16 +191,16 @@
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/RotatePIDDegrees.java" />
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/autonomous/Paths.java" />
-        <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/RamseteFollower.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/autonomous/AutoPathPlanningTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/Robot.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/Constants.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/autonomous/AutoLeftSwitchCenter.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/Units.java" />
-        <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/subsystems/Drivetrain.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopDualPartnerController.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopSingleJoystick.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopSinglePartnerController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/subsystems/Drivetrain.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/RamseteFollower.java" />
       </list>
     </option>
   </component>
@@ -211,8 +209,8 @@
     <option name="LAST_EDITED_TAB_NAME" />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1912" />
-    <option name="y" value="-8" />
+    <option name="x" value="-36" />
+    <option name="y" value="-17" />
     <option name="width" value="1730" />
     <option name="height" value="980" />
   </component>
@@ -411,7 +409,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1912" y="-8" width="2064" height="1128" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -426,7 +424,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12695312" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13541667" />
       <window_info anchor="bottom" id="FRC" order="8" />
       <window_info anchor="right" id="Gradle" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -759,23 +757,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/Units.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/RamseteFollower.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="672">
-          <caret line="72" column="28" lean-forward="true" selection-start-line="72" selection-start-column="28" selection-end-line="72" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://D:/Program Files/Java/jdk1.8.0_60/src.zip!/java/lang/Runnable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="748">
@@ -804,15 +785,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/Units.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/subsystems/Drivetrain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="802">
-          <caret line="185" column="34" lean-forward="true" selection-start-line="185" selection-start-column="34" selection-end-line="185" selection-end-column="34" />
+        <state relative-caret-position="-2262">
+          <caret line="60" column="53" lean-forward="true" selection-start-line="60" selection-start-column="53" selection-end-line="60" selection-end-column="53" />
           <folding>
             <element signature="e#5180#5181#0" expanded="true" />
             <element signature="e#5219#5220#0" expanded="true" />
             <element signature="e#8192#8193#0" expanded="true" />
             <element signature="e#8215#8216#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/RamseteFollower.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="60" column="41" lean-forward="true" selection-start-line="60" selection-start-column="41" selection-end-line="60" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

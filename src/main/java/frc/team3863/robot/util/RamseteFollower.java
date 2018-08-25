@@ -61,8 +61,8 @@ public class RamseteFollower {
         right = (+wheelBase * w) / 2 + v;
 
 
-        left *= -1; //robot was going backwards...? dunno why
-        right *= -1;
+        //left *= -1; //robot was going backwards...? dunno why
+        //right *= -1;
 
         return new DriveSignal(left, right);
     }
