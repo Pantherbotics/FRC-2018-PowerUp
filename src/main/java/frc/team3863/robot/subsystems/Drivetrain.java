@@ -11,6 +11,7 @@ import com.kauailabs.navx.frc.AHRS;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import frc.team3863.robot.util.Units;
 
 /**
  * Controls the four CANTalons dedicated to the Drivetrain
@@ -88,9 +89,9 @@ public class Drivetrain extends Subsystem {
 		theta = 0;
 		new Thread(() -> {
 			while (true) {
-				x += -1 * Math.cos(Math.toRadians(ahrs_gyro.getAngle())) * talonNativeToFPS(
+				x += -1 * Math.cos(Math.toRadians(ahrs_gyro.getAngle())) * Units.TalonNativeToFPS(
 						((talonLeftA.getSelectedSensorVelocity(0) + talonRightA.getSelectedSensorVelocity(0)) / 2));
-				y += -1 * Math.sin(Math.toRadians(ahrs_gyro.getAngle())) * talonNativeToFPS(
+				y += -1 * Math.sin(Math.toRadians(ahrs_gyro.getAngle())) * Units.TalonNativeToFPS(
 						((talonLeftA.getSelectedSensorVelocity(0) + talonRightA.getSelectedSensorVelocity(0)) / 2));
 				theta = Math.toRadians(ahrs_gyro.getAngle());
 			}
@@ -163,12 +164,8 @@ public class Drivetrain extends Subsystem {
 			setTransmissionLow();
 		}
 
-		talonLeftA.set(ControlMode.Velocity, FPSToTalonNative(left));
-		talonRightA.set(ControlMode.Velocity, FPSToTalonNative(right));
-	}
-
-	public double FPSToTalonNative(double fps) {
-		return (fps * 1 * 1 * 4 * Constants.DRIVE_ENCODER_TICKS) / (1 * 6 * Math.PI * 12 * 1 * 100);
+		talonLeftA.set(ControlMode.Velocity, Units.FPSToTalonNative(left));
+		talonRightA.set(ControlMode.Velocity, Units.FPSToTalonNative(right));
 	}
 
 	public void setPositionTargetIncrements(double leftOffset, double rightOffset) {
@@ -221,10 +218,6 @@ public class Drivetrain extends Subsystem {
 
 	}
 
-	public double talonNativeToFPS(double something) {
-		return something * 2.55663465 / 24850.407;
-		// return (something) * (1/(4*128)) * (6*Math.PI) * (1/12) * 1000;
-	}
 
 	public double[] getOdometry() {
 		double[] odo = new double[3];
