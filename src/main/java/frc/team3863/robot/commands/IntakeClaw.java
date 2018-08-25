@@ -1,16 +1,16 @@
 package frc.team3863.robot.commands;
 
-import frc.team3863.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+import frc.team3863.robot.Robot;
 
 /**
  *
  */
 public class IntakeClaw extends Command {
     boolean extend;
+
     public IntakeClaw(boolean open) {
-    	extend = open;
+        extend = open;
         requires(Robot.kIntake);
     }
 
@@ -20,12 +20,12 @@ public class IntakeClaw extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (extend) {
-    		Robot.kIntake.openClaw();
-    	}else {
-    		Robot.kIntake.closeClaw();
-    	}
-    	
+        if (extend) {
+            Robot.kIntake.openClaw();
+        } else {
+            Robot.kIntake.closeClaw();
+        }
+
     }
 
     // Make this return true when this Command no longer needs to run execute()

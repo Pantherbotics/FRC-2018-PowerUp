@@ -1,8 +1,7 @@
 package frc.team3863.robot.commands;
 
-import frc.team3863.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+import frc.team3863.robot.Robot;
 
 /**
  * this code sucks - rewrite at some point!
@@ -20,13 +19,13 @@ public class RaiseLeftRamp extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (Robot.kRamps.is_left_ramp_deployed) {
-    		Robot.kRamps.liftLeftRamp();
-    		System.out.println("Left Ramp Raised");
-    	}else {
-    		System.out.println("Left Ramp Not Raised");
-    	}
-    	
+        if (Robot.kRamps.is_left_ramp_deployed) {
+            Robot.kRamps.liftLeftRamp();
+            System.out.println("Left Ramp Raised");
+        } else {
+            System.out.println("Left Ramp Not Raised");
+        }
+
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -1,8 +1,7 @@
 package frc.team3863.robot.autonomous;
 
-import frc.team3863.robot.commands.DriveForwardInches;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.team3863.robot.commands.DriveForwardInches;
 
 /**
  *

@@ -1,9 +1,8 @@
 package frc.team3863.robot.commands;
 
+import edu.wpi.first.wpilibj.command.Command;
 import frc.team3863.robot.Constants;
 import frc.team3863.robot.Robot;
-
-import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
@@ -13,7 +12,7 @@ public class LowerHook extends Command {
     public LowerHook() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.kClimber);
+        requires(Robot.kClimber);
     }
 
     // Called just before this Command runs the first time
@@ -22,7 +21,7 @@ public class LowerHook extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.kClimber.setArmPos(Constants.HOOK_LOWERED_POSITION);
+        Robot.kClimber.setArmPos(Constants.HOOK_LOWERED_POSITION);
     }
 
     // Make this return true when this Command no longer needs to run execute()

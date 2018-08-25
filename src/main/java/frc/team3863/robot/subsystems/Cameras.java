@@ -11,10 +11,10 @@ public class Cameras extends Subsystem {
 
     public void initDefaultCommand() {
     }
-    
+
     public void enableCameras() {
-    	camserver.startAutomaticCapture(0);
-    	camserver.startAutomaticCapture(1);
+        camserver.startAutomaticCapture(0);
+        camserver.startAutomaticCapture(1);
     }
 }
 

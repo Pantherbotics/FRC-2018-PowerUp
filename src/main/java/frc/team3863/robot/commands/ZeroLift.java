@@ -1,8 +1,7 @@
 package frc.team3863.robot.commands;
 
-import frc.team3863.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+import frc.team3863.robot.Robot;
 
 /**
  *
@@ -20,7 +19,7 @@ public class ZeroLift extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.kElevator.setMotorPower(-0.5);
+        Robot.kElevator.setMotorPower(-0.5);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -30,8 +29,8 @@ public class ZeroLift extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.kElevator.setMotorPower(0);
-    	Robot.kElevator.zeroEncoder();
+        Robot.kElevator.setMotorPower(0);
+        Robot.kElevator.zeroEncoder();
     }
 
     // Called when another command which requires one or more of the same

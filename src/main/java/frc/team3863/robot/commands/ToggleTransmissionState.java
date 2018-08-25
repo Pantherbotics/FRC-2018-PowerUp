@@ -1,8 +1,7 @@
 package frc.team3863.robot.commands;
 
-import frc.team3863.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+import frc.team3863.robot.Robot;
 
 /**
  *
@@ -20,11 +19,11 @@ public class ToggleTransmissionState extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (Robot.kDrivetrain.transmission_in_low) {
-    		Robot.kDrivetrain.setTransmissionHigh();
-    	}else {
-    		Robot.kDrivetrain.setTransmissionLow();
-    	}
+        if (Robot.kDrivetrain.transmission_in_low) {
+            Robot.kDrivetrain.setTransmissionHigh();
+        } else {
+            Robot.kDrivetrain.setTransmissionLow();
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()

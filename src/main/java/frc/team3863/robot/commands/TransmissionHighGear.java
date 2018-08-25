@@ -1,8 +1,7 @@
 package frc.team3863.robot.commands;
 
-import frc.team3863.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+import frc.team3863.robot.Robot;
 
 /**
  *
@@ -20,7 +19,7 @@ public class TransmissionHighGear extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.kDrivetrain.setTransmissionHigh();
+        Robot.kDrivetrain.setTransmissionHigh();
     }
 
     // Make this return true when this Command no longer needs to run execute()

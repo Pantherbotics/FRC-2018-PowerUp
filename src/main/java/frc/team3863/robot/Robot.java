@@ -7,39 +7,25 @@
 
 package frc.team3863.robot;
 
-import java.io.File;
-
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
-import jaci.pathfinder.Trajectory;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.Pathfinder;
-import frc.team3863.robot.autonomous.AutoBaseline;
-import frc.team3863.robot.autonomous.AutoBaselineOpenLoop;
-import frc.team3863.robot.autonomous.AutoLeftScale;
-import frc.team3863.robot.autonomous.AutoLeftSwitchCenter;
-import frc.team3863.robot.autonomous.AutoLeftSwitchFar;
-import frc.team3863.robot.autonomous.AutoLeftSwitchNear;
-import frc.team3863.robot.autonomous.AutoPathPlanningTest;
-import frc.team3863.robot.autonomous.Paths;
+import frc.team3863.robot.autonomous.*;
 import frc.team3863.robot.commands.ZeroLift;
-import frc.team3863.robot.subsystems.Cameras;
-import frc.team3863.robot.subsystems.Climber;
-import frc.team3863.robot.subsystems.Drivetrain;
-import frc.team3863.robot.subsystems.Elevator;
-import frc.team3863.robot.subsystems.Intake;
-import frc.team3863.robot.subsystems.Ramps;
+import frc.team3863.robot.subsystems.*;
 import frc.team3863.robot.teleop.TeleopDualPartnerController;
-import frc.team3863.robot.teleop.TeleopSingleJoystick;
 import frc.team3863.robot.teleop.TeleopSinglePartnerController;
+import frc.team3863.robot.util.Units;
+import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.Trajectory;
 
-import edu.wpi.first.wpilibj.Timer;
+import java.io.File;
 
 
 /**
@@ -58,35 +44,27 @@ public class Robot extends TimedRobot {
     public static final Intake kIntake = new Intake();
 
     public static final Climber kClimber = new Climber();
-
-    //Previous Message - Previous Driverstation Select
-    String PrevMsg = "";
-    int PrevDsSelect;
-
     public static final Ramps kRamps = new Ramps();
-
     public static final Cameras kCameras = new Cameras();
-
-
     //Operator Interface instance. Contains button ==> command mappings
     public static OI m_oi = new OI();
     //PDP instance. Provides access to the robot's PDP, giving us current draw/breaker status info
     public static PowerDistributionPanel m_pdp = new PowerDistributionPanel();
     //DriverStation instance. Provides access to field/DS/match status and other info
     public DriverStation ds = DriverStation.getInstance();
-
+    //True if autonomous command has been started (prevents starting it multiple times)
+    public boolean is_auton_started = false;
+    //Previous Message - Previous Driverstation Select
+    String PrevMsg = "";
+    int PrevDsSelect;
     //Instance of the currently selected autonomous command
     Command m_autonomousCommand;
     //SmartDashboard dropdown menu for selecting autonomous modes.
     SendableChooser<Integer> m_chooser = new SendableChooser<Integer>();
-
     //Instance of the currently selected teleop drive command
     Command m_teleopDriveCommand;
     //SmartDashboard dropdown menu for selecting teleop drive modes.
     SendableChooser<Command> m_drivechooser = new SendableChooser<Command>();
-
-    //True if autonomous command has been started (prevents starting it multiple times)
-    public boolean is_auton_started = false;
     //True if autonomous mode depends on FMS data (switch/scale position)
     boolean does_auto_need_field_data = false;
     //-1 if we want to use the DS position as the robot position,
@@ -146,8 +124,8 @@ public class Robot extends TimedRobot {
         //SmartDashboard.putNumber("Left Velocity (Native)", vels[0]);
         //SmartDashboard.putNumber("Right Velocity (Native)", vels[1]);
 
-        SmartDashboard.putNumber("Left Velocity (ft/s)", Robot.kDrivetrain.talonNativeToFPS(vels[0]));
-        SmartDashboard.putNumber("Right Velocity (ft/s)", Robot.kDrivetrain.talonNativeToFPS(vels[1]));
+        SmartDashboard.putNumber("Left Velocity (ft/s)", Units.TalonNativeToFPS(vels[0]));
+        SmartDashboard.putNumber("Right Velocity (ft/s)", Units.TalonNativeToFPS(vels[1]));
         //Add the Drivetrain L/R encoder positions to the SmartDashboard
         double[] poss = kDrivetrain.getEncoderPositions();
         SmartDashboard.putNumber("Left Pos", poss[0]);
@@ -395,7 +373,7 @@ public class Robot extends TimedRobot {
         kClimber.init();
 
         //Reset the SmartDashboard auton description
-        SmartDashboard.putString("Autosomis Mode", "Auton Not Running");
+        SmartDashboard.putString("Auto Mode", "Auton Not Running");
 
 
         System.out.println("Generating Paths");
