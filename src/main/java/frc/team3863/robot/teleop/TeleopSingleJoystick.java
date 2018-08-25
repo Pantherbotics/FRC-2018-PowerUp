@@ -30,7 +30,7 @@ public class TeleopSingleJoystick extends Command {
     	
     	double left = y - twist;
     	double right = y + twist;
-    	Robot.kDrivetrain.setVelocityTargets(left, right);
+    	Robot.kDrivetrain.setFPS(left * 23, right * 23);
     }
 
     // Make this return true when this Command no longer needs to run execute()

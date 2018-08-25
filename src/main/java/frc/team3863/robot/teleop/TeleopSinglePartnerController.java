@@ -62,7 +62,7 @@ public class TeleopSinglePartnerController extends Command {
     	double left = (y - twist) * elevDampen;
     	double right = (y + twist) * elevDampen;
     	if (usepid) {
-    		Robot.kDrivetrain.setVelocityTargets(left, right);
+    		Robot.kDrivetrain.setFPS(left * 23, right * 23);
     	}else {
     		Robot.kDrivetrain.setDrivePower(left, right);
     	}

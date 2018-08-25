@@ -68,7 +68,7 @@ public class Drivetrain extends Subsystem {
 		talonRightA.configClosedloopRamp(Constants.DRIVE_RAMP_SECONDS, timeout_ms);
 		talonRightB.configClosedloopRamp(Constants.DRIVE_RAMP_SECONDS, timeout_ms);
 
-		initPID(high_pid_id);
+		initPID();
 
 		zero_gyro();
 
