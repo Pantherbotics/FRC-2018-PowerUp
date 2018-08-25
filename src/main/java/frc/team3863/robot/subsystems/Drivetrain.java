@@ -98,20 +98,20 @@ public class Drivetrain extends Subsystem {
 		}).start();
 	}
 
-	private void initPID(double pid_id) {
-		if (pid_id == high_pid_id) {
+	private void initPID() {
 			talonLeftA.configAllowableClosedloopError(0, high_pid_id, timeout_ms);
 			talonLeftA.config_kF(high_pid_id, Constants.HIGH_DRIVE_PID_F, timeout_ms);
 			talonLeftA.config_kP(high_pid_id, Constants.HIGH_DRIVE_PID_P, timeout_ms);
 			talonLeftA.config_kI(high_pid_id, Constants.HIGH_DRIVE_PID_I, timeout_ms);
 			talonLeftA.config_kD(high_pid_id, Constants.HIGH_DRIVE_PID_D, timeout_ms);
 
+
 			talonRightA.configAllowableClosedloopError(0, high_pid_id, timeout_ms);
 			talonRightA.config_kF(high_pid_id, Constants.HIGH_DRIVE_PID_F, timeout_ms);
 			talonRightA.config_kP(high_pid_id, Constants.HIGH_DRIVE_PID_P, timeout_ms);
 			talonRightA.config_kI(high_pid_id, Constants.HIGH_DRIVE_PID_I, timeout_ms);
 			talonRightA.config_kD(high_pid_id, Constants.HIGH_DRIVE_PID_D, timeout_ms);
-		} else {
+
 			talonLeftA.configAllowableClosedloopError(0, low_pid_id, timeout_ms);
 			talonLeftA.config_kF(low_pid_id, Constants.LOW_DRIVE_PID_F, timeout_ms);
 			talonLeftA.config_kP(low_pid_id, Constants.LOW_DRIVE_PID_P, timeout_ms);
@@ -123,8 +123,11 @@ public class Drivetrain extends Subsystem {
 			talonRightA.config_kP(low_pid_id, Constants.LOW_DRIVE_PID_P, timeout_ms);
 			talonRightA.config_kI(low_pid_id, Constants.LOW_DRIVE_PID_I, timeout_ms);
 			talonRightA.config_kD(low_pid_id, Constants.LOW_DRIVE_PID_D, timeout_ms);
-		}
 
+	}
+
+	private void setPIDProfile(int id){
+		talonLeftA.selectProfileSlot(id, 0);
 	}
 
 	public double[] getEncoderVelocities() {
@@ -145,6 +148,7 @@ public class Drivetrain extends Subsystem {
 		talonRightA.set(ControlMode.PercentOutput, right);
 	}
 
+	/*
 	public void setVelocityTargets(double left, double right) {
 		double multiplier = 600 * Constants.DRIVE_TRANSMISSION_RATIO;
 		if (transmission_in_low) {
@@ -154,6 +158,7 @@ public class Drivetrain extends Subsystem {
 		talonLeftA.set(ControlMode.Velocity, left * 3);
 		talonRightA.set(ControlMode.Velocity, right * 3);
 	}
+	*/
 
 	public void setFPS(double left, double right) {
 		if (left > LOW_GEAR_TOP_SPEED || right > LOW_GEAR_TOP_SPEED) {
@@ -178,14 +183,14 @@ public class Drivetrain extends Subsystem {
 	public void setTransmissionLow() {
 		System.out.println("Transmission in Low Gear");
 		transmission_in_low = true;
-		initPID(low_pid_id);
+		setPIDProfile(low_pid_id);
 		transmissiom_solenoid.set(DoubleSolenoid.Value.kForward);
 	}
 
 	public void setTransmissionHigh() {
 		System.out.println("Transmission in High Gear");
 		transmission_in_low = false;
-		initPID(high_pid_id);
+		setPIDProfile(high_pid_id);
 		transmissiom_solenoid.set(DoubleSolenoid.Value.kReverse);
 
 	}
