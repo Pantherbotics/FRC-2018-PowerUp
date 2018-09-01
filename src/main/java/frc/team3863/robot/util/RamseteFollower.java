@@ -28,14 +28,13 @@ public class RamseteFollower {
     }
 
     public void setW_d() {
-        if (segmentIndex < path.length() - 1) {
+        if (!isFinished()) {
             lastTheta = path.get(segmentIndex).heading;
             double nextTheta = path.get(segmentIndex + 1).heading;
             double diffTheta = nextTheta - lastTheta;
             w_d = diffTheta / path.get(segmentIndex).dt;
         } else
             w_d = 0;
-        segmentIndex++;
     }
 
     public DriveSignal getNextDriveSignal() {
@@ -47,19 +46,16 @@ public class RamseteFollower {
         System.out.println("Getting segment segmentIndex number: " + segmentIndex + "out of " + path.length() + " segments");
 
         Segment current = path.get(segmentIndex);   //look at segment of path
+        setW_d();   //need to find wanted rate of change of heading
         segmentIndex++;
 
-        setW_d();   //need to find wanted rate of change of heading
         calcVel(current.x, current.y, current.heading, current.velocity, w_d);
         calcAngleVel(current.x, current.y, current.heading, current.velocity, w_d);
 
-
-        System.out.println(current.heading / current.dt);
         System.out.println("Velocity " + v + " Angular Velocity " + w);
 
         left = (-wheelBase * w) / 2 + v;  //do math to convert angular velocity + linear velocity into left and right wheel speeds (fps)
         right = (+wheelBase * w) / 2 + v;
-
 
         //left *= -1; //robot was going backwards...? dunno why
         //right *= -1;

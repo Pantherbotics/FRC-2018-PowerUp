@@ -154,11 +154,14 @@ public class Drivetrain extends Subsystem {
 	*/
 
     public void setFPS(double left, double right) {
-        if (left > LOW_GEAR_TOP_SPEED || right > LOW_GEAR_TOP_SPEED) {
+
+        double actualLeft = Units.TalonNativeToFPS(talonLeftA.getSelectedSensorVelocity(0));
+        double actualRight = Units.TalonNativeToFPS(talonRightA.getSelectedSensorVelocity(0));
+        if ( actualLeft > LOW_GEAR_TOP_SPEED || actualRight > LOW_GEAR_TOP_SPEED) {
             setTransmissionHigh();
         }
 
-        if (left < LOW_GEAR_TOP_SPEED && right < LOW_GEAR_TOP_SPEED) {
+        if (actualLeft < LOW_GEAR_TOP_SPEED - 2 && actualRight < LOW_GEAR_TOP_SPEED - 2) {
             setTransmissionLow();
         }
 
