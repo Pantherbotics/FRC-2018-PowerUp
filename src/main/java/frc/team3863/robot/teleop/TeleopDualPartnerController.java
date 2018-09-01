@@ -103,14 +103,6 @@ public class TeleopDualPartnerController extends Command {
             Robot.kDrivetrain.setDrivePower(drive.getLeft(), drive.getRight());
         }
 
-        if (Robot.m_oi.auxPartnerStart.get() && Robot.m_oi.auxPartnerBack.get()) {
-            if (!Robot.kRamps.is_left_ramp_deployed) {
-                Robot.kRamps.deployLeftRamp();
-            }
-            if (!Robot.kRamps.is_right_ramp_deployed) {
-                Robot.kRamps.deployRightRamp();
-            }
-        }
 
     }
 

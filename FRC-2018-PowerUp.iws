@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3a56d071-b3fc-4c2c-ba84-d14e6cadcac4" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/Robot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/Robot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/subsystems/ExampleSubsystem.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/subsystems/Ramps.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopDualPartnerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopDualPartnerController.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -58,15 +56,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="RobotMap.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/RobotMap.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="453">
-              <caret line="53" column="12" lean-forward="true" selection-start-line="53" selection-start-column="12" selection-end-line="53" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Climber.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/subsystems/Climber.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -76,14 +65,41 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Robot.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Robot.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/Robot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="621">
-              <caret line="397" column="33" lean-forward="true" selection-start-line="397" selection-start-column="33" selection-end-line="397" selection-end-column="33" />
+            <state relative-caret-position="6579">
+              <caret line="406" lean-forward="true" selection-start-line="406" selection-end-line="406" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TeleopDualPartnerController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopDualPartnerController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="672">
+              <caret line="115" column="5" lean-forward="true" selection-start-line="115" selection-start-column="5" selection-end-line="115" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TeleopSingleJoystick.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopSingleJoystick.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="485">
+              <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TeleopSinglePartnerController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopSinglePartnerController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1224">
+              <caret line="75" column="69" selection-start-line="75" selection-start-column="69" selection-end-line="75" selection-end-column="69" />
             </state>
           </provider>
         </entry>
@@ -133,15 +149,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CheesyDriveHelper.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/CheesyDriveHelper.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="28" column="47" lean-forward="true" selection-start-line="28" selection-start-column="47" selection-end-line="28" selection-end-column="47" />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -179,7 +186,6 @@
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/RotatePIDDegrees.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/autonomous/AutoPathPlanningTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/autonomous/AutoLeftSwitchCenter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopDualPartnerController.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopSingleJoystick.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopSinglePartnerController.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/RotateDegrees.java" />
@@ -193,6 +199,7 @@
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/subsystems/Drivetrain.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/RamseteFollower.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/Robot.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopDualPartnerController.java" />
       </list>
     </option>
   </component>
@@ -273,6 +280,15 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="robot" type="462c0819:PsiDirectoryNode" />
               <item name="subsystems" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FRC-2018-PowerUp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FRC-2018-PowerUp" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="robot" type="462c0819:PsiDirectoryNode" />
+              <item name="teleop" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="FRC-2018-PowerUp" type="b2602c69:ProjectViewProjectNode" />
@@ -640,27 +656,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopDualPartnerController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="882">
-          <caret line="67" column="13" selection-start-line="67" selection-start-column="13" selection-end-line="67" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopSingleJoystick.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="508">
-          <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopSinglePartnerController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="610">
-          <caret line="75" column="69" selection-start-line="75" selection-start-column="69" selection-end-line="75" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/DriveSignal.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -832,11 +827,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/Robot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="621">
-          <caret line="397" column="33" lean-forward="true" selection-start-line="397" selection-start-column="33" selection-end-line="397" selection-end-column="33" />
+        <state relative-caret-position="6579">
+          <caret line="406" lean-forward="true" selection-start-line="406" selection-end-line="406" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopSingleJoystick.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="485">
+          <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopSinglePartnerController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1224">
+          <caret line="75" column="69" selection-start-line="75" selection-start-column="69" selection-end-line="75" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopDualPartnerController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="672">
+          <caret line="115" column="5" lean-forward="true" selection-start-line="115" selection-start-column="5" selection-end-line="115" selection-end-column="5" />
         </state>
       </provider>
     </entry>
