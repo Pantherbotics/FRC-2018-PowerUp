@@ -82,11 +82,11 @@ public class Drivetrain extends Subsystem {
         theta = 0;
         new Thread(() -> {
             while (true) {
-                x += -1 * Math.cos(Math.toRadians(ahrs_gyro.getAngle())) * Units.TalonNativeToFPS(
-                        ((talonLeftA.getSelectedSensorVelocity(0) + talonRightA.getSelectedSensorVelocity(0)) / 2));
-                y += -1 * Math.sin(Math.toRadians(ahrs_gyro.getAngle())) * Units.TalonNativeToFPS(
-                        ((talonLeftA.getSelectedSensorVelocity(0) + talonRightA.getSelectedSensorVelocity(0)) / 2));
-                theta = Math.toRadians(ahrs_gyro.getAngle());
+                double meanVel = (talonLeftA.getSelectedSensorVelocity(0) + talonRightA.getSelectedSensorVelocity(0)) /2;
+                meanVel = Units.TalonNativeToFPS(meanVel);
+                x += -1 * Math.cos(-Math.toRadians(ahrs_gyro.getAngle())) * meanVel;
+                y += -1 * Math.sin(-Math.toRadians(ahrs_gyro.getAngle())) * meanVel;
+                theta = Math.toRadians(-ahrs_gyro.getAngle()) % (2*Math.PI);
             }
         }).start();
     }

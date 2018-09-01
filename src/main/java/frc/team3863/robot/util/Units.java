@@ -3,14 +3,21 @@ package frc.team3863.robot.util;
 import frc.team3863.robot.Constants;
 
 public class Units {
+
+    static final double TALON_TO_FPS_CONVERSION = .03067961572265625;           //( 1 rev/ 512 ticks) * (0.5pi ft/ 1 rev) * (10 [100ms] / 1 s)
+    static final double FPS_TO_TALON_CONVERSION = 1/TALON_TO_FPS_CONVERSION;
     public static double FPSToTalonNative(double fps) {
-        double nativeUnits = (fps * 12 * 1 * 4 * Constants.DRIVE_ENCODER_TICKS * 1) / (1 * 1 * 6 * Math.PI * 1 * 10);
-        return nativeUnits;
+        return fps * FPS_TO_TALON_CONVERSION;
     }
 
     public static double TalonNativeToFPS(double nativeUnits) {
-        double fps = (nativeUnits * 1 * Constants.DRIVE_WHEEL_DIAMETER * Math.PI * 10) / (1 * 4 * Constants.DRIVE_ENCODER_TICKS * 1 * 12 * 1);
-        return fps;
+        return nativeUnits * .03067961572265625;
     }
+
+    /*
+    public static void main(String[] args){
+        System.out.println(TalonNativeToFPS(770));
+        System.out.println(FPSToTalonNative(7));
+    }*/
 
 }
