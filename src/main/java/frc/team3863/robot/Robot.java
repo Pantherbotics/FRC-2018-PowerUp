@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team3863.robot.autonomous.*;
+import frc.team3863.robot.autonomous.AutoPathFollower;
 import frc.team3863.robot.commands.ZeroLift;
 import frc.team3863.robot.subsystems.*;
 import frc.team3863.robot.teleop.TeleopDualPartnerController;
@@ -33,7 +33,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 /**
@@ -193,7 +192,7 @@ public class Robot extends TimedRobot {
         }
 
 
-        m_autonomousCommand = new AutoPathFollower(paths.get(m_chooser.getSelected()));
+        m_autonomousCommand = new AutoPathFollower(paths.get(m_chooser.getSelected())); //at the beginning of autonomous, we create a command that follows a path selected by the DS -AF
         kDrivetrain.zero_gyro();
 
         Command zero = new ZeroLift();
@@ -377,25 +376,27 @@ public class Robot extends TimedRobot {
     public HashMap<String, Trajectory> collectPathsFromDirectory(String dir){
         HashMap<String, Trajectory> paths = new HashMap<>();
         try {
-            ArrayList<File> filesInFolder = (ArrayList<File>)Files.walk(Paths.get(Constants.PATH_LOCATION))
-                    .filter(Files::isRegularFile)
-                    .filter(Robot::isSource)
-                    .filter(Robot::isHidden)
+            ArrayList<File> filesInFolder = (ArrayList<File>)Files.walk(Paths.get(Constants.PATH_LOCATION)) //yeah so basically here I have no idea what im doing
+                    .filter(Files::isRegularFile)                                                           //what this code is SUPPOSED to do is to read all the files
+                    .filter(Robot::isSource)                                                                //in the folder that contains our pre-generated robot paths
+                    .filter(Robot::isFileHidden)                                                            //using some fancy java 8 features -AF
                     .map(Path::toFile)
                     .collect(Collectors.toList());
             System.out.println();
 
-            for(File traj: filesInFolder){
-                paths.put(traj.getName().substring(0, traj.getName().length() - "_source_Jaci.csv".length() - 1), Pathfinder.readFromCSV(traj));
+            for(File traj: filesInFolder){                                                                 //take all the File objects we just created & convert them into Trajectories to put into HashMap
+                paths.put(traj.getName().replace("_source_Jaci.csv", ""), Pathfinder.readFromCSV(traj));
             }
         } catch (IOException e){
-            paths.put("ERROR", null);
+            e.printStackTrace();
+            paths.put("ERROR: IOException", null);
             return paths;
         }
-    return paths;
+        paths.put("ERROR", null);
+        return paths;
     }
 
-    public static boolean isHidden(Path path){
+    public static boolean isFileHidden(Path path){
         try {
             return Files.isHidden(path);
         } catch (IOException e) {
@@ -405,7 +406,7 @@ public class Robot extends TimedRobot {
     }
 
     public static boolean isSource(Path path){
-            return path.endsWith("_source_Jaci.csv");
+        return path.endsWith("_source_Jaci.csv");
     }
 
 
