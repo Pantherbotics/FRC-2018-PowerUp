@@ -5,6 +5,7 @@ plugins {
     id "eclipse"
     id "idea"
     id "jaci.openrio.gradle.GradleRIO" version "2018.03.06"
+    //id "com.snobot.simulator.plugin.SnobotSimulatorPlugin" version "2018-1.0.0"
 }
 
 def TEAM = 3863
@@ -40,6 +41,9 @@ dependencies {
     compile navx()
     compile pathfinder()
     compile openrio.powerup.matchData()
+
+    //testCompile snobotSimCompile()
+    //testCompile snobotSimJavaCompile()
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')

@@ -1,7 +1,9 @@
-.classpath #Ignore classpath
+#Ignore classpath
 #---------------Generic Java Gitignore---------------
 # Compiled class file
 *.class
+
+*.classpath
 
 .gradle*
 
@@ -79,5 +81,13 @@ local.properties
 .scala_dependencies
 .worksheet
 
-*IntelliJ Files
+#IntelliJ Files
 *.iws
+
+build/
+
+build/libs/
+
+simulator_config/
+
+temp/

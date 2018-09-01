@@ -7,11 +7,8 @@
 
 package frc.team3863.robot;
 
-import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -52,7 +49,7 @@ public class Robot extends TimedRobot {
 
     public static final Climber kClimber = new Climber();
     public static final Ramps kRamps = new Ramps();
-    public static final Cameras kCameras = new Cameras();
+    //public static final Cameras kCameras = new Cameras();
     //Operator Interface instance. Contains button ==> command mappings
     public static OI m_oi = new OI();
     //PDP instance. Provides access to the robot's PDP, giving us current draw/breaker status info
@@ -123,7 +120,7 @@ public class Robot extends TimedRobot {
         kRamps.init();
 
         //Enable the USB CameraServers
-        kCameras.enableCameras();
+        //kCameras.enableCameras();
 
         kClimber.init();
 
@@ -191,8 +188,12 @@ public class Robot extends TimedRobot {
             System.out.println("Waiting for field data...");
         }
 
-
-        m_autonomousCommand = new AutoPathFollower(paths.get(m_chooser.getSelected())); //at the beginning of autonomous, we create a command that follows a path selected by the DS -AF
+        try {
+            m_autonomousCommand = new AutoPathFollower(paths.get(m_chooser.getSelected())); //at the beginning of autonomous, we create a command that follows a path selected by the DS -AF
+        }
+        catch(NullPointerException e){
+            System.out.println("No autonomous mode was selected!");
+        }
         kDrivetrain.zero_gyro();
 
         Command zero = new ZeroLift();

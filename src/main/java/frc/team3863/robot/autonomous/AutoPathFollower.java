@@ -7,11 +7,11 @@ import frc.team3863.robot.util.RamseteFollower;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.EncoderFollower;
 
-public class AutoPathFollower extends Command {
+public class AutoPathFollower extends Command  {
 
     private RamseteFollower follower;
 
-    public AutoPathFollower(Trajectory traj) {
+    public AutoPathFollower(Trajectory traj) throws NullPointerException{
         requires(Robot.kDrivetrain);
         System.out.println(traj.length());
         follower = new RamseteFollower(Constants.WHEEL_BASE, traj);
