@@ -7,16 +7,12 @@ import frc.team3863.robot.util.RamseteFollower;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.EncoderFollower;
 
-public class AutoPathPlanningTest extends Command {
+public class AutoPathFollower extends Command {
 
-    EncoderFollower eLeft, eRight;
-    Trajectory tLeft, tRight;
-    Paths paths;
-    RamseteFollower follower;
+    private RamseteFollower follower;
 
-    public AutoPathPlanningTest() {
+    public AutoPathFollower(Trajectory traj) {
         requires(Robot.kDrivetrain);
-        Trajectory traj = Paths.getLastTraj();
         System.out.println(traj.length());
         follower = new RamseteFollower(Constants.WHEEL_BASE, traj);
         System.out.println("Created new Follower");

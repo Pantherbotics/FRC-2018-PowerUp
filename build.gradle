@@ -1,3 +1,5 @@
+import jaci.gradle.deploy.artifact.FileCollectionArtifact
+
 plugins {
     id "java"
     id "eclipse"
@@ -20,6 +22,13 @@ deploy {
         artifact('frcJava', jaci.openrio.gradle.frc.FRCJavaArtifact) {
             targets << "roborio"
         }
+
+        artifact('paths', FileCollectionArtifact) {
+            files = project.fileTree(dir: 'src/main/resources/paths')
+            directory = '/home/lvuser/paths'
+            targets << "roborio"
+        }
+
     }
 }
 
@@ -40,6 +49,7 @@ jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     manifest jaci.openrio.gradle.GradleRIOPlugin.javaManifest(ROBOT_CLASS)
 }
+
 
 task wrapper(type: Wrapper) {
     gradleVersion = '4.4'

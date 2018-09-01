@@ -26,6 +26,14 @@ import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -60,7 +68,7 @@ public class Robot extends TimedRobot {
     //Instance of the currently selected autonomous command
     Command m_autonomousCommand;
     //SmartDashboard dropdown menu for selecting autonomous modes.
-    SendableChooser<Integer> m_chooser = new SendableChooser<Integer>();
+    SendableChooser<String> m_chooser = new SendableChooser<>();
     //Instance of the currently selected teleop drive command
     Command m_teleopDriveCommand;
     //SmartDashboard dropdown menu for selecting teleop drive modes.
@@ -74,252 +82,7 @@ public class Robot extends TimedRobot {
     //Timer to limit number of SmartDashboard updates per second
     Timer timerInstance = new Timer();
 
-    /**
-     * Updates the SmartDashboard with robot state + debug info
-     */
-    public void updateSmartDashboard() {
-
-        //Get the Switch status from the Field Management System (FMS)
-        String msg = ds.getGameSpecificMessage();
-
-        //Check if we are on the Blue alliance
-        boolean isBlue = (ds.getAlliance() == Alliance.Blue);
-        //Add alliance state to the SmartDashboard
-        SmartDashboard.putBoolean("OurAlliance", isBlue);
-
-        if (msg.length() < 3) {
-            //Error out if the Field data is not in an expected format
-            //System.out.println("Malformed Field Data: "+msg);
-        } else {
-            //Add Switch, Scale, Switch data to the SmartDashboard (True = Blue; False = Red)
-            // ^ !isBlue will invert the output (reverse the POV when our driver station is on the opposite side of the field)
-            SmartDashboard.putBoolean("OurSwitch_L", msg.charAt(0) == 'L' ^ !isBlue);
-            SmartDashboard.putBoolean("Scale_L", msg.charAt(1) == 'L' ^ !isBlue);
-            SmartDashboard.putBoolean("EnemySwitch_L", msg.charAt(2) == 'L' ^ !isBlue);
-
-            //Add right side of switch data (the inverse of the left side)
-            SmartDashboard.putBoolean("OurSwitch_R", msg.charAt(0) == 'R' ^ !isBlue);
-            SmartDashboard.putBoolean("Scale_R", msg.charAt(1) == 'R' ^ !isBlue);
-            SmartDashboard.putBoolean("EnemySwitch_R", msg.charAt(2) == 'R' ^ !isBlue);
-        }
-
-        //Add the autonomous command to the SmartDashboard if it exists
-        if (m_autonomousCommand != null) {
-            SmartDashboard.putData("AutonCommand", m_autonomousCommand);
-        }
-
-
-        //Add the transmission state to the SmartDashboard
-        if (kDrivetrain.transmission_in_low) {
-            SmartDashboard.putString("Transmission", "Low Gear");
-        } else {
-            SmartDashboard.putString("Transmission", "High Gear");
-        }
-
-        //Add the PDP (Power Distrubution Panel) data to the SmartDashboard
-        SmartDashboard.putData("PDP", m_pdp);
-
-        //Get the drivetrain encoder velocities, and add them to the SmartDashboard
-        double[] vels = kDrivetrain.getEncoderVelocities();
-        //SmartDashboard.putNumber("Left Velocity (Native)", vels[0]);
-        //SmartDashboard.putNumber("Right Velocity (Native)", vels[1]);
-
-        SmartDashboard.putNumber("Left Velocity (ft/s)", Units.TalonNativeToFPS(vels[0]));
-        SmartDashboard.putNumber("Right Velocity (ft/s)", Units.TalonNativeToFPS(vels[1]));
-        //Add the Drivetrain L/R encoder positions to the SmartDashboard
-        double[] poss = kDrivetrain.getEncoderPositions();
-        SmartDashboard.putNumber("Left Pos", poss[0]);
-        SmartDashboard.putNumber("Right Pos", poss[1]);
-
-        //Add the elevator's target position, and actual position to the SmartDashboard
-        SmartDashboard.putNumber("Elevator target", kElevator.target);
-        SmartDashboard.putNumber("Elevator pos", kElevator.getPos());
-        SmartDashboard.putBoolean("ElevatorLimit", kElevator.isLiftLowered());
-
-        //Add the gyro angle
-        SmartDashboard.putNumber("Gyro", kDrivetrain.getGyroAngle());
-
-        //Add the Ultrasonic and IR sensors (freq and voltage)
-        SmartDashboard.putNumber("IntakeUltrasonic", kIntake.getAverageDistance());
-        SmartDashboard.putNumber("IntakeLeftIR", kIntake.getLeftIR());
-        SmartDashboard.putNumber("IntakeRightIR", kIntake.getRightIR());
-
-        //Add the elevator's velocity
-        SmartDashboard.putNumber("elevVelocity", kElevator.getVel());
-        SmartDashboard.putNumber("Hook Arm Position", kClimber.getArmPos());
-
-        SmartDashboard.putNumber("Robot X Position", kDrivetrain.getOdometry()[0]);
-        SmartDashboard.putNumber("Robot Y Position", kDrivetrain.getOdometry()[1]);
-        SmartDashboard.putNumber("Robot Heading (rad)", kDrivetrain.getOdometry()[2]);
-
-    }
-
-    /**
-     * Determine which autonomous mode should run (based on SmartDashboard selection AND field state)
-     */
-    public boolean runAutoWithFieldData(int force_ds_location) {
-        //Get the FMS field data (example: "LRL"
-        // L <== Our switch scoring position
-        // R <== Center scale scoring position
-        // L <== Opponent's switch scoring position
-        String msg = ds.getGameSpecificMessage();
-
-        //Don't process anything because we don't have valid field data yet
-        //Tell autonomousPeriodic that we are still waiting for FMS data
-        if (msg.length() < 3) {
-            return false;
-        }
-
-        //Will store Robot/Driverstation location (1,2,3 for Left, Center, Right)
-        int ds_loc;
-
-        //If we want to override the DS/robot location, set ds_loc to the
-        //override value, otherwise get the DS/robot location from the field
-        if (force_ds_location > 0) {
-            ds_loc = force_ds_location;
-            System.out.println("Overriding DS Location (field: " + ds.getLocation() + ")");
-        } else {
-            ds_loc = ds.getLocation();
-        }
-        System.out.println("We are in DS #" + ds_loc);
-
-        int ds_choice = m_chooser.getSelected();
-
-        //Test both the robot and goal locations
-        boolean is_ds_right_side = (ds_loc == 3);
-        boolean is_goal_right_side = (msg.charAt(0) == 'R');
-        boolean is_scale_goal_right_side = (msg.charAt(1) == 'R');
-
-        if (ds_choice == 7 || ds_choice == 8) {
-            if (is_scale_goal_right_side == is_ds_right_side) {
-                System.out.println("AUTON: BLESS THE RNG!!!!!!!!");
-                if (ds_choice == 7) {
-                    System.out.println("AUTON: Left Scale");
-                    // Left scale auto, runs left side of field only.
-                    // Should only run when scale is on left side
-                    m_autonomousCommand = new AutoLeftScale(false);
-                    m_autonomousCommand.start();
-                    return true;
-
-                } else if (ds_choice == 8) {
-                    System.out.println("AUTON: Right Scale");
-                    // Right scale auto, runs right side of field only.
-                    // Should only run when scale is on right
-                    m_autonomousCommand = new AutoLeftScale(true);
-                    m_autonomousCommand.start();
-                    return true;
-                }
-            } else {
-                System.out.println("AUTON: GOD DAMN RNG!!");
-                m_autonomousCommand = null;
-                return true;
-            }
-
-        }
-
-        //Center auto for robot in center of field
-        if (ds_loc == 2) {
-            if (is_goal_right_side) {
-                System.out.println("AUTON: Center Right Switch");
-            } else {
-                System.out.println("AUTON: Center Left Switch");
-            }
-            // Center switch auto, runs left side of field by default.
-            // When is_goal_right_side is true, the auto mode will
-            // go to the right side
-            m_autonomousCommand = new AutoLeftSwitchCenter(is_goal_right_side);
-            m_autonomousCommand.start();
-            return true;
-        }
-
-        //Near auto when robot and goal are on the same side
-        if (is_goal_right_side == is_ds_right_side) {
-            if (is_ds_right_side) {
-                System.out.println("AUTON: Near Right Switch");
-            } else {
-                System.out.println("AUTON: Near Left Switch");
-            }
-            // Near switch auto, runs left side of field by default.
-            m_autonomousCommand = new AutoLeftSwitchNear(is_ds_right_side);
-            m_autonomousCommand.start();
-            return true;
-
-            //Far auto when robot and goal are on opposite sides
-        } else if (is_goal_right_side != is_ds_right_side) {
-            if (is_ds_right_side) {
-                System.out.println("AUTON: Far Right Switch");
-            } else {
-                System.out.println("AUTON: Far Left Switch");
-            }
-            // Far switch auto, runs left side of field by default.
-            m_autonomousCommand = new AutoLeftSwitchFar(is_ds_right_side);
-            m_autonomousCommand.start();
-            return true;
-        } else {
-            System.out.println("MALFORMED FIELD DATA: " + msg);
-            return false;
-        }
-    }
-
-    /**
-     * Returns true if auto requires field data
-     */
-    boolean selectAuto() {
-        int ds_choice = m_chooser.getSelected();
-        switch (ds_choice) {
-            //Automatically determine robot location from DS location, and run switch auto
-            case 1:
-                System.out.println("Automatic DS switch auto mode selected");
-                override_ds_loc = -1;
-                return true;
-
-            //Force robot to left side of field, and run switch auto
-            case 4:
-                System.out.println("Override Left switch auto mode selected");
-                override_ds_loc = 1;
-                return true;
-
-            //Force robot to right side of field, and run switch auto
-            case 5:
-                System.out.println("Override Right switch auto mode selected");
-                override_ds_loc = 3;
-                return true;
-
-            //Force robot to Center side of field, and run switch auto
-            case 6:
-                System.out.println("Override Center switch auto mode selected");
-                override_ds_loc = 2;
-                return true;
-
-            case 7:
-                System.out.println("Override Left half scale auto mode selected");
-                override_ds_loc = 1;
-                return true;
-
-            case 8:
-                System.out.println("Override Right half scale auto mode selected");
-                override_ds_loc = 3;
-                return true;
-
-            //Run Baseline with PID control
-            case 2:
-                m_autonomousCommand = new AutoBaseline();
-                System.out.println("PID Baseline auto mode selected");
-                return false;
-
-            //Run Baseline without PID control (OpenLoop)
-            case 3:
-                m_autonomousCommand = new AutoPathPlanningTest();
-                System.out.println("Path Planning Test!");
-                return false;
-
-            //No auton selected
-            default:
-                m_autonomousCommand = null;
-                return false;
-        }
-    }
-
+    HashMap<String, Trajectory> paths;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -330,20 +93,13 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-
+        m_chooser.addDefault("None", null);
         //Add options to the Auton Mode chooser, and add it to the SmartDashboard
         //The options are integers, accessed later via a switch statement.
-        m_chooser.addDefault("None", 0);
-
-        m_chooser.addObject("AutoSelect Score Switch", 1);
-        m_chooser.addObject("Left Score Switch", 4);
-        m_chooser.addObject("Center Score Switch", 6);
-        m_chooser.addObject("Right Score Switch", 5);
-        m_chooser.addObject("Left Half Score Scale", 7);
-        m_chooser.addObject("Right Half Score Scale", 8);
-        m_chooser.addObject("[PID] Baseline", 2);
-        m_chooser.addObject("[PWR] Baseline", 3);
-        SmartDashboard.putData("Auto mode", m_chooser);
+        paths = collectPathsFromDirectory(Constants.PATH_LOCATION);
+        for(String key : paths.keySet()){
+            m_chooser.addObject(key, key);
+        }
 
         //Add options to the Drive Mode chooser, and add it to the SmartDashboard
         //The options are instances of the given drive commands,
@@ -376,20 +132,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putString("Auto Mode", "Auton Not Running");
 
 
-        System.out.println("Generating Paths");
-        String name = "testTraj";
-        boolean check = new File(name).exists();
-        Trajectory traj;
 
-        if (check) {
-            File pathFile = new File(name + ".traj");
-            traj = Pathfinder.readFromFile(pathFile);
-        } else {
-            Trajectory.Config configuration = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH, .005, 12, 4, 20);
-            traj = Pathfinder.generate(Paths.CenterSwitch, configuration);
-        }
-        System.out.println("finished");
-        Paths.addTraj(traj);
+        SmartDashboard.putData("Auto Mode", m_chooser);
     }
 
     /**
@@ -444,11 +188,12 @@ public class Robot extends TimedRobot {
         does_auto_need_field_data = false;
         override_ds_loc = -1;
 
-        does_auto_need_field_data = selectAuto();
         if (does_auto_need_field_data) {
             System.out.println("Waiting for field data...");
         }
 
+
+        m_autonomousCommand = new AutoPathFollower(paths.get(m_chooser.getSelected()));
         kDrivetrain.zero_gyro();
 
         Command zero = new ZeroLift();
@@ -464,7 +209,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() {
         if (does_auto_need_field_data) {
-            boolean has_field_data = runAutoWithFieldData(override_ds_loc);
+            boolean has_field_data = true; //i have no idea what im doing -AF
             if (has_field_data) {
                 does_auto_need_field_data = false;
                 System.out.println("Auton field data registered");
@@ -545,5 +290,123 @@ public class Robot extends TimedRobot {
             updateSmartDashboard();
         }
     }
+
+    /**
+     * Updates the SmartDashboard with robot state + debug info
+     */
+
+
+    public void updateSmartDashboard() {
+
+        //Get the Switch status from the Field Management System (FMS)
+        String msg = ds.getGameSpecificMessage();
+
+        //Check if we are on the Blue alliance
+        boolean isBlue = (ds.getAlliance() == Alliance.Blue);
+        //Add alliance state to the SmartDashboard
+        SmartDashboard.putBoolean("OurAlliance", isBlue);
+
+        if (msg.length() < 3) {
+            //Error out if the Field data is not in an expected format
+            //System.out.println("Malformed Field Data: "+msg);
+        } else {
+            //Add Switch, Scale, Switch data to the SmartDashboard (True = Blue; False = Red)
+            // ^ !isBlue will invert the output (reverse the POV when our driver station is on the opposite side of the field)
+            SmartDashboard.putBoolean("OurSwitch_L", msg.charAt(0) == 'L' ^ !isBlue);
+            SmartDashboard.putBoolean("Scale_L", msg.charAt(1) == 'L' ^ !isBlue);
+            SmartDashboard.putBoolean("EnemySwitch_L", msg.charAt(2) == 'L' ^ !isBlue);
+
+            //Add right side of switch data (the inverse of the left side)
+            SmartDashboard.putBoolean("OurSwitch_R", msg.charAt(0) == 'R' ^ !isBlue);
+            SmartDashboard.putBoolean("Scale_R", msg.charAt(1) == 'R' ^ !isBlue);
+            SmartDashboard.putBoolean("EnemySwitch_R", msg.charAt(2) == 'R' ^ !isBlue);
+        }
+
+        //Add the autonomous command to the SmartDashboard if it exists
+        if (m_autonomousCommand != null) {
+            SmartDashboard.putData("AutonCommand", m_autonomousCommand);
+        }
+
+
+        //Add the transmission state to the SmartDashboard
+        if (kDrivetrain.transmission_in_low) {
+            SmartDashboard.putString("Transmission", "Low Gear");
+        } else {
+            SmartDashboard.putString("Transmission", "High Gear");
+        }
+
+        //Add the PDP (Power Distrubution Panel) data to the SmartDashboard
+        SmartDashboard.putData("PDP", m_pdp);
+
+        //Get the drivetrain encoder velocities, and add them to the SmartDashboard
+        double[] vels = kDrivetrain.getEncoderVelocities();
+        //SmartDashboard.putNumber("Left Velocity (Native)", vels[0]);
+        //SmartDashboard.putNumber("Right Velocity (Native)", vels[1]);
+
+        SmartDashboard.putNumber("Left Velocity (ft/s)", Units.TalonNativeToFPS(vels[0]));
+        SmartDashboard.putNumber("Right Velocity (ft/s)", Units.TalonNativeToFPS(vels[1]));
+        //Add the Drivetrain L/R encoder positions to the SmartDashboard
+        double[] poss = kDrivetrain.getEncoderPositions();
+        SmartDashboard.putNumber("Left Pos", poss[0]);
+        SmartDashboard.putNumber("Right Pos", poss[1]);
+
+        //Add the elevator's target position, and actual position to the SmartDashboard
+        SmartDashboard.putNumber("Elevator target", kElevator.target);
+        SmartDashboard.putNumber("Elevator pos", kElevator.getPos());
+        SmartDashboard.putBoolean("ElevatorLimit", kElevator.isLiftLowered());
+
+        //Add the gyro angle
+        SmartDashboard.putNumber("Gyro", kDrivetrain.getGyroAngle());
+
+        //Add the Ultrasonic and IR sensors (freq and voltage)
+        SmartDashboard.putNumber("IntakeUltrasonic", kIntake.getAverageDistance());
+        SmartDashboard.putNumber("IntakeLeftIR", kIntake.getLeftIR());
+        SmartDashboard.putNumber("IntakeRightIR", kIntake.getRightIR());
+
+        //Add the elevator's velocity
+        SmartDashboard.putNumber("elevVelocity", kElevator.getVel());
+        SmartDashboard.putNumber("Hook Arm Position", kClimber.getArmPos());
+
+        SmartDashboard.putNumber("Robot X Position", kDrivetrain.getOdometry()[0]);
+        SmartDashboard.putNumber("Robot Y Position", kDrivetrain.getOdometry()[1]);
+        SmartDashboard.putNumber("Robot Heading (rad)", kDrivetrain.getOdometry()[2]);
+
+    }
+
+
+    public HashMap<String, Trajectory> collectPathsFromDirectory(String dir){
+        HashMap<String, Trajectory> paths = new HashMap<>();
+        try {
+            ArrayList<File> filesInFolder = (ArrayList<File>)Files.walk(Paths.get(Constants.PATH_LOCATION))
+                    .filter(Files::isRegularFile)
+                    .filter(Robot::isSource)
+                    .filter(Robot::isHidden)
+                    .map(Path::toFile)
+                    .collect(Collectors.toList());
+            System.out.println();
+
+            for(File traj: filesInFolder){
+                paths.put(traj.getName().substring(0, traj.getName().length() - "_source_Jaci.csv".length() - 1), Pathfinder.readFromCSV(traj));
+            }
+        } catch (IOException e){
+            paths.put("ERROR", null);
+            return paths;
+        }
+    return paths;
+    }
+
+    public static boolean isHidden(Path path){
+        try {
+            return Files.isHidden(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean isSource(Path path){
+            return path.endsWith("_source_Jaci.csv");
+    }
+
 
 }
