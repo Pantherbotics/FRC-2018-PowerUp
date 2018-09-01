@@ -48,7 +48,6 @@ public class Robot extends TimedRobot {
     public static final Intake kIntake = new Intake();
 
     public static final Climber kClimber = new Climber();
-    public static final Ramps kRamps = new Ramps();
     //public static final Cameras kCameras = new Cameras();
     //Operator Interface instance. Contains button ==> command mappings
     public static OI m_oi = new OI();
@@ -115,9 +114,6 @@ public class Robot extends TimedRobot {
         //Initialize the Elevator subsystem and add to the SmartDashboard
         kElevator.initPID();
         SmartDashboard.putData("Elevator", kElevator);
-
-        //Initialize Ramp subsystem (set to default safe state)
-        kRamps.init();
 
         //Enable the USB CameraServers
         //kCameras.enableCameras();
@@ -245,7 +241,6 @@ public class Robot extends TimedRobot {
         Command zero = new ZeroLift();
         zero.start();
 
-        Robot.kRamps.init();
         Robot.kIntake.closeClaw();
 
         //Select the drive mode from the SmartDashboard
