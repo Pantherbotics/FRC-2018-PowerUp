@@ -20,15 +20,15 @@ public class Constants {
     public static final double DRIVE_RAMP_SECONDS = 0.2;
 
     //Drivetrain PID
-    public static final double HIGH_DRIVE_PID_F = 0.0;
-    public static final double HIGH_DRIVE_PID_P = 0.70;
-    public static final double HIGH_DRIVE_PID_I = 0.00005;
-    public static final double HIGH_DRIVE_PID_D = 0.0001;
+    public static final double HIGH_DRIVE_PID_F = 1023/770;
+    public static final double HIGH_DRIVE_PID_P = 1.5;
+    public static final double HIGH_DRIVE_PID_I = 0.0000;
+    public static final double HIGH_DRIVE_PID_D = 000;
 
-    public static final double LOW_DRIVE_PID_F = 0.0;
-    public static final double LOW_DRIVE_PID_P = 0.70;
-    public static final double LOW_DRIVE_PID_I = 0.00005;
-    public static final double LOW_DRIVE_PID_D = 0.0001;
+    public static final double LOW_DRIVE_PID_F = 1023/770;
+    public static final double LOW_DRIVE_PID_P = 1.5;
+    public static final double LOW_DRIVE_PID_I = 0.0000;
+    public static final double LOW_DRIVE_PID_D = 0.000;
 
     //Maximum current draw for each drivetrain CANTalon
     public static final int DRIVE_CURRENT_LIMIT_SUSTAINED = 36;

@@ -40,10 +40,10 @@ public class Drivetrain extends Subsystem {
 
     public void init() {
         talonLeftA.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, timeout_ms);
-        talonLeftA.setSensorPhase(true);
+        talonLeftA.setSensorPhase(false);
 
         talonRightA.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, timeout_ms);
-        talonRightA.setSensorPhase(true);
+        talonRightA.setSensorPhase(false);
 
         talonLeftA.setInverted(true);
         talonLeftB.setInverted(true);
@@ -55,6 +55,7 @@ public class Drivetrain extends Subsystem {
 
         talonLeftB.follow(talonLeftA);
         talonRightB.follow(talonRightA);
+
 
         talonLeftA.configClosedloopRamp(Constants.DRIVE_RAMP_SECONDS, timeout_ms);
         talonLeftB.configClosedloopRamp(Constants.DRIVE_RAMP_SECONDS, timeout_ms);
@@ -82,8 +83,7 @@ public class Drivetrain extends Subsystem {
         theta = 0;
         new Thread(() -> {
             while (true) {
-                double meanVel = (talonLeftA.getSelectedSensorVelocity(0) + talonRightA.getSelectedSensorVelocity(0)) /2;
-                meanVel = Units.TalonNativeToFPS(meanVel);
+                double meanVel = Units.TalonNativeToFPS(talonLeftA.getSelectedSensorVelocity(0) + talonRightA.getSelectedSensorVelocity(0))/2;
                 x += -1 * Math.cos(-Math.toRadians(ahrs_gyro.getAngle())) * meanVel;
                 y += -1 * Math.sin(-Math.toRadians(ahrs_gyro.getAngle())) * meanVel;
                 theta = Math.toRadians(-ahrs_gyro.getAngle()) % (2*Math.PI);
@@ -154,17 +154,20 @@ public class Drivetrain extends Subsystem {
 	*/
 
     public void setFPS(double left, double right) {
-
+        /*
         double actualLeft = Units.TalonNativeToFPS(talonLeftA.getSelectedSensorVelocity(0));
         double actualRight = Units.TalonNativeToFPS(talonRightA.getSelectedSensorVelocity(0));
-        if ( actualLeft > LOW_GEAR_TOP_SPEED || actualRight > LOW_GEAR_TOP_SPEED) {
+        if ( actualLeft > LOW_GEAR_TOP_SPEED-2 || actualRight > LOW_GEAR_TOP_SPEED-2) {
             setTransmissionHigh();
         }
 
-        if (actualLeft < LOW_GEAR_TOP_SPEED - 2 && actualRight < LOW_GEAR_TOP_SPEED - 2) {
+        if (actualLeft < LOW_GEAR_TOP_SPEED - 4 && actualRight < LOW_GEAR_TOP_SPEED - 4) {
             setTransmissionLow();
-        }
+        }*/
+        setTransmissionHigh();
 
+        System.out.println("wanted " + left + " " + right);
+        System.out.println("real " + Units.TalonNativeToFPS(talonLeftA.getSelectedSensorVelocity(0)) + " " + Units.TalonNativeToFPS(talonRightA.getSelectedSensorVelocity(0)));
         talonLeftA.set(ControlMode.Velocity, Units.FPSToTalonNative(left));
         talonRightA.set(ControlMode.Velocity, Units.FPSToTalonNative(right));
     }
@@ -184,7 +187,7 @@ public class Drivetrain extends Subsystem {
     }
 
     public void setTransmissionHigh() {
-        System.out.println("Transmission in High Gear");
+        //System.out.println("Transmission in High Gear");
         transmission_in_low = false;
         setPIDProfile(high_pid_id);
         transmissiom_solenoid.set(DoubleSolenoid.Value.kReverse);

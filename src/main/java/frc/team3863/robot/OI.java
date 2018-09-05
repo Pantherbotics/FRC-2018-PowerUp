@@ -111,8 +111,8 @@ public class OI {
         //partnerRightBumper.whileHeld(new EnableIntakeWheels(true)); //Wheels run in reverse direction
         partnerControlA.whenPressed(new IntakeClaw(true)); //open claw
         partnerControlB.whenPressed(new IntakeClaw(false)); //close claw
-        partnerShare.whileHeld(new RaiseLeftRamp());
-        partnerOptions.whileHeld(new RaiseRightRamp());
+        //partnerShare.whileHeld(new RaiseLeftRamp());
+        //partnerOptions.whileHeld(new RaiseRightRamp());
         partnerTrackpad.whenPressed(new AutoIntake());
     }
 
@@ -129,8 +129,8 @@ public class OI {
 
         auxPartnerY.whenPressed(new OuttakeCube());
         auxPartnerA.whenPressed(new AutoIntake());
-        auxPartnerX.whenPressed(new RaiseLeftRamp());
-        auxPartnerB.whenPressed(new RaiseRightRamp());
+        //auxPartnerX.whenPressed(new RaiseLeftRamp());
+        //auxPartnerB.whenPressed(new RaiseRightRamp());
 
         auxPartnerLeftTrigger.whenPressed(new IntakeClaw(true));
         auxPartnerRightTrigger.whenPressed(new IntakeClaw(false));
