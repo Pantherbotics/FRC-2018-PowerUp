@@ -20,8 +20,8 @@ public class Constants {
     public static final double DRIVE_RAMP_SECONDS = 0.2;
 
     //Drivetrain PID
-    public static final double HIGH_DRIVE_PID_F = 1023/770;
-    public static final double HIGH_DRIVE_PID_P = 1.5;
+    public static final double HIGH_DRIVE_PID_F = 1.328571;
+    public static final double HIGH_DRIVE_PID_P = 2.5;
     public static final double HIGH_DRIVE_PID_I = 0.0000;
     public static final double HIGH_DRIVE_PID_D = 000;
 
