@@ -57,8 +57,8 @@ public class RamseteFollower {
         left = (-wheelBase * w) / 2 + v;  //do math to convert angular velocity + linear velocity into left and right wheel speeds (fps)
         right = (+wheelBase * w) / 2 + v;
 
-        left *= -1; //robot was going backwards...? dunno why
-        right *= -1;
+        //left *= -1; //robot was going backwards...? dunno why
+        //right *= -1;
 
         return new DriveSignal(left, right);
     }

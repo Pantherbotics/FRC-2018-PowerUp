@@ -384,24 +384,12 @@ public class Robot extends TimedRobot {
                 }
             }
             for(File traj: filesInFolder){
-                System.out.println(traj.getName());                                                                 //take all the File objects we just created & convert them into Trajectories to put into HashMap
+                System.out.println(traj.getName());                                                                          //take all the File objects we just created & convert them into Trajectories to put into HashMap
                 paths.put(traj.getName().replace("_source_Jaci.csv", ""), Pathfinder.readFromCSV(traj));
             }
             return paths;
     }
 
-    public static boolean isFileHidden(Path path){
-        try {
-            return Files.isHidden(path);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public static boolean isSource(Path path){
-        return path.endsWith("_source_Jaci.csv");
-    }
 
     public static ArrayList<File> listf(String directoryName) {
         File directory = new File(directoryName);

@@ -48,6 +48,9 @@ public class Drivetrain extends Subsystem {
         talonLeftA.setInverted(true);
         talonLeftB.setInverted(true);
 
+        talonRightA.setInverted(false);
+        talonRightB.setInverted(false);
+
         talonRightA.setNeutralMode(NeutralMode.Coast);
         talonRightB.setNeutralMode(NeutralMode.Coast);
         talonLeftA.setNeutralMode(NeutralMode.Coast);
@@ -84,12 +87,19 @@ public class Drivetrain extends Subsystem {
         y = 0;
         theta = 0;
         new Thread(() -> {
+            double lastPos = (talonLeftA.getSelectedSensorPosition(0) + talonRightA.getSelectedSensorPosition(0))/2;
             while (true) {
-                double pos = (talonLeftA.getSelectedSensorPosition(0) + talonRightA.getSelectedSensorPosition(0))/2;
-                pos = -Units.TalonNativeToFeet(pos);
-                x =  Math.cos(-Math.toRadians(ahrs_gyro.getAngle())) * pos;
-                y =  Math.sin(-Math.toRadians(ahrs_gyro.getAngle())) * pos;
+                double currentPos = (talonLeftA.getSelectedSensorPosition(0) + talonRightA.getSelectedSensorPosition(0))/2;
+                double dPos = -Units.TalonNativeToFeet(currentPos - lastPos);
+                x +=  Math.cos(-Math.toRadians(ahrs_gyro.getAngle())) * dPos;
+                y +=  Math.sin(-Math.toRadians(ahrs_gyro.getAngle())) * dPos;
                 theta = Math.toRadians(-ahrs_gyro.getAngle()) % (2*Math.PI);
+                lastPos = currentPos;
+                try {
+                    Thread.sleep(10);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }).start();
     }
