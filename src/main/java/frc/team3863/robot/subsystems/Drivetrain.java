@@ -38,18 +38,18 @@ public class Drivetrain extends Subsystem {
         // setDefaultCommand(new MySpecialCommand());
     }
 
-    public void init() {
+    public void init() {                                                                                //note to self: i need to invert drivetrain direction, but not sure if need to also invert sensor phase?
         talonLeftA.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, timeout_ms);
-        talonLeftA.setSensorPhase(false);
+        talonLeftA.setSensorPhase(true);
 
         talonRightA.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, timeout_ms);
-        talonRightA.setSensorPhase(false);
+        talonRightA.setSensorPhase(true);
 
-        talonLeftA.setInverted(true);
-        talonLeftB.setInverted(true);
+        talonLeftA.setInverted(false);
+        talonLeftB.setInverted(false);
 
-        talonRightA.setInverted(false);
-        talonRightB.setInverted(false);
+        talonRightA.setInverted(true);
+        talonRightB.setInverted(true);
 
         talonRightA.setNeutralMode(NeutralMode.Coast);
         talonRightB.setNeutralMode(NeutralMode.Coast);
