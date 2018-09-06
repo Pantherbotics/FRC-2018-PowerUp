@@ -7,6 +7,7 @@
 
 package frc.team3863.robot;
 
+import java.util.Arrays;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.command.Command;
@@ -92,7 +93,9 @@ public class Robot extends TimedRobot {
         //Add options to the Auton Mode chooser, and add it to the SmartDashboard
         //The options are integers, accessed later via a switch statement.
         paths = collectPathsFromDirectory(Constants.PATH_LOCATION);
+        System.out.println(paths.isEmpty());
         for(String key : paths.keySet()){
+            System.out.println(key);
             m_chooser.addObject(key, key);
         }
 
@@ -362,34 +365,29 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("elevVelocity", kElevator.getVel());
         SmartDashboard.putNumber("Hook Arm Position", kClimber.getArmPos());
 
-        SmartDashboard.putNumber("Robot X Position", kDrivetrain.getOdometry()[0]);
-        SmartDashboard.putNumber("Robot Y Position", kDrivetrain.getOdometry()[1]);
-        SmartDashboard.putNumber("Robot Heading (rad)", kDrivetrain.getOdometry()[2]);
+        //SmartDashboard.putNumber("Robot X Position", kDrivetrain.getOdometry()[0]);
+        //SmartDashboard.putNumber("Robot Y Position", kDrivetrain.getOdometry()[1]);
+        //SmartDashboard.putNumber("Robot Heading (rad)", kDrivetrain.getOdometry()[2]);
 
     }
 
 
     public HashMap<String, Trajectory> collectPathsFromDirectory(String dir){
         HashMap<String, Trajectory> paths = new HashMap<>();
-        try {
-            ArrayList<File> filesInFolder = (ArrayList<File>)Files.walk(Paths.get(Constants.PATH_LOCATION)) //yeah so basically here I have no idea what im doing
-                    .filter(Files::isRegularFile)                                                           //what this code is SUPPOSED to do is to read all the files
-                    .filter(Robot::isSource)                                                                //in the folder that contains our pre-generated robot paths
-                    .filter(Robot::isFileHidden)                                                            //using some fancy java 8 features -AF
-                    .map(Path::toFile)
-                    .collect(Collectors.toList());
-            System.out.println();
+    
+            ArrayList<File> filesInFolder = listf(dir);
 
-            for(File traj: filesInFolder){                                                                 //take all the File objects we just created & convert them into Trajectories to put into HashMap
+            for(int i = filesInFolder.size()-1; i >=0 ; i--){
+                File traj = filesInFolder.get(i);
+                if (!traj.getName().contains("_source_Jaci.csv")){
+                    filesInFolder.remove(i);
+                }
+            }
+            for(File traj: filesInFolder){
+                System.out.println(traj.getName());                                                                 //take all the File objects we just created & convert them into Trajectories to put into HashMap
                 paths.put(traj.getName().replace("_source_Jaci.csv", ""), Pathfinder.readFromCSV(traj));
             }
-        } catch (IOException e){
-            e.printStackTrace();
-            paths.put("ERROR: IOException", null);
             return paths;
-        }
-        paths.put("ERROR", null);
-        return paths;
     }
 
     public static boolean isFileHidden(Path path){
@@ -405,5 +403,23 @@ public class Robot extends TimedRobot {
         return path.endsWith("_source_Jaci.csv");
     }
 
+    public static ArrayList<File> listf(String directoryName) {
+        File directory = new File(directoryName);
+
+        ArrayList<File> resultList = new ArrayList<File>();
+
+        // get all the files from a directory
+        File[] fList = directory.listFiles();
+        resultList.addAll(Arrays.asList(fList));
+        for (File file : fList) {
+            if (file.isFile()) {
+                System.out.println(file.getAbsolutePath());
+            } else if (file.isDirectory()) {
+                resultList.addAll(listf(file.getAbsolutePath()));
+            }
+        }
+        //System.out.println(fList);
+        return resultList;
+    } 
 
 }

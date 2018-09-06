@@ -78,14 +78,17 @@ public class Drivetrain extends Subsystem {
         talonLeftA.enableCurrentLimit(true);
         talonRightA.enableCurrentLimit(true);
 
+        talonLeftA.setSelectedSensorPosition(0, 0, 0);
+        talonRightA.setSelectedSensorPosition(0, 0, 0);
         x = 0;
         y = 0;
         theta = 0;
         new Thread(() -> {
             while (true) {
-                double meanVel = Units.TalonNativeToFPS(talonLeftA.getSelectedSensorVelocity(0) + talonRightA.getSelectedSensorVelocity(0))/2;
-                x += -1 * Math.cos(-Math.toRadians(ahrs_gyro.getAngle())) * meanVel;
-                y += -1 * Math.sin(-Math.toRadians(ahrs_gyro.getAngle())) * meanVel;
+                double pos = (talonLeftA.getSelectedSensorPosition(0) + talonRightA.getSelectedSensorPosition(0))/2;
+                pos = -Units.TalonNativeToFeet(pos);
+                x =  Math.cos(-Math.toRadians(ahrs_gyro.getAngle())) * pos;
+                y =  Math.sin(-Math.toRadians(ahrs_gyro.getAngle())) * pos;
                 theta = Math.toRadians(-ahrs_gyro.getAngle()) % (2*Math.PI);
             }
         }).start();
@@ -166,8 +169,8 @@ public class Drivetrain extends Subsystem {
         }*/
         setTransmissionHigh();
 
-        System.out.println("wanted " + left + " " + right);
-        System.out.println("real " + Units.TalonNativeToFPS(talonLeftA.getSelectedSensorVelocity(0)) + " " + Units.TalonNativeToFPS(talonRightA.getSelectedSensorVelocity(0)));
+        //System.out.println("wanted " + left + " " + right);
+        //System.out.println("real " + Units.TalonNativeToFPS(talonLeftA.getSelectedSensorVelocity(0)) + " " + Units.TalonNativeToFPS(talonRightA.getSelectedSensorVelocity(0)));
         talonLeftA.set(ControlMode.Velocity, Units.FPSToTalonNative(left));
         talonRightA.set(ControlMode.Velocity, Units.FPSToTalonNative(right));
     }

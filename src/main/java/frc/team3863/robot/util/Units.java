@@ -1,7 +1,5 @@
 package frc.team3863.robot.util;
 
-import frc.team3863.robot.Constants;
-
 public class Units {
 
     static final double TALON_TO_FPS_CONVERSION = .03067961572265625;           //( 1 rev/ 512 ticks) * (0.5pi ft/ 1 rev) * (10 [100ms] / 1 s)
@@ -14,6 +12,9 @@ public class Units {
         return nativeUnits * .03067961572265625;
     }
 
+    public static double TalonNativeToFeet(double nativeUnits){
+        return nativeUnits *.003067961;
+    }
     /*
     public static void main(String[] args){
         System.out.println(TalonNativeToFPS(770));

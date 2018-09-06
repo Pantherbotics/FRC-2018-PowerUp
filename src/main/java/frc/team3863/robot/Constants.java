@@ -92,5 +92,5 @@ public class Constants {
 
     public static final double WHEEL_BASE = 26 / 12;
 
-    public static final String PATH_LOCATION = "/home/lvuser/paths";
+    public static final String PATH_LOCATION = "/home/lvuser/paths/";
 }

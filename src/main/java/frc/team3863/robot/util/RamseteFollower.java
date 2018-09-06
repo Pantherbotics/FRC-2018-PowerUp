@@ -9,8 +9,8 @@ import jaci.pathfinder.Trajectory.Segment;
 
 public class RamseteFollower {
 
-    static final double b = 1; // greater than zero
-    static final double zeta = 0.2; // between zero and one
+    static final double b = 2; // greater than zero
+    static final double zeta = 0.9; // between zero and one
     double k_1, k_2, k_3, v, w, v_d, w_d, theta_d, x_d, y_d;
     double wheelBase;
     Trajectory path;
@@ -57,8 +57,8 @@ public class RamseteFollower {
         left = (-wheelBase * w) / 2 + v;  //do math to convert angular velocity + linear velocity into left and right wheel speeds (fps)
         right = (+wheelBase * w) / 2 + v;
 
-        //left *= -1; //robot was going backwards...? dunno why
-        //right *= -1;
+        left *= -1; //robot was going backwards...? dunno why
+        right *= -1;
 
         return new DriveSignal(left, right);
     }
