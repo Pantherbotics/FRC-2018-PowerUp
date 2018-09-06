@@ -40,10 +40,10 @@ public class Drivetrain extends Subsystem {
 
     public void init() {                                                                                //note to self: i need to invert drivetrain direction, but not sure if need to also invert sensor phase?
         talonLeftA.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, timeout_ms);
-        talonLeftA.setSensorPhase(true);
+        talonLeftA.setSensorPhase(false);
 
         talonRightA.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, timeout_ms);
-        talonRightA.setSensorPhase(true);
+        talonRightA.setSensorPhase(false);
 
         talonLeftA.setInverted(false);
         talonLeftB.setInverted(false);
@@ -90,10 +90,10 @@ public class Drivetrain extends Subsystem {
             double lastPos = (talonLeftA.getSelectedSensorPosition(0) + talonRightA.getSelectedSensorPosition(0))/2;
             while (true) {
                 double currentPos = (talonLeftA.getSelectedSensorPosition(0) + talonRightA.getSelectedSensorPosition(0))/2;
-                double dPos = -Units.TalonNativeToFeet(currentPos - lastPos);
-                x +=  Math.cos(-Math.toRadians(ahrs_gyro.getAngle())) * dPos;
-                y +=  Math.sin(-Math.toRadians(ahrs_gyro.getAngle())) * dPos;
-                theta = Math.toRadians(-ahrs_gyro.getAngle()) % (2*Math.PI);
+                double dPos = Units.TalonNativeToFeet(currentPos - lastPos);
+                x +=  Math.cos(Math.toRadians(-ahrs_gyro.getAngle())) * dPos;
+                y +=  Math.sin(Math.toRadians(-ahrs_gyro.getAngle())) * dPos;
+                theta = Math.toRadians(ahrs_gyro.getAngle()) % (2*Math.PI);
                 lastPos = currentPos;
                 try {
                     Thread.sleep(10);
@@ -240,11 +240,21 @@ public class Drivetrain extends Subsystem {
         double[] odo = new double[3];
         odo[0] = x;
         odo[1] = y;
-        odo[2] = -theta % (Math.PI * 2);
+        odo[2] = theta % (6.283185);
         return odo;
     }
 
     public AHRS getGyro() {
         return ahrs_gyro;
+    }
+
+    public void clearOdometry(){
+        x = 0;
+        y = 0;
+        theta = 0;
+    }
+
+    public void printOdometry(){
+        System.out.println("X: " + x + " Y: " + y + "Theta: "+ theta);
     }
 }

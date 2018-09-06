@@ -182,7 +182,7 @@ public class Robot extends TimedRobot {
         is_auton_started = false;
         does_auto_need_field_data = false;
         override_ds_loc = -1;
-
+        kDrivetrain.clearOdometry();
         if (does_auto_need_field_data) {
             System.out.println("Waiting for field data...");
         }
@@ -345,8 +345,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Right Velocity (ft/s)", Units.TalonNativeToFPS(vels[1]));
         //Add the Drivetrain L/R encoder positions to the SmartDashboard
         double[] poss = kDrivetrain.getEncoderPositions();
-        SmartDashboard.putNumber("Left Pos", poss[0]);
-        SmartDashboard.putNumber("Right Pos", poss[1]);
+        //SmartDashboard.putNumber("Left Pos", poss[0]);
+        //SmartDashboard.putNumber("Right Pos", poss[1]);
 
         //Add the elevator's target position, and actual position to the SmartDashboard
         SmartDashboard.putNumber("Elevator target", kElevator.target);
@@ -354,20 +354,21 @@ public class Robot extends TimedRobot {
         SmartDashboard.putBoolean("ElevatorLimit", kElevator.isLiftLowered());
 
         //Add the gyro angle
-        SmartDashboard.putNumber("Gyro", kDrivetrain.getGyroAngle());
+        //SmartDashboard.putNumber("Gyro", kDrivetrain.getGyroAngle());
 
+        /*
         //Add the Ultrasonic and IR sensors (freq and voltage)
         SmartDashboard.putNumber("IntakeUltrasonic", kIntake.getAverageDistance());
         SmartDashboard.putNumber("IntakeLeftIR", kIntake.getLeftIR());
-        SmartDashboard.putNumber("IntakeRightIR", kIntake.getRightIR());
+        SmartDashboard.putNumber("IntakeRightIR", kIntake.getRightIR());*/
 
         //Add the elevator's velocity
         SmartDashboard.putNumber("elevVelocity", kElevator.getVel());
         SmartDashboard.putNumber("Hook Arm Position", kClimber.getArmPos());
 
-        //SmartDashboard.putNumber("Robot X Position", kDrivetrain.getOdometry()[0]);
-        //SmartDashboard.putNumber("Robot Y Position", kDrivetrain.getOdometry()[1]);
-        //SmartDashboard.putNumber("Robot Heading (rad)", kDrivetrain.getOdometry()[2]);
+        SmartDashboard.putNumber("Robot X Position", kDrivetrain.getOdometry()[0]);
+        SmartDashboard.putNumber("Robot Y Position", kDrivetrain.getOdometry()[1]);
+        SmartDashboard.putNumber("Robot Heading (rad)", kDrivetrain.getOdometry()[2]);
 
     }
 

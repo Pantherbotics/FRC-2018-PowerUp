@@ -43,8 +43,8 @@ public class CheesyDriveHelper {
         wheel = handleDeadband(wheel, kWheelDeadband);
         throttle = handleDeadband(throttle, kThrottleDeadband);
 
-        double sign = Math.signum(wheel);
-        wheel = sign * wheel * wheel;
+        //double sign = Math.signum(wheel);
+        //wheel = sign * wheel * wheel;
         double negInertia = wheel - mOldWheel;
         mOldWheel = wheel;
 

@@ -43,23 +43,24 @@ public class RamseteFollower {
         if (isFinished()) {
             return new DriveSignal(left, right);
         }
-        System.out.println("Getting segment segmentIndex number: " + segmentIndex + "out of " + path.length() + " segments");
+        System.out.println("Getting segment segmentIndex number: " + segmentIndex + "out of " + (path.length()-1) + " segments" + " is finished: " + isFinished());
 
         Segment current = path.get(segmentIndex);   //look at segment of path
         setW_d();   //need to find wanted rate of change of heading
-        segmentIndex++;
 
         calcVel(current.x, current.y, current.heading, current.velocity, w_d);
         calcAngleVel(current.x, current.y, current.heading, current.velocity, w_d);
 
-        System.out.println("Velocity " + v + " Angular Velocity " + w);
+        //System.out.println("Velocity " + v + " Angular Velocity " + w);
 
         left = (-wheelBase * w) / 2 + v;  //do math to convert angular velocity + linear velocity into left and right wheel speeds (fps)
         right = (+wheelBase * w) / 2 + v;
 
+
+        System.out.println("Left: " + left + " Right: " + right);
         //left *= -1; //robot was going backwards...? dunno why
         //right *= -1;
-
+        segmentIndex++;
         return new DriveSignal(left, right);
     }
 
@@ -86,7 +87,7 @@ public class RamseteFollower {
         else
             sinThetaErrOverThetaErr = Math.sin(theta_d - theta) / (thetaError);
         double calcW = w_d + k_2 * v_d * (sinThetaErrOverThetaErr) * (Math.cos(theta) * (y_d - y) - Math.sin(theta) * (x_d - x)) + k_3 * (thetaError); //from eq. 5.12
-        w = calcW % (2 * Math.PI); // bind it! [-2pi, 2pi]
+        w = calcW % (Math.PI); // bind it! [-2pi, 2pi]
     }
 
     public void calcK(double v_d, double w_d) {
