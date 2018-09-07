@@ -248,10 +248,10 @@ public class Drivetrain extends Subsystem {
         return ahrs_gyro;
     }
 
-    public void clearOdometry(){
-        x = 0;
-        y = 0;
-        theta = 0;
+    public void setOdometry(double x, double y, double theta){
+        this.x = x;
+        this.y = y;
+        this.theta=theta;
     }
 
     public void printOdometry(){

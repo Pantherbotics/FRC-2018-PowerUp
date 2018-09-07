@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3863.robot.autonomous.AutoPathFollower;
+import frc.team3863.robot.autonomous.AutoPathTest;
 import frc.team3863.robot.commands.ZeroLift;
 import frc.team3863.robot.subsystems.*;
 import frc.team3863.robot.teleop.TeleopDualPartnerController;
@@ -182,13 +183,12 @@ public class Robot extends TimedRobot {
         is_auton_started = false;
         does_auto_need_field_data = false;
         override_ds_loc = -1;
-        kDrivetrain.clearOdometry();
         if (does_auto_need_field_data) {
             System.out.println("Waiting for field data...");
         }
 
         try {
-            m_autonomousCommand = new AutoPathFollower(paths.get(m_chooser.getSelected())); //at the beginning of autonomous, we create a command that follows a path selected by the DS -AF
+            m_autonomousCommand = new AutoPathTest(paths.get(m_chooser.getSelected())); //at the beginning of autonomous, we create a command that follows a path selected by the DS -AF
         }
         catch(NullPointerException e){
             System.out.println("No autonomous mode was selected!");

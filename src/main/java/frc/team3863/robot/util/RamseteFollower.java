@@ -9,8 +9,8 @@ import jaci.pathfinder.Trajectory.Segment;
 
 public class RamseteFollower {
 
-    static final double b = 2; // greater than zero
-    static final double zeta = 0.9; // between zero and one
+    static final double b = 2; // greater than zero; increases correction
+    static final double zeta = 0.9; // between zero and one; increases dampening
     double k_1, k_2, k_3, v, w, v_d, w_d, theta_d, x_d, y_d;
     double wheelBase;
     Trajectory path;
@@ -93,6 +93,14 @@ public class RamseteFollower {
     public void calcK(double v_d, double w_d) {
         k_1 = 2 * zeta * Math.sqrt(Math.pow(w_d, 2) + k_2 * Math.pow(v_d, 2)); //from eq. 5.12
         k_3 = k_1;
+    }
+
+    public double[] getInitOdometry(){
+        double[] odo = new double[3];
+        odo[0] = path.get(0).x;
+        odo[1] = path.get(0).y;
+        odo[2] = path.get(0).heading;
+        return odo;
     }
 
     public boolean isFinished() {

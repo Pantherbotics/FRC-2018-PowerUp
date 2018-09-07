@@ -7,33 +7,43 @@ import frc.team3863.robot.util.RamseteFollower;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.EncoderFollower;
 
-public class AutoPathFollower extends Command  {
+public class AutoPathTest extends Command  {
 
-    private RamseteFollower follower;
+    private Trajectory traj;
+    private int idx;
 
-    public AutoPathFollower(Trajectory traj) throws NullPointerException{
+    public AutoPathTest(Trajectory traj) throws NullPointerException{
+        this.traj = traj;
         requires(Robot.kDrivetrain);
         System.out.println(traj.length());
-        follower = new RamseteFollower(Constants.WHEEL_BASE, traj);
-        System.out.println("Created new Follower");
+        System.out.println("Created new Path tester!");
+        idx=0;
     }
 
     protected void initialize() {
+        Trajectory.Segment seg = traj.get(0);
         Robot.kDrivetrain.setTransmissionHigh();
-        Robot.kDrivetrain.setOdometry(follower.getInitOdometry()[0], follower.getInitOdometry()[1], follower.getInitOdometry()[2]);
+        Robot.kDrivetrain.setOdometry(seg.x, seg.y, seg.heading);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        follower.setOdometry(Robot.kDrivetrain.getOdometry());
-        System.out.println("Getting next DriveSignal");
-        System.out.println(follower.getNextDriveSignal().getLeft() + ", " + follower.getNextDriveSignal().getRight());
-        Robot.kDrivetrain.setFPS(follower.getNextDriveSignal().getLeft(), follower.getNextDriveSignal().getRight());
+        double w;
+        if(idx < traj.length()-2 && idx > 0) {
+            w = (traj.get(idx + 1).heading - traj.get(idx).heading) / (traj.get(idx).dt);
+        } else{
+            w = 0;
+        }
+        double v = traj.get(idx).velocity;
+        double left = (-Constants.WHEEL_BASE * w) / 2 + v;  //do math to convert angular velocity + linear velocity into left and right wheel speeds (fps)
+        double right = (+Constants.WHEEL_BASE * w) / 2 + v;
+        Robot.kDrivetrain.setFPS(left, right);
+        idx++;
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return follower.isFinished();
+        return idx == traj.length()-1;
     }
 
     // Called once after isFinished returns true

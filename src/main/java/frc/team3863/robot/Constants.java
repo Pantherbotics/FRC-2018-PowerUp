@@ -90,7 +90,7 @@ public class Constants {
     public static final double HOOK_RAISED_POSITION = 1600;
     public static final double HOOK_LOWERED_POSITION = 10;
 
-    public static final double WHEEL_BASE = 26 / 12;
+    public static final double WHEEL_BASE = 2.16666666;
 
     public static final String PATH_LOCATION = "/home/lvuser/paths/";
 }
