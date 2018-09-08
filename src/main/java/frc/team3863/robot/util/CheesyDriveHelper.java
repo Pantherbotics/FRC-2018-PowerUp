@@ -3,8 +3,8 @@ package frc.team3863.robot.util;
 
 public class CheesyDriveHelper {
 
-    private static final double kThrottleDeadband = 0.00;
-    private static final double kWheelDeadband = 0.00;
+    private static final double kThrottleDeadband = 0.05;
+    private static final double kWheelDeadband = 0.02;
 
     // These factor determine how fast the wheel traverses the "non linear" sine curve.
     private static final double kHighWheelNonLinearity = 0.65;
