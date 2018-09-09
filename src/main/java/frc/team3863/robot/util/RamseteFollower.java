@@ -28,7 +28,7 @@ public class RamseteFollower {
     }
 
     public void setW_d() {
-        if (!isFinished()) {
+        if (segmentIndex < path.length()-1) {
             lastTheta = path.get(segmentIndex).heading;
             double nextTheta = path.get(segmentIndex + 1).heading;
             double diffTheta = nextTheta - lastTheta;
@@ -100,7 +100,7 @@ public class RamseteFollower {
     }
 
     public boolean isFinished() {
-        return segmentIndex == path.length() - 1;
+        return segmentIndex == path.length();
     }
 
 
