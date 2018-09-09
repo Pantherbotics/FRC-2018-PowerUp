@@ -68,7 +68,7 @@ public class Drivetrain extends Subsystem {
 
         initPID();
 
-        zero_gyro();
+        zeroGyro();
 
         setTransmissionLow();
         talonLeftA.configPeakCurrentLimit(Constants.DRIVE_CURRENT_LIMIT_PEAK, 0);
@@ -135,6 +135,7 @@ public class Drivetrain extends Subsystem {
 
     private void setPIDProfile(int id) {
         talonLeftA.selectProfileSlot(id, 0);
+        talonRightA.selectProfileSlot(id, 0);
     }
 
     public double[] getEncoderVelocities() {
@@ -209,7 +210,7 @@ public class Drivetrain extends Subsystem {
 
     }
 
-    public void zero_gyro() {
+    public void zeroGyro() {
         System.out.print("Zeroing Gyro...");
         ahrs_gyro.reset();
         System.out.println("...Zeroing Complete");
@@ -219,10 +220,10 @@ public class Drivetrain extends Subsystem {
         return new Odometry(x, y, theta);
     }
 
-    public void setOdometry(double x, double y, double theta){
-        this.x = x;
-        this.y = y;
-        this.theta = theta;
+    public void setOdometry(Odometry odo){
+        this.x = odo.getX();
+        this.y = odo.getY();
+        this.theta = odo.getTheta();
     }
 
     public String toString(){

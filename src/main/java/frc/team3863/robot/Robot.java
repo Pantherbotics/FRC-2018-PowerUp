@@ -188,7 +188,7 @@ public class Robot extends TimedRobot {
         catch(NullPointerException e){
             System.out.println("No autonomous mode was selected!");
         }
-        kDrivetrain.zero_gyro();
+        kDrivetrain.zeroGyro();
 
         Command zero = new ZeroLift();
         zero.start();

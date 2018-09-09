@@ -3,6 +3,7 @@ package frc.team3863.robot.autonomous;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3863.robot.Constants;
 import frc.team3863.robot.Robot;
+import frc.team3863.robot.util.Odometry;
 import frc.team3863.robot.util.RamseteFollower;
 import jaci.pathfinder.Trajectory;
 
@@ -19,7 +20,7 @@ public class AutoPathFollower extends Command  {
 
     protected void initialize() {
         Robot.kDrivetrain.setTransmissionHigh();
-        Robot.kDrivetrain.setOdometry(follower.getInitOdometry()[0], follower.getInitOdometry()[1], follower.getInitOdometry()[2]);
+        Robot.kDrivetrain.setOdometry(follower.getInitOdometry());
     }
 
     // Called repeatedly when this Command is scheduled to run
