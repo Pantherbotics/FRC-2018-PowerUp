@@ -5,14 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3a56d071-b3fc-4c2c-ba84-d14e6cadcac4" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/FRC-2018-PowerUp.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FRC-2018-PowerUp.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/Robot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/Robot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/autonomous/AutoPathFollower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/autonomous/AutoPathFollower.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/subsystems/Drivetrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/subsystems/Drivetrain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/CheesyDriveHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/CheesyDriveHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/Odometry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/Odometry.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/RamseteFollower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/RamseteFollower.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/Units.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/Units.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -165,8 +158,8 @@
       <file leaf-file-name="RamseteFollower.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/RamseteFollower.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="697">
-              <caret line="41" column="25" lean-forward="true" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
+            <state relative-caret-position="425">
+              <caret line="25" column="5" lean-forward="true" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2471#2472#0" expanded="true" />
@@ -513,9 +506,9 @@
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32943678" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17604166" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17604166" />
       <window_info anchor="bottom" id="FRC" order="8" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32943678" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.32943678" />
       <window_info anchor="right" id="Gradle" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -840,6 +833,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/Units.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="96" selection-start-line="2" selection-start-column="96" selection-end-line="2" selection-end-column="96" />
+          <folding>
+            <element signature="e#452#453#0" expanded="true" />
+            <element signature="e#504#505#0" expanded="true" />
+            <element signature="e#569#570#0" expanded="true" />
+            <element signature="e#624#625#0" expanded="true" />
+            <element signature="e#689#690#0" expanded="true" />
+            <element signature="e#735#736#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/Odometry.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -857,25 +865,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/Units.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="96" selection-start-line="2" selection-start-column="96" selection-end-line="2" selection-end-column="96" />
-          <folding>
-            <element signature="e#452#453#0" expanded="true" />
-            <element signature="e#504#505#0" expanded="true" />
-            <element signature="e#569#570#0" expanded="true" />
-            <element signature="e#624#625#0" expanded="true" />
-            <element signature="e#689#690#0" expanded="true" />
-            <element signature="e#735#736#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/RamseteFollower.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="41" column="25" lean-forward="true" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
+        <state relative-caret-position="425">
+          <caret line="25" column="5" lean-forward="true" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2471#2472#0" expanded="true" />

@@ -25,7 +25,7 @@ public class RamseteFollower {
         segmentIndex = 0;
     }
 
-    public void setW_d() {
+    private void calcW_d() {
         if (segmentIndex < path.length()-1) {
             lastTheta = path.get(segmentIndex).heading;
             double nextTheta = path.get(segmentIndex + 1).heading;
@@ -44,7 +44,7 @@ public class RamseteFollower {
         System.out.println("Getting segment segmentIndex number: " + segmentIndex + "out of " + (path.length()-1) + " segments" + " is finished: " + isFinished());
 
         Segment current = path.get(segmentIndex);   //look at segment of path
-        setW_d();   //need to find wanted rate of change of heading
+        calcW_d();   //need to find wanted rate of change of heading
 
         calcVel(current.x, current.y, current.heading, current.velocity, w_d);
         calcAngleVel(current.x, current.y, current.heading, current.velocity, w_d);
@@ -66,12 +66,12 @@ public class RamseteFollower {
         odo = odometry;
     }
 
-    public void calcVel(double x_d, double y_d, double theta_d, double v_d, double w_d) {
+    private void calcVel(double x_d, double y_d, double theta_d, double v_d, double w_d) {
         calcK(v_d, w_d);
         v = v_d * Math.cos(theta_d - odo.getTheta()) + k * (Math.cos(odo.getTheta()) * (x_d - odo.getX()) + Math.sin(odo.getTheta()) * (y_d - odo.getY()));
     }
 
-    public void calcAngleVel(double x_d, double y_d, double theta_d, double v_d, double w_d) {
+    private void calcAngleVel(double x_d, double y_d, double theta_d, double v_d, double w_d) {
         calcK(v_d, w_d);
         System.out.println("Theta" + odo.getTheta());
         double thetaError = theta_d - odo.getTheta();
@@ -84,7 +84,7 @@ public class RamseteFollower {
         w = calcW % (Math.PI); // bind it! [-2pi, 2pi]
     }
 
-    public void calcK(double v_d, double w_d) {
+    private void calcK(double v_d, double w_d) {
         k = 2 * zeta * Math.sqrt(Math.pow(w_d, 2) + b * Math.pow(v_d, 2)); //from eq. 5.12
     }
 
