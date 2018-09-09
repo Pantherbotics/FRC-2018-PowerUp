@@ -10,12 +10,12 @@ import jaci.pathfinder.Trajectory.Segment;
 
 public class RamseteFollower {
 
-    static final double b = 2; // greater than zero; increases correction
-    static final double zeta = 0.9; // between zero and one; increases dampening
-    double k, v, w, w_d, wheelBase, lastTheta;
-    int segmentIndex;
-    Trajectory path;    //this is the path that we will follow
-    Odometry odo;       //this is the robot's x and y position, as well as its heading
+    private static final double b = 2; // greater than zero; increases correction
+    private static final double zeta = 0.9; // between zero and one; increases dampening
+    private double k, v, w, w_d, wheelBase;
+    private int segmentIndex;
+    private Trajectory path;    //this is the path that we will follow
+    private Odometry odo;       //this is the robot's x and y position, as well as its heading
 
     //where v = linear velocity (feet/s) and w = angular velocity (rad/s)
     public RamseteFollower(double wheelBase, Trajectory path) {
@@ -27,10 +27,9 @@ public class RamseteFollower {
 
     private void calcW_d() {
         if (segmentIndex < path.length()-1) {
-            lastTheta = path.get(segmentIndex).heading;
+            double lastTheta = path.get(segmentIndex).heading;
             double nextTheta = path.get(segmentIndex + 1).heading;
-            double diffTheta = nextTheta - lastTheta;
-            w_d = diffTheta / path.get(segmentIndex).dt;
+            w_d = (nextTheta - lastTheta) / path.get(segmentIndex).dt;
         } else
             w_d = 0;
     }
@@ -95,6 +94,5 @@ public class RamseteFollower {
     public boolean isFinished() {
         return segmentIndex == path.length();
     }
-
 
 }
