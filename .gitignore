@@ -81,6 +81,7 @@ local.properties
 .scala_dependencies
 .worksheet
 
+
 #IntelliJ Files
 *.iws
 
@@ -91,3 +92,6 @@ build/libs/
 simulator_config/
 
 temp/
+
+.vscode/
+
