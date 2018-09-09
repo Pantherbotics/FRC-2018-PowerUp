@@ -15,8 +15,8 @@ public class RamseteFollower {
     double wheelBase;
     Trajectory path;
     double lastTheta;
-    volatile double x, y, theta;
     int segmentIndex;
+    Odometry odo;
 
     //where v = linear velocity (feet/s) and w = angular velocity (rad/s)
     public RamseteFollower(double wheelBase, Trajectory path) {
@@ -64,29 +64,25 @@ public class RamseteFollower {
         return new DriveSignal(left, right);
     }
 
-    public void setOdometry(double[] odometry) {
-        x = odometry[0];
-        y = odometry[1];
-        theta = odometry[2];
-
+    public void setOdometry(Odometry odometry) {
+        odo = odometry;
     }
 
     public void calcVel(double x_d, double y_d, double theta_d, double v_d, double w_d) {
         calcK(v_d, w_d);
-        double calcV = v_d * Math.cos(theta_d - theta) + k_1 * (Math.cos(theta) * (x_d - x) + Math.sin(theta) * (y_d - y)); //eq. 5.12
-        v = calcV;
+        v = v_d * Math.cos(theta_d - odo.getTheta()) + k_1 * (Math.cos(odo.getTheta()) * (x_d - odo.getX()) + Math.sin(odo.getTheta()) * (y_d - odo.getY()));
     }
 
     public void calcAngleVel(double x_d, double y_d, double theta_d, double v_d, double w_d) {
         calcK(v_d, w_d);
-        System.out.println("Theta " + theta);
-        double thetaError = theta_d - theta;
-        double sinThetaErrOverThetaErr = 0;
+        System.out.println("Theta" + odo.getTheta());
+        double thetaError = theta_d - odo.getTheta();
+        double sinThetaErrOverThetaErr;
         if (thetaError < 0.00001)
             sinThetaErrOverThetaErr = 1; //this is the limit as sin(x)/x approaches zero
         else
-            sinThetaErrOverThetaErr = Math.sin(theta_d - theta) / (thetaError);
-        double calcW = w_d + k_2 * v_d * (sinThetaErrOverThetaErr) * (Math.cos(theta) * (y_d - y) - Math.sin(theta) * (x_d - x)) + k_3 * (thetaError); //from eq. 5.12
+            sinThetaErrOverThetaErr = Math.sin(theta_d - odo.getTheta()) / (thetaError);
+        double calcW = w_d + k_2 * v_d * (sinThetaErrOverThetaErr) * (Math.cos(odo.getTheta()) * (y_d - odo.getY()) - Math.sin(odo.getTheta()) * (x_d - odo.getX())) + k_3 * (thetaError); //from eq. 5.12
         w = calcW % (Math.PI); // bind it! [-2pi, 2pi]
     }
 

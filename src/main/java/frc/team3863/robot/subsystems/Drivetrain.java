@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team3863.robot.Constants;
 import frc.team3863.robot.RobotMap;
+import frc.team3863.robot.util.Odometry;
 import frc.team3863.robot.util.Units;
 
 /**
@@ -154,18 +155,6 @@ public class Drivetrain extends Subsystem {
         talonRightA.set(ControlMode.PercentOutput, right);
     }
 
-	/*
-	public void setVelocityTargets(double left, double right) {
-		double multiplier = 600 * Constants.DRIVE_TRANSMISSION_RATIO;
-		if (transmission_in_low) {
-			multiplier = 600;
-		}
-		// System.out.println(" " + multiplier + " " + left + " " + right);
-		talonLeftA.set(ControlMode.Velocity, left * 3);
-		talonRightA.set(ControlMode.Velocity, right * 3);
-	}
-	*/
-
     public void setFPS(double left, double right) {
         /*
         double actualLeft = Units.TalonNativeToFPS(talonLeftA.getSelectedSensorVelocity(0));
@@ -193,7 +182,7 @@ public class Drivetrain extends Subsystem {
     }
 
     public void setTransmissionLow() {
-        System.out.println("Transmission in Low Gear");
+        //System.out.println("Transmission in Low Gear");
         transmission_in_low = true;
         setPIDProfile(low_pid_id);
         transmissiom_solenoid.set(DoubleSolenoid.Value.kForward);
@@ -208,8 +197,7 @@ public class Drivetrain extends Subsystem {
     }
 
     public double pidErrorAverage() {
-        double average = (talonLeftA.getClosedLoopError(timeout_ms) + talonRightA.getClosedLoopError(timeout_ms)) / 2;
-        return average;
+        return (double) ((talonLeftA.getClosedLoopError(timeout_ms) + talonRightA.getClosedLoopError(timeout_ms)) / 2);
 
     }
 
@@ -227,34 +215,17 @@ public class Drivetrain extends Subsystem {
         System.out.println("...Zeroing Complete");
     }
 
-    public double getGyroAngle() {
-        // System.out.print(ahrs_gyro.getAngle());
-        // System.out.print(" ");
-        // System.out.println(ahrs_gyro.getCompassHeading());
-        return ahrs_gyro.getAngle();
-
-    }
-
-
-    public double[] getOdometry() {
-        double[] odo = new double[3];
-        odo[0] = x;
-        odo[1] = y;
-        odo[2] = theta % (6.283185);
-        return odo;
-    }
-
-    public AHRS getGyro() {
-        return ahrs_gyro;
+    public Odometry getOdometry() {
+        return new Odometry(x, y, theta);
     }
 
     public void setOdometry(double x, double y, double theta){
         this.x = x;
         this.y = y;
-        this.theta=theta;
+        this.theta = theta;
     }
 
-    public void printOdometry(){
-        System.out.println("X: " + x + " Y: " + y + "Theta: "+ theta);
+    public String toString(){
+        return "X: " + x + " Y: " + y + "Theta: "+ theta;
     }
 }

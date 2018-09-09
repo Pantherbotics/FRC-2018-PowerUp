@@ -3,9 +3,7 @@ package frc.team3863.robot.autonomous;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3863.robot.Constants;
 import frc.team3863.robot.Robot;
-import frc.team3863.robot.util.RamseteFollower;
 import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.followers.EncoderFollower;
 
 public class AutoPathTest extends Command  {
 
