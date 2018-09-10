@@ -1,4 +1,4 @@
-package frc.team3863.robot.util.;
+package frc.team3863.robot.util;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Trajectory.Segment;
 
