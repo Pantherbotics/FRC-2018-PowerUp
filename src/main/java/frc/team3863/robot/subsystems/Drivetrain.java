@@ -94,7 +94,7 @@ public class Drivetrain extends Subsystem {
                 double dPos = Units.TalonNativeToFeet(currentPos - lastPos);
                 x +=  Math.cos(Math.toRadians(-ahrs_gyro.getAngle())) * dPos;
                 y +=  Math.sin(Math.toRadians(-ahrs_gyro.getAngle())) * dPos;
-                theta = Math.toRadians(ahrs_gyro.getAngle()) % (2.0*Math.PI);
+                theta = -Math.toRadians(ahrs_gyro.getAngle()) % (Math.PI);
                 lastPos = currentPos;
                 try {
                     Thread.sleep(10);

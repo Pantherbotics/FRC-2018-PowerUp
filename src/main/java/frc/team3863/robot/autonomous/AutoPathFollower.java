@@ -9,6 +9,7 @@ import jaci.pathfinder.Trajectory;
 
 public class AutoPathFollower extends Command  {
 
+    private double start;
     private RamseteFollower follower;
 
     public AutoPathFollower(Trajectory traj) throws NullPointerException{
@@ -21,6 +22,7 @@ public class AutoPathFollower extends Command  {
     protected void initialize() {
         Robot.kDrivetrain.setTransmissionHigh();
         Robot.kDrivetrain.setOdometry(follower.getInitOdometry());
+        start = System.nanoTime();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -39,6 +41,7 @@ public class AutoPathFollower extends Command  {
     // Called once after isFinished returns true
     protected void end() {
         System.out.println("Finished!");
+        System.out.println("Time to completion: " + ((System.nanoTime()-start)/1000000));
     }
 
     // Called when another command which requires one or more of the same

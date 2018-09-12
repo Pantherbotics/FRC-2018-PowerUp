@@ -9,8 +9,8 @@ import jaci.pathfinder.Trajectory.Segment;
 
 public class RamseteFollower {
 
-    private static final double b = 2.3;                // greater than zero; increases correction
-    private static final double zeta = 0.4;             // between zero and one; increases dampening
+    private static final double b = 1.2;                // greater than zero; increases correction
+    private static final double zeta = 0.5;             // between zero and one; increases dampening
     private double wheelBase;
     private int segmentIndex;
     private Trajectory path;                            //this is the path that we will follow
