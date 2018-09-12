@@ -46,6 +46,9 @@ public class RamseteFollower {
         double v = calcVel(current.x, current.y, current.heading, current.velocity, w_d);           //v = linear velocity
         double w = calcAngleVel(current.x, current.y, current.heading, current.velocity, w_d);      //w = angular velocity
 
+        v = clamp(v, -20, 20);                                                           //clamp values to be between -20 and 20 fps
+        w = clamp(w, Math.PI * -2.0, Math.PI * 2.0);                                     //clamp values to be between -2pi and 2pi rad/s
+
         System.out.println("Velocity " + v + " Angular Velocity " + w);
 
         left = (-wheelBase * w) / 2 + v;                                                            //do math to convert angular velocity + linear velocity
@@ -80,6 +83,16 @@ public class RamseteFollower {
 
     private double calcK(double v_d, double w_d) {
         return 2 * zeta * Math.sqrt(Math.pow(w_d, 2) + b * Math.pow(v_d, 2)); //from eq. 5.12
+    }
+
+    private double clamp(double value, double min, double max){
+        if(value > max){
+            return max;
+        } else if(value < min){
+            return min;
+        }
+        else
+            return value;
     }
 
     public Odometry getInitOdometry() {

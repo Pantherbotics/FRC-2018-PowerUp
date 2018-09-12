@@ -92,9 +92,9 @@ public class Drivetrain extends Subsystem {
             while (true) {
                 double currentPos = (talonLeftA.getSelectedSensorPosition(0) + talonRightA.getSelectedSensorPosition(0))/2;
                 double dPos = Units.TalonNativeToFeet(currentPos - lastPos);
-                x +=  Math.cos(Math.toRadians(-ahrs_gyro.getAngle())) * dPos;
-                y +=  Math.sin(Math.toRadians(-ahrs_gyro.getAngle())) * dPos;
-                theta = -Math.toRadians(ahrs_gyro.getAngle()) % (Math.PI);
+                theta = Math.toRadians(boundHalfDegrees(-ahrs_gyro.getAngle()));
+                x +=  Math.cos(theta) * dPos;
+                y +=  Math.sin(theta) * dPos;
                 lastPos = currentPos;
                 try {
                     Thread.sleep(10);
@@ -228,5 +228,11 @@ public class Drivetrain extends Subsystem {
 
     public String toString(){
         return "X: " + x + " Y: " + y + "Theta: "+ theta;
+    }
+
+    private double boundHalfDegrees(double angle_degrees) {
+        while (angle_degrees >= 180.0) angle_degrees -= 360.0;
+        while (angle_degrees < -180.0) angle_degrees += 360.0;
+        return angle_degrees;
     }
 }

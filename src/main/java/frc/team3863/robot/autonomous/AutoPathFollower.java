@@ -47,6 +47,7 @@ public class AutoPathFollower extends Command  {
 
     // Called once after isFinished returns true
     protected void end() {
+        followerThread.stop();
         System.out.println("Finished!");
         System.out.println("Time to completion: " + ((System.nanoTime()-start)/1000000));
     }
