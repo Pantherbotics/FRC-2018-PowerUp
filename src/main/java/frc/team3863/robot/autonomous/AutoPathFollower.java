@@ -1,5 +1,6 @@
 package frc.team3863.robot.autonomous;
 
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3863.robot.Constants;
 import frc.team3863.robot.Robot;
@@ -11,6 +12,8 @@ public class AutoPathFollower extends Command  {
 
     private double start;
     private RamseteFollower follower;
+    private Notifier followerThread;
+    private volatile boolean isFinished;
 
     public AutoPathFollower(Trajectory traj) throws NullPointerException{
         requires(Robot.kDrivetrain);
@@ -23,19 +26,23 @@ public class AutoPathFollower extends Command  {
         Robot.kDrivetrain.setTransmissionHigh();
         Robot.kDrivetrain.setOdometry(follower.getInitOdometry());
         start = System.nanoTime();
+        followerThread = new Notifier(()->{
+            follower.setOdometry(Robot.kDrivetrain.getOdometry());
+            System.out.println("Getting next DriveSignal");
+            System.out.println(follower.getNextDriveSignal().getLeft() + ", " + follower.getNextDriveSignal().getRight());
+            Robot.kDrivetrain.setFPS(follower.getNextDriveSignal().getLeft(), follower.getNextDriveSignal().getRight());
+            isFinished = follower.isFinished();
+        });
+        followerThread.startPeriodic(.02);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        follower.setOdometry(Robot.kDrivetrain.getOdometry());
-        System.out.println("Getting next DriveSignal");
-        System.out.println(follower.getNextDriveSignal().getLeft() + ", " + follower.getNextDriveSignal().getRight());
-        Robot.kDrivetrain.setFPS(follower.getNextDriveSignal().getLeft(), follower.getNextDriveSignal().getRight());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return follower.isFinished();
+        return isFinished;
     }
 
     // Called once after isFinished returns true
