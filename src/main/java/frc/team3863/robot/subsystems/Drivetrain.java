@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team3863.robot.Constants;
 import frc.team3863.robot.RobotMap;
@@ -30,9 +31,13 @@ public class Drivetrain extends Subsystem {
             RobotMap.PCM_TRANSMISSION_HIGH);
     int high_pid_id = 0;
     int low_pid_id = 1;
-    volatile double x, y, theta;
     double HIGH_GEAR_TOP_SPEED = 20;
     double LOW_GEAR_TOP_SPEED = 7;
+
+    //variables for Odometry
+    private double lastPos, currentPos, dPos;
+    volatile double x, y, theta;
+
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -87,22 +92,19 @@ public class Drivetrain extends Subsystem {
         x = 0;
         y = 0;
         theta = 0;
-        new Thread(() -> {
-            double lastPos = (talonLeftA.getSelectedSensorPosition(0) + talonRightA.getSelectedSensorPosition(0))/2;
-            while (true) {
-                double currentPos = (talonLeftA.getSelectedSensorPosition(0) + talonRightA.getSelectedSensorPosition(0))/2;
-                double dPos = Units.TalonNativeToFeet(currentPos - lastPos);
-                theta = Math.toRadians(boundHalfDegrees(-ahrs_gyro.getAngle()));
-                x +=  Math.cos(theta) * dPos;
-                y +=  Math.sin(theta) * dPos;
-                lastPos = currentPos;
-                try {
-                    Thread.sleep(10);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+
+        lastPos = (talonLeftA.getSelectedSensorPosition(0) + talonRightA.getSelectedSensorPosition(0))/2;
+
+        Notifier odoThread = new Notifier(() ->{
+            currentPos = (talonLeftA.getSelectedSensorPosition(0) + talonRightA.getSelectedSensorPosition(0))/2;
+            dPos = Units.TalonNativeToFeet(currentPos - lastPos);
+            theta = Math.toRadians(boundHalfDegrees(-ahrs_gyro.getAngle()));
+            x +=  Math.cos(theta) * dPos;
+            y +=  Math.sin(theta) * dPos;
+            lastPos = currentPos;
+        });
+
+        odoThread.startPeriodic(0.01);
     }
 
     private void initPID() {
