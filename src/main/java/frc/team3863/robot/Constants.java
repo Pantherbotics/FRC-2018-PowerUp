@@ -21,9 +21,9 @@ public class Constants {
 
     //Drivetrain PID
     public static final double HIGH_DRIVE_PID_F = 1.328571;
-    public static final double HIGH_DRIVE_PID_P = 2.5;
+    public static final double HIGH_DRIVE_PID_P = 3.7;
     public static final double HIGH_DRIVE_PID_I = 0.0000;
-    public static final double HIGH_DRIVE_PID_D = 000;
+    public static final double HIGH_DRIVE_PID_D = 0.01;
 
     public static final double LOW_DRIVE_PID_F = 1023/770;
     public static final double LOW_DRIVE_PID_P = 1.5;

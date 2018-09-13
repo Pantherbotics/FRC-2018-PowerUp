@@ -1,4 +1,5 @@
 package frc.team3863.robot.util;
+import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Trajectory.Segment;
 
@@ -9,8 +10,8 @@ import jaci.pathfinder.Trajectory.Segment;
 
 public class RamseteFollower {
 
-    private static final double b = 1.2;                // greater than zero; increases correction
-    private static final double zeta = 0.5;             // between zero and one; increases dampening
+    private static final double b = 1.0;                // greater than zero; increases correction
+    private static final double zeta = 0.2;             // between zero and one; increases dampening
     private double wheelBase;
     private int segmentIndex;
     private Trajectory path;                            //this is the path that we will follow
@@ -46,8 +47,8 @@ public class RamseteFollower {
         double v = calcVel(current.x, current.y, current.heading, current.velocity, w_d);           //v = linear velocity
         double w = calcAngleVel(current.x, current.y, current.heading, current.velocity, w_d);      //w = angular velocity
 
-        v = clamp(v, -20, 20);                                                           //clamp values to be between -20 and 20 fps
-        w = clamp(w, Math.PI * -2.0, Math.PI * 2.0);                                     //clamp values to be between -2pi and 2pi rad/s
+        //v = clamp(v, -20, 20);                                                           //clamp values to be between -20 and 20 fps
+        //w = clamp(w, Math.PI * -2.0, Math.PI * 2.0);                                     //clamp values to be between -2pi and 2pi rad/s
 
         System.out.println("Velocity " + v + " Angular Velocity " + w);
 
@@ -66,18 +67,21 @@ public class RamseteFollower {
 
     private double calcVel(double x_d, double y_d, double theta_d, double v_d, double w_d) {
         double k = calcK(v_d, w_d);
-        return v_d * Math.cos(theta_d - odo.getTheta()) + k * (Math.cos(odo.getTheta()) * (x_d - odo.getX()) + Math.sin(odo.getTheta()) * (y_d - odo.getY()));
+        double thetaError = theta_d-odo.getTheta();
+        thetaError = Pathfinder.d2r(Pathfinder.boundHalfDegrees(Pathfinder.r2d(thetaError)));
+        return v_d * Math.cos(thetaError) + k * (Math.cos(odo.getTheta()) * (x_d - odo.getX()) + Math.sin(odo.getTheta()) * (y_d - odo.getY()));
     }
 
     private double calcAngleVel(double x_d, double y_d, double theta_d, double v_d, double w_d) {
         double k = calcK(v_d, w_d);
         System.out.println("Theta" + odo.getTheta());
         double thetaError = theta_d - odo.getTheta();
+        thetaError = Pathfinder.d2r(Pathfinder.boundHalfDegrees(Pathfinder.r2d(thetaError)));
         double sinThetaErrOverThetaErr;
-        if (thetaError < 0.00001)
+        if (Math.abs(thetaError) < 0.00001)
             sinThetaErrOverThetaErr = 1; //this is the limit as sin(x)/x approaches zero
         else
-            sinThetaErrOverThetaErr = Math.sin(theta_d - odo.getTheta()) / (thetaError);
+            sinThetaErrOverThetaErr = Math.sin(thetaError) / (thetaError);
         return w_d + b * v_d * (sinThetaErrOverThetaErr) * (Math.cos(odo.getTheta()) * (y_d - odo.getY()) - Math.sin(odo.getTheta()) * (x_d - odo.getX())) + k * (thetaError); //from eq. 5.12
     }
 
