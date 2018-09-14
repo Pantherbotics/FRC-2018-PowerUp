@@ -1,5 +1,7 @@
 package frc.team3863.robot.util;
 
+/** This is a helper class to convert from Talon Native Units to human-readable units, including Feet per Second.
+ */
 public class Units {
 
     static final double TALON_TO_FPS_CONVERSION = .03067961572265625;           //( 1 rev/ 512 ticks) * (0.5pi ft/ 1 rev) * (10 [100ms] / 1 s)

@@ -1,5 +1,9 @@
 package frc.team3863.robot.util;
 
+/**Credit goes to 254 for code.
+* Effectively makes the robot execute 'constant-radius' turning, where the radius of curvature is independent of speed.
+* Returns a 'DriveSignal', which is a helper class to encapsulate motor commands.
+ */
 
 public class CheesyDriveHelper {
 

@@ -1,14 +1,16 @@
 package frc.team3863.robot.autonomous;
 
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3863.robot.Constants;
 import frc.team3863.robot.Robot;
+import frc.team3863.robot.util.Odometry;
 import frc.team3863.robot.util.RamseteFollower;
 import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.followers.EncoderFollower;
 
 public class AutoPathFollower extends Command  {
 
+    private double start;
     private RamseteFollower follower;
 
     public AutoPathFollower(Trajectory traj) throws NullPointerException{
@@ -20,7 +22,8 @@ public class AutoPathFollower extends Command  {
 
     protected void initialize() {
         Robot.kDrivetrain.setTransmissionHigh();
-        Robot.kDrivetrain.setOdometry(follower.getInitOdometry()[0], follower.getInitOdometry()[1], follower.getInitOdometry()[2]);
+        Robot.kDrivetrain.setOdometry(follower.getInitOdometry());
+        start = System.nanoTime();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -39,6 +42,7 @@ public class AutoPathFollower extends Command  {
     // Called once after isFinished returns true
     protected void end() {
         System.out.println("Finished!");
+        System.out.println("Time to completion: " + ((System.nanoTime()-start)/1000000));
     }
 
     // Called when another command which requires one or more of the same

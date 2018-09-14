@@ -7,9 +7,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team3863.robot.Constants;
 import frc.team3863.robot.RobotMap;
+import frc.team3863.robot.util.Odometry;
 import frc.team3863.robot.util.Units;
 
 /**
@@ -29,9 +31,13 @@ public class Drivetrain extends Subsystem {
             RobotMap.PCM_TRANSMISSION_HIGH);
     int high_pid_id = 0;
     int low_pid_id = 1;
-    volatile double x, y, theta;
     double HIGH_GEAR_TOP_SPEED = 20;
     double LOW_GEAR_TOP_SPEED = 7;
+
+    //variables for Odometry
+    private double lastPos, currentPos, dPos;
+    volatile double x, y, theta;
+
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -67,7 +73,7 @@ public class Drivetrain extends Subsystem {
 
         initPID();
 
-        zero_gyro();
+        zeroGyro();
 
         setTransmissionLow();
         talonLeftA.configPeakCurrentLimit(Constants.DRIVE_CURRENT_LIMIT_PEAK, 0);
@@ -86,22 +92,19 @@ public class Drivetrain extends Subsystem {
         x = 0;
         y = 0;
         theta = 0;
-        new Thread(() -> {
-            double lastPos = (talonLeftA.getSelectedSensorPosition(0) + talonRightA.getSelectedSensorPosition(0))/2;
-            while (true) {
-                double currentPos = (talonLeftA.getSelectedSensorPosition(0) + talonRightA.getSelectedSensorPosition(0))/2;
-                double dPos = Units.TalonNativeToFeet(currentPos - lastPos);
-                x +=  Math.cos(Math.toRadians(-ahrs_gyro.getAngle())) * dPos;
-                y +=  Math.sin(Math.toRadians(-ahrs_gyro.getAngle())) * dPos;
-                theta = Math.toRadians(ahrs_gyro.getAngle()) % (2.0*Math.PI);
-                lastPos = currentPos;
-                try {
-                    Thread.sleep(10);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+
+        lastPos = (talonLeftA.getSelectedSensorPosition(0) + talonRightA.getSelectedSensorPosition(0))/2;
+
+        Notifier odoThread = new Notifier(() ->{
+            currentPos = (talonLeftA.getSelectedSensorPosition(0) + talonRightA.getSelectedSensorPosition(0))/2;
+            dPos = Units.TalonNativeToFeet(currentPos - lastPos);
+            theta = Math.toRadians(boundHalfDegrees(-ahrs_gyro.getAngle()));
+            x +=  Math.cos(theta) * dPos;
+            y +=  Math.sin(theta) * dPos;
+            lastPos = currentPos;
+        });
+
+        odoThread.startPeriodic(0.01);
     }
 
     private void initPID() {
@@ -134,6 +137,7 @@ public class Drivetrain extends Subsystem {
 
     private void setPIDProfile(int id) {
         talonLeftA.selectProfileSlot(id, 0);
+        talonRightA.selectProfileSlot(id, 0);
     }
 
     public double[] getEncoderVelocities() {
@@ -153,18 +157,6 @@ public class Drivetrain extends Subsystem {
         talonLeftA.set(ControlMode.PercentOutput, left);
         talonRightA.set(ControlMode.PercentOutput, right);
     }
-
-	/*
-	public void setVelocityTargets(double left, double right) {
-		double multiplier = 600 * Constants.DRIVE_TRANSMISSION_RATIO;
-		if (transmission_in_low) {
-			multiplier = 600;
-		}
-		// System.out.println(" " + multiplier + " " + left + " " + right);
-		talonLeftA.set(ControlMode.Velocity, left * 3);
-		talonRightA.set(ControlMode.Velocity, right * 3);
-	}
-	*/
 
     public void setFPS(double left, double right) {
         /*
@@ -193,7 +185,7 @@ public class Drivetrain extends Subsystem {
     }
 
     public void setTransmissionLow() {
-        System.out.println("Transmission in Low Gear");
+        //System.out.println("Transmission in Low Gear");
         transmission_in_low = true;
         setPIDProfile(low_pid_id);
         transmissiom_solenoid.set(DoubleSolenoid.Value.kForward);
@@ -208,8 +200,7 @@ public class Drivetrain extends Subsystem {
     }
 
     public double pidErrorAverage() {
-        double average = (talonLeftA.getClosedLoopError(timeout_ms) + talonRightA.getClosedLoopError(timeout_ms)) / 2;
-        return average;
+        return (double) ((talonLeftA.getClosedLoopError(timeout_ms) + talonRightA.getClosedLoopError(timeout_ms)) / 2);
 
     }
 
@@ -221,40 +212,29 @@ public class Drivetrain extends Subsystem {
 
     }
 
-    public void zero_gyro() {
+    public void zeroGyro() {
         System.out.print("Zeroing Gyro...");
         ahrs_gyro.reset();
         System.out.println("...Zeroing Complete");
     }
 
-    public double getGyroAngle() {
-        // System.out.print(ahrs_gyro.getAngle());
-        // System.out.print(" ");
-        // System.out.println(ahrs_gyro.getCompassHeading());
-        return ahrs_gyro.getAngle();
-
+    public Odometry getOdometry() {
+        return new Odometry(x, y, theta);
     }
 
-
-    public double[] getOdometry() {
-        double[] odo = new double[3];
-        odo[0] = x;
-        odo[1] = y;
-        odo[2] = theta % (6.283185);
-        return odo;
+    public void setOdometry(Odometry odo){
+        this.x = odo.getX();
+        this.y = odo.getY();
+        this.theta = odo.getTheta();
     }
 
-    public AHRS getGyro() {
-        return ahrs_gyro;
+    public String toString(){
+        return "X: " + x + " Y: " + y + "Theta: "+ theta;
     }
 
-    public void setOdometry(double x, double y, double theta){
-        this.x = x;
-        this.y = y;
-        this.theta=theta;
-    }
-
-    public void printOdometry(){
-        System.out.println("X: " + x + " Y: " + y + "Theta: "+ theta);
+    private double boundHalfDegrees(double angle_degrees) {
+        while (angle_degrees >= 180.0) angle_degrees -= 360.0;
+        while (angle_degrees < -180.0) angle_degrees += 360.0;
+        return angle_degrees;
     }
 }

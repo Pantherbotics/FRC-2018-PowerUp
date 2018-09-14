@@ -3,9 +3,8 @@ package frc.team3863.robot.autonomous;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3863.robot.Constants;
 import frc.team3863.robot.Robot;
-import frc.team3863.robot.util.RamseteFollower;
+import frc.team3863.robot.util.Odometry;
 import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.followers.EncoderFollower;
 
 public class AutoPathTest extends Command  {
 
@@ -23,7 +22,7 @@ public class AutoPathTest extends Command  {
     protected void initialize() {
         Trajectory.Segment seg = traj.get(0);
         Robot.kDrivetrain.setTransmissionHigh();
-        Robot.kDrivetrain.setOdometry(seg.x, seg.y, seg.heading);
+        Robot.kDrivetrain.setOdometry(new Odometry(seg.x, seg.y, seg.heading));
     }
 
     // Called repeatedly when this Command is scheduled to run

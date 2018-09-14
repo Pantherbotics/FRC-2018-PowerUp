@@ -15,23 +15,18 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3863.robot.autonomous.AutoPathFollower;
-import frc.team3863.robot.autonomous.AutoPathTest;
 import frc.team3863.robot.commands.ZeroLift;
 import frc.team3863.robot.subsystems.*;
 import frc.team3863.robot.teleop.TeleopDualPartnerController;
 import frc.team3863.robot.teleop.TeleopSinglePartnerController;
+import frc.team3863.robot.util.Odometry;
 import frc.team3863.robot.util.Units;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 
 /**
@@ -188,12 +183,12 @@ public class Robot extends TimedRobot {
         }
 
         try {
-            m_autonomousCommand = new AutoPathTest(paths.get(m_chooser.getSelected())); //at the beginning of autonomous, we create a command that follows a path selected by the DS -AF
+            m_autonomousCommand = new AutoPathFollower(paths.get(m_chooser.getSelected())); //at the beginning of autonomous, we create a command that follows a path selected by the DS -AF
         }
         catch(NullPointerException e){
             System.out.println("No autonomous mode was selected!");
         }
-        kDrivetrain.zero_gyro();
+        kDrivetrain.zeroGyro();
 
         Command zero = new ZeroLift();
         zero.start();
@@ -366,9 +361,10 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("elevVelocity", kElevator.getVel());
         SmartDashboard.putNumber("Hook Arm Position", kClimber.getArmPos());
 
-        SmartDashboard.putNumber("Robot X Position", kDrivetrain.getOdometry()[0]);
-        SmartDashboard.putNumber("Robot Y Position", kDrivetrain.getOdometry()[1]);
-        SmartDashboard.putNumber("Robot Heading (rad)", kDrivetrain.getOdometry()[2]);
+        Odometry odo = kDrivetrain.getOdometry();
+        SmartDashboard.putNumber("Robot X Position", odo.getX());
+        SmartDashboard.putNumber("Robot Y Position", odo.getY());
+        SmartDashboard.putNumber("Robot Odometry (rad)", odo.getTheta());
 
     }
 
@@ -395,11 +391,9 @@ public class Robot extends TimedRobot {
     public static ArrayList<File> listf(String directoryName) {
         File directory = new File(directoryName);
 
-        ArrayList<File> resultList = new ArrayList<File>();
-
         // get all the files from a directory
         File[] fList = directory.listFiles();
-        resultList.addAll(Arrays.asList(fList));
+        ArrayList<File> resultList = new ArrayList<File>(Arrays.asList(fList));
         for (File file : fList) {
             if (file.isFile()) {
                 System.out.println(file.getAbsolutePath());

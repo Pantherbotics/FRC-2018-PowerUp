@@ -22,7 +22,7 @@ public class RotateDegrees extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
 
-        start_degrees = Robot.kDrivetrain.getGyroAngle();
+        start_degrees = Robot.kDrivetrain.getOdometry().getTheta();
         Robot.kDrivetrain.setTransmissionLow();
         //Invert for comp robot gyro mounting?
         target_degrees = start_degrees + degree_offset;
@@ -35,7 +35,7 @@ public class RotateDegrees extends Command {
     //             < 66%, full gain
     //             < 100%, slower gain      
     protected void execute() {
-        error = target_degrees - Robot.kDrivetrain.getGyroAngle();
+        error = target_degrees - Robot.kDrivetrain.getOdometry().getTheta();
         double left = error * Constants.DRIVE_ROTATE_P * -1;
         double right = error * Constants.DRIVE_ROTATE_P;
         System.out.println("" + error + " " + left + " " + right);
