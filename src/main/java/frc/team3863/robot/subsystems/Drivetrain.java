@@ -89,6 +89,13 @@ public class Drivetrain extends Subsystem {
 
         talonLeftA.setSelectedSensorPosition(0, 0, 0);
         talonRightA.setSelectedSensorPosition(0, 0, 0);
+
+        talonLeftA.configMotionAcceleration(Constants.MOTION_MAGIC_ACCEL, 0);
+        talonLeftA.configMotionCruiseVelocity(Constants.MOTION_MAGIC_VEL, 0);
+
+        talonRightA.configMotionAcceleration(Constants.MOTION_MAGIC_ACCEL, 0);
+        talonRightA.configMotionCruiseVelocity(Constants.MOTION_MAGIC_VEL, 0);
+
         x = 0;
         y = 0;
         theta = 0;
@@ -180,8 +187,8 @@ public class Drivetrain extends Subsystem {
     public void setPositionTargetIncrements(double leftOffset, double rightOffset) {
         double lTarget = talonLeftA.get() + leftOffset;
         double rTarget = talonRightA.get() + rightOffset;
-        talonLeftA.set(ControlMode.Position, lTarget);
-        talonRightA.set(ControlMode.Position, rTarget);
+        talonLeftA.set(ControlMode.MotionMagic, lTarget);
+        talonRightA.set(ControlMode.MotionMagic, rTarget);
     }
 
     public void setTransmissionLow() {

@@ -1,5 +1,7 @@
 package frc.team3863.robot;
 
+import frc.team3863.robot.util.Units;
+
 public class Constants {
     //Drivetrain ticks/rev
     //TODO: CHANGE ME FOR COMPETITION ROBOT!!!!!!!!!!!!!!!!
@@ -29,6 +31,9 @@ public class Constants {
     public static final double LOW_DRIVE_PID_P = 1.5;
     public static final double LOW_DRIVE_PID_I = 0.0000;
     public static final double LOW_DRIVE_PID_D = 0.000;
+
+    public static final int MOTION_MAGIC_ACCEL = (int)Units.FPSToTalonNative(3);
+    public static final int MOTION_MAGIC_VEL = (int)Units.FPSToTalonNative(6.5);
 
     //Maximum current draw for each drivetrain CANTalon
     public static final int DRIVE_CURRENT_LIMIT_SUSTAINED = 36;
