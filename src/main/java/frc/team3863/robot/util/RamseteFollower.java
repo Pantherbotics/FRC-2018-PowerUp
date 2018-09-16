@@ -99,9 +99,6 @@ public class RamseteFollower {
             return value;
     }
 
-    public Odometry getInitOdometry() {
-        return new Odometry(path.get(0).x,path.get(0).y, path.get(0).heading);
-    }
 
     public boolean isFinished() {
         return segmentIndex == path.length();

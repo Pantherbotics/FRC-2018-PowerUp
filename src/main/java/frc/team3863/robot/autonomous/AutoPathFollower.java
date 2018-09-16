@@ -22,7 +22,6 @@ public class AutoPathFollower extends Command  {
 
     protected void initialize() {
         Robot.kDrivetrain.setTransmissionHigh();
-        Robot.kDrivetrain.setOdometry(follower.getInitOdometry());
         start = System.nanoTime();
     }
 

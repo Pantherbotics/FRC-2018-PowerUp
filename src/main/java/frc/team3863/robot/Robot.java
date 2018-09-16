@@ -178,12 +178,14 @@ public class Robot extends TimedRobot {
         is_auton_started = false;
         does_auto_need_field_data = false;
         override_ds_loc = -1;
+        Trajectory traj = paths.get(m_chooser.getSelected());
         if (does_auto_need_field_data) {
             System.out.println("Waiting for field data...");
         }
 
         try {
-            m_autonomousCommand = new AutoPathFollower(paths.get(m_chooser.getSelected())); //at the beginning of autonomous, we create a command that follows a path selected by the DS -AF
+            kDrivetrain.setOdometry(new Odometry(traj.get(0).x, traj.get(0).y, traj.get(0).heading));
+            m_autonomousCommand = new AutoPathFollower(traj); //at the beginning of autonomous, we create a command that follows a path selected by the DS -AF
         }
         catch(NullPointerException e){
             System.out.println("No autonomous mode was selected!");
