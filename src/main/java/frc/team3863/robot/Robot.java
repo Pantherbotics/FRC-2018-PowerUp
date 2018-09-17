@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3863.robot.autonomous.AutoPathFollower;
+import frc.team3863.robot.autonomous.AutoRightSameTwoCube;
 import frc.team3863.robot.commands.ZeroLift;
 import frc.team3863.robot.subsystems.*;
 import frc.team3863.robot.teleop.TeleopDualPartnerController;
@@ -74,7 +75,7 @@ public class Robot extends TimedRobot {
     //Timer to limit number of SmartDashboard updates per second
     Timer timerInstance = new Timer();
 
-    HashMap<String, Trajectory> paths;
+    public static HashMap<String, Trajectory> paths;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -184,8 +185,11 @@ public class Robot extends TimedRobot {
         }
 
         try {
-            kDrivetrain.setOdometry(new Odometry(traj.get(0).x, traj.get(0).y, traj.get(0).heading));
-            m_autonomousCommand = new AutoPathFollower(traj); //at the beginning of autonomous, we create a command that follows a path selected by the DS -AF
+            //kDrivetrain.setOdometry(new Odometry(traj.get(0).x, traj.get(0).y, traj.get(0).heading));
+            //m_autonomousCommand = new AutoPathFollower(traj); //at the beginning of autonomous, we create a command that follows a path selected by the DS -AF
+
+            m_autonomousCommand = new AutoRightSameTwoCube();
+            kDrivetrain.setOdometry(((AutoRightSameTwoCube) m_autonomousCommand).getInitOdometry());
         }
         catch(NullPointerException e){
             System.out.println("No autonomous mode was selected!");
