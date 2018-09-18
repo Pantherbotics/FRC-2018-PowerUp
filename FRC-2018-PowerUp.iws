@@ -5,37 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3a56d071-b3fc-4c2c-ba84-d14e6cadcac4" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/autonomous/AutoRightSameTwoCube.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/paths/rightSameSideScale1_left_Jaci.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/paths/rightSameSideScale1_right_Jaci.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/paths/rightSameSideScale1_source_Jaci.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/paths/rightSameSideScale2_left_Jaci.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/paths/rightSameSideScale2_right_Jaci.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/paths/rightSameSideScale2_source_Jaci.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/paths/rightSameSideScale3_left_Jaci.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/paths/rightSameSideScale3_right_Jaci.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/paths/rightSameSideScale3_source_Jaci.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/paths/rightSameSideScale4_left_Jaci.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/paths/rightSameSideScale4_right_Jaci.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/paths/rightSameSideScale4_source_Jaci.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FRC-2018-PowerUp.iws" beforeDir="false" afterPath="$PROJECT_DIR$/FRC-2018-PowerUp.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/Robot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/Robot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/EnableIntakeWheels.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/EnableIntakeWheels.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/paths/Aaaaaaaa_left_Jaci.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/paths/Aaaaaaaa_right_Jaci.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/paths/Aaaaaaaa_source_Jaci.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/paths/LeftCurve_left_Jaci.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/paths/LeftCurve_right_Jaci.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/paths/LeftCurve_source_Jaci.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/paths/LeftOppSideScale_left_Jaci.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/paths/LeftOppSideScale_right_Jaci.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/paths/LeftOppSideScale_source_Jaci.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/paths/RightCurve_left_Jaci.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/paths/RightCurve_right_Jaci.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/paths/RightCurve_source_Jaci.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/paths/SCurveTest15ms_left_Jaci.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/paths/SCurveTest15ms_right_Jaci.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/paths/SCurveTest15ms_source_Jaci.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/autonomous/AutoRightSameTwoCube.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/autonomous/AutoRightSameTwoCube.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/RotateDegrees.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/RotateDegrees.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/TurnDegrees.java" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -92,8 +66,8 @@
       <file leaf-file-name="RamseteFollower.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/RamseteFollower.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="746">
-              <caret line="100" selection-start-line="100" selection-end-line="100" />
+            <state relative-caret-position="642">
+              <caret line="91" selection-start-line="91" selection-end-line="100" />
             </state>
           </provider>
         </entry>
@@ -101,11 +75,42 @@
       <file leaf-file-name="AutoRightSameTwoCube.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/autonomous/AutoRightSameTwoCube.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" />
+            <state relative-caret-position="629">
+              <caret line="37" column="1" lean-forward="true" selection-start-line="37" selection-start-column="1" selection-end-line="37" selection-end-column="1" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RotateDegrees.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/RotateDegrees.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="799">
+              <caret line="49" column="73" lean-forward="true" selection-start-line="49" selection-start-column="73" selection-end-line="49" selection-end-column="73" />
+              <folding>
+                <element signature="e#1688#1689#0" expanded="true" />
+                <element signature="e#1730#1731#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DriveForwardInches.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/DriveForwardInches.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="731">
+              <caret line="45" lean-forward="true" selection-start-line="45" selection-end-line="45" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DriveForwardOpenLoop.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/DriveForwardOpenLoop.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="646">
+              <caret line="42" column="5" lean-forward="true" selection-start-line="42" selection-start-column="5" selection-end-line="42" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -128,11 +133,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Robot.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Robot.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/Robot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="192" column="9" lean-forward="true" selection-start-line="192" selection-start-column="9" selection-end-line="192" selection-end-column="9" />
+            <state relative-caret-position="595">
+              <caret line="204" lean-forward="true" selection-start-line="204" selection-end-line="204" />
             </state>
           </provider>
         </entry>
@@ -149,44 +154,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DropCube.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/DropCube.java">
+      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/Constants.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AutoPathTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/autonomous/AutoPathTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="27" column="62" lean-forward="true" selection-start-line="27" selection-start-column="62" selection-end-line="27" selection-end-column="62" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ElevatorSetpoint.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/ElevatorSetpoint.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EnableIntakeWheels.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/EnableIntakeWheels.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="680">
-              <caret line="42" column="75" selection-start-line="42" selection-start-column="75" selection-end-line="42" selection-end-column="75" />
-              <folding>
-                <element signature="e#495#496#0" expanded="true" />
-                <element signature="e#525#526#0" expanded="true" />
-                <element signature="e#949#950#0" expanded="true" />
-                <element signature="e#978#979#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="527">
+              <caret line="31" column="58" lean-forward="true" selection-start-line="31" selection-start-column="58" selection-end-line="31" selection-end-column="58" />
             </state>
           </provider>
         </entry>
@@ -236,7 +208,6 @@
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/teleop/TeleopDualPartnerController.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/Heading.java" />
-        <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/RotateDegrees.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/Odometry.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/CheesyDriveHelper.java" />
         <option value="$PROJECT_DIR$/src/test/java/frc/team3863/robot/RamseteTester.java" />
@@ -245,13 +216,16 @@
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/Units.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/TurnDegrees.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/subsystems/Drivetrain.java" />
-        <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/Constants.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/RamseteFollower.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/autonomous/AutoPathFollower.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/OpenIntake.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/EnableIntakeWheels.java" />
-        <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/autonomous/AutoRightSameTwoCube.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/Robot.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/autonomous/AutoRightSameTwoCube.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/Constants.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/RotateDegrees.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/DriveForwardInches.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/DriveForwardOpenLoop.java" />
       </list>
     </option>
   </component>
@@ -260,8 +234,8 @@
     <option name="LAST_EDITED_TAB_NAME" />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-277" />
-    <option name="y" value="-18" />
+    <option name="x" value="1912" />
+    <option name="y" value="-8" />
     <option name="width" value="2679" />
     <option name="height" value="1172" />
   </component>
@@ -534,7 +508,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="1912" y="-8" width="2064" height="1128" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -550,8 +524,9 @@
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32943678" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17604166" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16503906" />
       <window_info anchor="bottom" id="FRC" order="8" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32872656" />
       <window_info anchor="right" id="Gradle" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -562,7 +537,6 @@
       <window_info anchor="right" id="Palette " order="3" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32943678" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -634,13 +608,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1309">
           <caret line="82" column="12" selection-start-line="82" selection-start-column="12" selection-end-line="82" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/RotateDegrees.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="748">
-          <caret line="48" column="5" selection-start-line="48" selection-start-column="5" selection-end-line="48" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -753,13 +720,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/subsystems/Intake.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="128">
@@ -816,20 +776,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/DeployIntake.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/DriveForwardInches.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/DriveForwardOpenLoop.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
@@ -896,8 +842,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/autonomous/AutoRightSameTwoCube.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" />
+        <state relative-caret-position="629">
+          <caret line="37" column="1" lean-forward="true" selection-start-line="37" selection-start-column="1" selection-end-line="37" selection-end-column="1" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -906,15 +852,47 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/util/RamseteFollower.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="746">
-          <caret line="100" selection-start-line="100" selection-end-line="100" />
+        <state relative-caret-position="642">
+          <caret line="91" selection-start-line="91" selection-end-line="100" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/Robot.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="204" lean-forward="true" selection-start-line="204" selection-end-line="204" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/Constants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="31" column="58" lean-forward="true" selection-start-line="31" selection-start-column="58" selection-end-line="31" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/RotateDegrees.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="799">
+          <caret line="49" column="73" lean-forward="true" selection-start-line="49" selection-start-column="73" selection-end-line="49" selection-end-column="73" />
+          <folding>
+            <element signature="e#1688#1689#0" expanded="true" />
+            <element signature="e#1730#1731#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/DriveForwardInches.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="731">
+          <caret line="45" lean-forward="true" selection-start-line="45" selection-end-line="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team3863/robot/commands/DriveForwardOpenLoop.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="646">
-          <caret line="192" column="9" lean-forward="true" selection-start-line="192" selection-start-column="9" selection-end-line="192" selection-end-column="9" />
+          <caret line="42" column="5" lean-forward="true" selection-start-line="42" selection-start-column="5" selection-end-line="42" selection-end-column="5" />
         </state>
       </provider>
     </entry>

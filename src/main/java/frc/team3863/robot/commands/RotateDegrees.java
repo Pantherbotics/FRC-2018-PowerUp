@@ -11,7 +11,9 @@ public class RotateDegrees extends Command {
     double degree_offset;
     double target_degrees;
     double start_degrees;
-    double error;
+    double currentError;
+    double lastError;
+    double IAccum;
 
     public RotateDegrees(double degrees) {
         // Use requires() here to declare subsystem dependencies
@@ -27,6 +29,9 @@ public class RotateDegrees extends Command {
         //Invert for comp robot gyro mounting?
         target_degrees = start_degrees + degree_offset;
         System.out.println("Rotating from " + start_degrees + " to " + target_degrees);
+        currentError = target_degrees - Math.toDegrees(Robot.kDrivetrain.getOdometry().getTheta());
+        lastError = currentError;
+        IAccum = 0;
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -35,17 +40,23 @@ public class RotateDegrees extends Command {
     //             < 66%, full gain
     //             < 100%, slower gain      
     protected void execute() {
-        error = target_degrees - Robot.kDrivetrain.getOdometry().getTheta();
-        double left = error * Constants.DRIVE_ROTATE_P * -1;
-        double right = error * Constants.DRIVE_ROTATE_P;
-        System.out.println("" + error + " " + left + " " + right);
-        Robot.kDrivetrain.setFPS(left * 20, right * 20);
+        currentError = target_degrees - Math.toDegrees(Robot.kDrivetrain.getOdometry().getTheta());
+        double setpoint = currentError * Constants.DRIVE_ROTATE_P + IAccum * Constants.DRIVE_ROTATE_I + Constants.DRIVE_ROTATE_D * (lastError - currentError);
+        double left =  -setpoint;
+        double right = setpoint;
+
+        left = clamp(left, -1, 1);
+        right = clamp(right, -1, 1);
+        System.out.println("" + currentError + " " + left + " " + right);
+        Robot.kDrivetrain.setDrivePower(left, right);
         //Robot.kDrivetrain.setDrivePower(left, right);
+        lastError = currentError;
+        IAccum++;
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(error) < 6;
+        return Math.abs(currentError) < 6;
     }
 
     // Called once after isFinished returns true
@@ -57,4 +68,15 @@ public class RotateDegrees extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
+
+    private double clamp(double value, double min, double max){
+        if(value > max){
+            return max;
+        } else if(value < min){
+            return min;
+        }
+        else
+            return value;
+    }
+
 }
