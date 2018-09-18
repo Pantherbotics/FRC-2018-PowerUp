@@ -14,7 +14,7 @@ public class AutoRightSameTwoCube extends CommandGroup {
 
     public AutoRightSameTwoCube() {
         addSequential(new AutoPathFollower(paths.get("rightSameSideScale1")));
-        addParallel(new ElevatorSetpoint(4));
+        addParallel(new ElevatorSetpoint(5));
         addSequential(new OuttakeCube());
         addSequential(new RotateDegrees(180));
         addParallel(new ElevatorSetpoint(0));
@@ -24,7 +24,7 @@ public class AutoRightSameTwoCube extends CommandGroup {
         addSequential(new IntakeClaw(false));
         addSequential(new RotateDegrees(-180));
         addSequential(new AutoPathFollower(paths.get("rightSameSideScale3")));
-        addParallel(new ElevatorSetpoint(4));
+        addParallel(new ElevatorSetpoint(5));
         addSequential(new OuttakeCube());
         addSequential(new AutoPathFollower(paths.get("rightSameSideScale4")));
         addParallel(new ElevatorSetpoint(0));

@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3863.robot.autonomous.AutoPathFollower;
 import frc.team3863.robot.autonomous.AutoRightSameTwoCube;
+import frc.team3863.robot.commands.RotateDegrees;
 import frc.team3863.robot.commands.ZeroLift;
 import frc.team3863.robot.subsystems.*;
 import frc.team3863.robot.teleop.TeleopDualPartnerController;
@@ -183,19 +184,22 @@ public class Robot extends TimedRobot {
         if (does_auto_need_field_data) {
             System.out.println("Waiting for field data...");
         }
-
+        /*
         try {
             //kDrivetrain.setOdometry(new Odometry(traj.get(0).x, traj.get(0).y, traj.get(0).heading));
             //m_autonomousCommand = new AutoPathFollower(traj); //at the beginning of autonomous, we create a command that follows a path selected by the DS -AF
 
-            m_autonomousCommand = new AutoRightSameTwoCube();
-            kDrivetrain.setOdometry(((AutoRightSameTwoCube) m_autonomousCommand).getInitOdometry());
+            //m_autonomousCommand = new AutoRightSameTwoCube();
+            //kDrivetrain.setOdometry(((AutoRightSameTwoCube) m_autonomousCommand).getInitOdometry());
+        
         }
         catch(NullPointerException e){
             System.out.println("No autonomous mode was selected!");
-        }
-        kDrivetrain.zeroGyro();
+        }*/
 
+        m_autonomousCommand = new AutoRightSameTwoCube();
+        kDrivetrain.zeroGyro();
+        kDrivetrain.setOdometry(new AutoRightSameTwoCube().getInitOdometry());
         Command zero = new ZeroLift();
         zero.start();
         Robot.kIntake.closeClaw();

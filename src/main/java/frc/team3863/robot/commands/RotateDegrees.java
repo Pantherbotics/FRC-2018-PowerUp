@@ -3,6 +3,7 @@ package frc.team3863.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3863.robot.Constants;
 import frc.team3863.robot.Robot;
+import jaci.pathfinder.Pathfinder;
 
 /**
  *
@@ -25,9 +26,9 @@ public class RotateDegrees extends Command {
     protected void initialize() {
 
         start_degrees = Robot.kDrivetrain.getOdometry().getTheta();
-        Robot.kDrivetrain.setTransmissionLow();
+        Robot.kDrivetrain.setTransmissionHigh();
         //Invert for comp robot gyro mounting?
-        target_degrees = start_degrees + degree_offset;
+        target_degrees = Pathfinder.boundHalfDegrees(start_degrees + degree_offset);
         System.out.println("Rotating from " + start_degrees + " to " + target_degrees);
         currentError = target_degrees - Math.toDegrees(Robot.kDrivetrain.getOdometry().getTheta());
         lastError = currentError;
@@ -41,6 +42,7 @@ public class RotateDegrees extends Command {
     //             < 100%, slower gain      
     protected void execute() {
         currentError = target_degrees - Math.toDegrees(Robot.kDrivetrain.getOdometry().getTheta());
+        currentError = Pathfinder.boundHalfDegrees(currentError);
         double setpoint = currentError * Constants.DRIVE_ROTATE_P + IAccum * Constants.DRIVE_ROTATE_I + Constants.DRIVE_ROTATE_D * (lastError - currentError);
         double left =  -setpoint;
         double right = setpoint;
