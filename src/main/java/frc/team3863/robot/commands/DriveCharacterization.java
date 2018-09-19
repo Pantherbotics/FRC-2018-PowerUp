@@ -34,10 +34,10 @@ public class DriveCharacterization extends Command {
     protected void execute() {
         if(timer < 6){
             Robot.kDrivetrain.setDrivePower(power, 0);
-            sb.append(power + "," + Robot.kDrivetrain.getEncoderVelocities()[0] + ",0\n" );
+            sb.append(power*12.0 + "," + Robot.kDrivetrain.getEncoderVelocities()[0] + ",0\n" );
         }else{
             Robot.kDrivetrain.setDrivePower(0, power-12.0);
-            sb.append(power + ",0,"+ Robot.kDrivetrain.getEncoderVelocities()[1] +"\n" );
+            sb.append(power*12.0 + ",0,"+ Robot.kDrivetrain.getEncoderVelocities()[1] +"\n" );
         }
 
         if(timer %0.5 == 0){
