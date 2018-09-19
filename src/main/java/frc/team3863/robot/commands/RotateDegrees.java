@@ -35,11 +35,7 @@ public class RotateDegrees extends Command {
         IAccum = 0;
     }
 
-    // Called repeatedly when this Command is scheduled to run
-    // TODO: Direct motor power instead of velocity (elim. encoder feedback)
-    // three step: < 33%, lower gain
-    //             < 66%, full gain
-    //             < 100%, slower gain      
+
     protected void execute() {
         currentError = target_degrees - Math.toDegrees(Robot.kDrivetrain.getOdometry().getTheta());
         currentError = Pathfinder.boundHalfDegrees(currentError);
@@ -53,7 +49,13 @@ public class RotateDegrees extends Command {
         Robot.kDrivetrain.setDrivePower(left, right);
         //Robot.kDrivetrain.setDrivePower(left, right);
         lastError = currentError;
-        IAccum++;
+        if(currentError > 0){
+            IAccum++;
+        } else if (currentError < 0){
+            IAccum--;
+        }else{
+            IAccum +=0;
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
