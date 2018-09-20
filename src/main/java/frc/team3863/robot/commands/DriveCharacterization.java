@@ -44,6 +44,8 @@ public class DriveCharacterization extends Command {
             power +=0.04166666666; //0.5v per 0.5s
         }
 
+        timer += .2;
+
     }
 
     // Make this return true when this Command no longer needs to run execute()

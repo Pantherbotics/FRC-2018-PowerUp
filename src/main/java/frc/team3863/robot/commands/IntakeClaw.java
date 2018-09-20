@@ -9,8 +9,8 @@ import frc.team3863.robot.Robot;
 public class IntakeClaw extends Command {
     boolean extend;
 
-    public IntakeClaw(boolean open) {
-        extend = open;
+    public IntakeClaw(boolean close) {
+        extend = close;
         requires(Robot.kIntake);
     }
 

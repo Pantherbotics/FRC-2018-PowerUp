@@ -15,11 +15,20 @@ public class RotateDegrees extends Command {
     double currentError;
     double lastError;
     double IAccum;
+    double errorTolerance;
 
     public RotateDegrees(double degrees) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.kDrivetrain);
         degree_offset = degrees;
+        errorTolerance = 2;
+    }
+
+    public RotateDegrees(double degrees, double errorTolerance) {
+        // Use requires() here to declare subsystem dependencies
+        requires(Robot.kDrivetrain);
+        degree_offset = degrees;
+        this.errorTolerance = errorTolerance;
     }
 
     // Called just before this Command runs the first time
@@ -45,7 +54,7 @@ public class RotateDegrees extends Command {
 
         left = clamp(left, -1, 1);
         right = clamp(right, -1, 1);
-        System.out.println("" + currentError + " " + left + " " + right);
+        System.out.println("Error: " + currentError + " Left Speed: " + left + " Right Speed: " + right);
         Robot.kDrivetrain.setDrivePower(left, right);
         //Robot.kDrivetrain.setDrivePower(left, right);
         lastError = currentError;
@@ -60,7 +69,7 @@ public class RotateDegrees extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(currentError) < 6;
+        return Math.abs(currentError) < errorTolerance;
     }
 
     // Called once after isFinished returns true
