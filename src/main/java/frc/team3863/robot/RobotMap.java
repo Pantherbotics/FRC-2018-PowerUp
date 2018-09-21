@@ -21,14 +21,14 @@ public class RobotMap {
     public static final int TALON_DRIVE_RIGHTB_ID = 3;
 
     //Elevator CAN IDs
-    public static final int ELEVATOR_DRIVE_TALON_ID = 14;
+    public static final int ELEVATOR_DRIVE_TALON_ID = 15;
 
     //Intake CAN IDs
     public static final int LEFT_INTAKE_TALON_ID = 0;
     public static final int RIGHT_INTAKE_TALON_ID = 1;
 
     //Climber CAN IDs
-    public static final int CLIMBER_WINCH_TALON_ID = 15;
+    //public static final int CLIMBER_WINCH_TALON_ID = 15;
     public static final int CLIMBER_ARM_TALON_ID = 4;
 
     //PCM and PDP CAN IDs (defaults to 0, IDs only need to be unique across the same type)
