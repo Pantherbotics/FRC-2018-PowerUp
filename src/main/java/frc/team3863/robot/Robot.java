@@ -254,11 +254,7 @@ public class Robot extends TimedRobot {
         //Select the drive mode from the SmartDashboard
         m_teleopDriveCommand = m_drivechooser.getSelected();
 
-        // schedule the drive command
-        if (m_teleopDriveCommand != null) {
-            m_teleopDriveCommand.start();
-        }
-
+        kDrivetrain.setDefaultCommand(m_teleopDriveCommand);
     }
 
     /**

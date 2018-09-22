@@ -12,6 +12,7 @@ public class DriveCharacterization extends Command {
     private double power;
     private StringBuilder sb;
     private PrintWriter pw;
+
     public DriveCharacterization() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.kDrivetrain);
@@ -26,25 +27,26 @@ public class DriveCharacterization extends Command {
         sb.append("voltage,left velocity,right velocity\n");
         try {
             pw = new PrintWriter(new File("/home/lvuser/CharacterizationResults.csv"));
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if(timer < 12){
-            Robot.kDrivetrain.setDrivePower(power, 0);
-            System.out.println(power*12.0 + "," + Robot.kDrivetrain.getEncoderVelocities()[0] + ",0\n");
-            sb.append(power*12.0 + "," + Robot.kDrivetrain.getEncoderVelocities()[0] + ",0\n" );
-        }else{
-            Robot.kDrivetrain.setDrivePower(0, power-1.0);
-            System.out.println((power-1)*12.0 + ",0,"+ Robot.kDrivetrain.getEncoderVelocities()[1] +"\n");
-            sb.append((power-1)*12.0 + ",0,"+ Robot.kDrivetrain.getEncoderVelocities()[1] +"\n" );
-        }
 
-        if(Math.abs(timer % 0.25) < 0.01){
-            power +=0.04166666666; //0.5v per 0.5s
+
+        Robot.kDrivetrain.setDrivePower(power, power);
+        System.out.println(power * 12.0 + "," + Robot.kDrivetrain.getEncoderVelocities()[0] + "," + Robot.kDrivetrain.getEncoderVelocities()[1] + "\n");
+        sb.append(power * 12.0);
+        sb.append(",");
+        sb.append(Robot.kDrivetrain.getEncoderVelocities()[0]);
+        sb.append(",");
+        sb.append(Robot.kDrivetrain.getEncoderVelocities()[1]);
+        sb.append("\n");
+
+        if (Math.abs(timer % 0.5) < 0.01) {
+            power += 0.04166666666; //0.5v per 0.5s
         }
 
         timer += .02;
@@ -54,15 +56,15 @@ public class DriveCharacterization extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         System.out.println("Time: " + timer);
-        return Math.abs(timer-24) < 0.01;
+        return Math.abs(timer - (12-.02)) < 0.01;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+        System.out.println("Finished!");
         Robot.kDrivetrain.setDrivePower(0, 0);
         pw.write(sb.toString());
         pw.close();
-        //Robot.kIntake.closeClaw();
     }
 
     // Called when another command which requires one or more of the same
@@ -71,6 +73,5 @@ public class DriveCharacterization extends Command {
         Robot.kDrivetrain.setDrivePower(0, 0);
         pw.write(sb.toString());
         pw.close();
-        //Robot.kIntake.setIntakeWheelPower(-1);
     }
 }
