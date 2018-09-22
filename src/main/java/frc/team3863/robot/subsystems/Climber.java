@@ -9,7 +9,7 @@ import frc.team3863.robot.RobotMap;
 
 public class Climber extends Subsystem {
 
-    WPI_TalonSRX winchTalon = new WPI_TalonSRX(RobotMap.CLIMBER_WINCH_TALON_ID);
+    //WPI_TalonSRX winchTalon = new WPI_TalonSRX(RobotMap.CLIMBER_WINCH_TALON_ID);
     WPI_TalonSRX armTalon = new WPI_TalonSRX(RobotMap.CLIMBER_ARM_TALON_ID);
     private int armPidID = 0;
     private int timeout = 0;
@@ -29,7 +29,7 @@ public class Climber extends Subsystem {
     }
 
     public void setWinchPower(double power) {
-        winchTalon.set(power);
+        //winchTalon.set(power);
     }
 
     public double getArmPos() {

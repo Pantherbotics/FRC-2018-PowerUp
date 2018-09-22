@@ -96,6 +96,8 @@ public class Drivetrain extends Subsystem {
         talonRightA.configMotionAcceleration(Constants.MOTION_MAGIC_ACCEL, 0);
         talonRightA.configMotionCruiseVelocity(Constants.MOTION_MAGIC_VEL, 0);
 
+        talonLeftA.enableVoltageCompensation(true);
+        talonRightA.enableVoltageCompensation(true);
         x = 0;
         y = 0;
         theta = 0;

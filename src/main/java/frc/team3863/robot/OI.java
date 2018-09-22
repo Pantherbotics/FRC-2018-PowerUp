@@ -127,6 +127,7 @@ public class OI {
         partnerButtonY.whenPressed(new RaiseHook());
         partnerButtonA.whenPressed(new LowerHook());
 
+        partnerShare.whenPressed(new DriveCharacterization());
         auxPartnerY.whenPressed(new OuttakeCube());
         auxPartnerA.whenPressed(new AutoIntake());
         //auxPartnerX.whenPressed(new RaiseLeftRamp());
