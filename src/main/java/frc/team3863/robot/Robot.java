@@ -246,8 +246,8 @@ public class Robot extends TimedRobot {
             m_autonomousCommand.cancel();
         }
 
-        Command zero = new ZeroLift();
-        zero.start();
+        //Command zero = new ZeroLift();
+        //zero.start();
 
         Robot.kIntake.closeClaw();
 
