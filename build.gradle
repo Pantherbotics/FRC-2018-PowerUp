@@ -4,7 +4,7 @@ plugins {
     id "java"
     id "eclipse"
     id "idea"
-    id "jaci.openrio.gradle.GradleRIO" version "2018.03.06"
+    id "edu.wpi.first.GradleRIO" version "2019.0.0-alpha-3"
     //id "com.snobot.simulator.plugin.SnobotSimulatorPlugin" version "2018-1.0.0"
 }
 
@@ -15,12 +15,12 @@ def ROBOT_CLASS = "frc.team3863.robot.Robot"
 // This is added by GradleRIO's backing project EmbeddedTools.
 deploy {
     targets {
-        target("roborio", jaci.openrio.gradle.frc.RoboRIO) {
+        target("roborio", edu.wpi.first.gradlerio.frc.RoboRIO) {
             team = TEAM
         }
     }
     artifacts {
-        artifact('frcJava', jaci.openrio.gradle.frc.FRCJavaArtifact) {
+        artifact('frcJava', edu.wpi.first.gradlerio.frc.FRCJavaArtifact) {
             targets << "roborio"
         }
 
@@ -51,10 +51,10 @@ dependencies {
 // knows where to look for our Robot Class.
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest jaci.openrio.gradle.GradleRIOPlugin.javaManifest(ROBOT_CLASS)
+    manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_CLASS)
 }
 
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.4'
+    gradleVersion = '4.9'
 }
