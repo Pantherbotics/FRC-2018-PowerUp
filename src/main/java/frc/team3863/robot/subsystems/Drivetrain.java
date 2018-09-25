@@ -3,7 +3,7 @@ package frc.team3863.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.I2C;
@@ -23,16 +23,14 @@ public class Drivetrain extends Subsystem {
     public boolean transmission_in_low = true;
     // ADXRS450_Gyro gyro = new ADXRS450_Gyro();
     AHRS ahrs_gyro = new AHRS(I2C.Port.kOnboard);
-    WPI_TalonSRX talonLeftA = new WPI_TalonSRX(RobotMap.TALON_DRIVE_LEFTA_ID);
-    WPI_TalonSRX talonLeftB = new WPI_TalonSRX(RobotMap.TALON_DRIVE_LEFTB_ID);
-    WPI_TalonSRX talonRightA = new WPI_TalonSRX(RobotMap.TALON_DRIVE_RIGHTA_ID);
-    WPI_TalonSRX talonRightB = new WPI_TalonSRX(RobotMap.TALON_DRIVE_RIGHTB_ID);
+    TalonSRX talonLeftA = new TalonSRX(RobotMap.TALON_DRIVE_LEFTA_ID);
+    TalonSRX talonLeftB = new TalonSRX(RobotMap.TALON_DRIVE_LEFTB_ID);
+    TalonSRX talonRightA = new TalonSRX(RobotMap.TALON_DRIVE_RIGHTA_ID);
+    TalonSRX talonRightB = new TalonSRX(RobotMap.TALON_DRIVE_RIGHTB_ID);
     DoubleSolenoid transmissiom_solenoid = new DoubleSolenoid(RobotMap.PCM_TRANSMISSION_LOW,
             RobotMap.PCM_TRANSMISSION_HIGH);
     int high_pid_id = 0;
     int low_pid_id = 1;
-    double HIGH_GEAR_TOP_SPEED = 20;
-    double LOW_GEAR_TOP_SPEED = 7;
 
     //variables for Odometry
     private double lastPos, currentPos, dPos;
@@ -187,8 +185,8 @@ public class Drivetrain extends Subsystem {
     }
 
     public void setPositionTargetIncrements(double leftOffset, double rightOffset) {
-        double lTarget = talonLeftA.get() + leftOffset;
-        double rTarget = talonRightA.get() + rightOffset;
+        double lTarget = talonLeftA.getSelectedSensorPosition(0) + leftOffset;
+        double rTarget = talonRightA.getSelectedSensorPosition(0) + rightOffset;
         talonLeftA.set(ControlMode.MotionMagic, lTarget);
         talonRightA.set(ControlMode.MotionMagic, rTarget);
     }

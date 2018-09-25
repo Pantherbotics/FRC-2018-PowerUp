@@ -170,7 +170,7 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module filepath="$PROJECT_DIR$/FRC-2018-PowerUp.iml" fileurl="file://$PROJECT_DIR$/FRC-2018-PowerUp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FRC-2018-PowerUp.iml" filepath="$PROJECT_DIR$/FRC-2018-PowerUp.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">

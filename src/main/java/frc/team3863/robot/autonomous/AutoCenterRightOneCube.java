@@ -6,7 +6,6 @@ import frc.team3863.robot.commands.ElevatorSetpoint;
 import frc.team3863.robot.util.Odometry;
 import jaci.pathfinder.Trajectory;
 
-
 import static frc.team3863.robot.Robot.paths;
 
 public class AutoCenterRightOneCube extends CommandGroup {

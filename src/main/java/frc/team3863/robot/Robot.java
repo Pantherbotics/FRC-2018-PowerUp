@@ -7,18 +7,21 @@
 
 package frc.team3863.robot;
 
-import java.util.Arrays;
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team3863.robot.autonomous.AutoPathFollower;
-import frc.team3863.robot.autonomous.AutoRightSameTwoCube;
-import frc.team3863.robot.commands.RotateDegrees;
+import frc.team3863.robot.autonomous.AutoCenterLeftOneCube;
 import frc.team3863.robot.commands.ZeroLift;
-import frc.team3863.robot.subsystems.*;
+import frc.team3863.robot.subsystems.Climber;
+import frc.team3863.robot.subsystems.Drivetrain;
+import frc.team3863.robot.subsystems.Elevator;
+import frc.team3863.robot.subsystems.Intake;
 import frc.team3863.robot.teleop.TeleopDualPartnerController;
 import frc.team3863.robot.teleop.TeleopSinglePartnerController;
 import frc.team3863.robot.util.Odometry;
@@ -28,6 +31,7 @@ import jaci.pathfinder.Trajectory;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 
@@ -197,9 +201,9 @@ public class Robot extends TimedRobot {
             System.out.println("No autonomous mode was selected!");
         }*/
 
-        m_autonomousCommand = new AutoRightSameTwoCube();
+        m_autonomousCommand = new AutoCenterLeftOneCube();
         kDrivetrain.zeroGyro();
-        kDrivetrain.setOdometry(new AutoRightSameTwoCube().getInitOdometry());
+        kDrivetrain.setOdometry(new AutoCenterLeftOneCube().getInitOdometry());
         Command zero = new ZeroLift();
         zero.start();
         Robot.kIntake.closeClaw();

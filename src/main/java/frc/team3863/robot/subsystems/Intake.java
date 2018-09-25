@@ -1,6 +1,7 @@
 package frc.team3863.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Counter;
@@ -16,8 +17,8 @@ import java.util.List;
  *
  */
 public class Intake extends Subsystem {
-    public WPI_TalonSRX leftIntakeTalon = new WPI_TalonSRX(RobotMap.LEFT_INTAKE_TALON_ID);
-    public WPI_TalonSRX rightIntakeTalon = new WPI_TalonSRX(RobotMap.RIGHT_INTAKE_TALON_ID);
+    public TalonSRX leftIntakeTalon = new WPI_TalonSRX(RobotMap.LEFT_INTAKE_TALON_ID);
+    public TalonSRX rightIntakeTalon = new WPI_TalonSRX(RobotMap.RIGHT_INTAKE_TALON_ID);
     public int timeout_ms = 0;
     List<Double> pastDistances = new ArrayList<Double>();
     Counter ultrasonicCounter = new Counter(RobotMap.SENSOR_INTAKE_ULTRASONIC);

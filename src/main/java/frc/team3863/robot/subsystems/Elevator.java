@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team3863.robot.Constants;
 import frc.team3863.robot.RobotMap;
@@ -16,7 +16,7 @@ public class Elevator extends Subsystem {
 
     public int target = 0;
 
-    public WPI_TalonSRX elevDriveTalon = new WPI_TalonSRX(RobotMap.ELEVATOR_DRIVE_TALON_ID);
+    public TalonSRX elevDriveTalon = new TalonSRX(RobotMap.ELEVATOR_DRIVE_TALON_ID);
     public int timeout_ms = 0;
     int pid_id = 0;
 
