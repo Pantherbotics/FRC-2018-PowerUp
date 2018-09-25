@@ -1,6 +1,7 @@
 package frc.team3863.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -180,8 +181,8 @@ public class Drivetrain extends Subsystem {
 
         //System.out.println("wanted " + left + " " + right);
         //System.out.println("real " + Units.TalonNativeToFPS(talonLeftA.getSelectedSensorVelocity(0)) + " " + Units.TalonNativeToFPS(talonRightA.getSelectedSensorVelocity(0)));
-        talonLeftA.set(ControlMode.Velocity, Units.FPSToTalonNative(left));
-        talonRightA.set(ControlMode.Velocity, Units.FPSToTalonNative(right));
+        talonLeftA.set(ControlMode.Velocity, Units.FPSToTalonNative(left), DemandType.ArbitraryFeedForward, Constants.HIGH_DRIVE_PID_F_INTERCEPT);
+        talonRightA.set(ControlMode.Velocity, Units.FPSToTalonNative(right), DemandType.ArbitraryFeedForward, Constants.HIGH_DRIVE_PID_F_INTERCEPT);
     }
 
     public void setPositionTargetIncrements(double leftOffset, double rightOffset) {
