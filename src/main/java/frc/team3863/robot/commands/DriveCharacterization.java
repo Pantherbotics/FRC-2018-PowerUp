@@ -24,7 +24,7 @@ public class DriveCharacterization extends Command {
         power = 0;
         System.out.println("Starting Drive Characterization");
         sb = new StringBuilder();
-        sb.append("voltage,left velocity,right velocity\n");
+        sb.append("left voltage,right voltage,left velocity,right velocity\n");
         try {
             pw = new PrintWriter(new File("/home/lvuser/CharacterizationResults.csv"));
         } catch (Exception e) {
@@ -38,7 +38,9 @@ public class DriveCharacterization extends Command {
 
         Robot.kDrivetrain.setDrivePower(power, power);
         System.out.println(power * 12.0 + "," + Robot.kDrivetrain.getEncoderVelocities()[0] + "," + Robot.kDrivetrain.getEncoderVelocities()[1] + "\n");
-        sb.append(power * 12.0);
+        sb.append(Robot.kDrivetrain.getDriveVoltages()[0]);
+        sb.append(",");
+        sb.append(Robot.kDrivetrain.getDriveVoltages()[1]);
         sb.append(",");
         sb.append(Robot.kDrivetrain.getEncoderVelocities()[0]);
         sb.append(",");

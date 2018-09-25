@@ -160,6 +160,12 @@ public class Drivetrain extends Subsystem {
         return new double[]{l, r};
     }
 
+    public double[] getDriveVoltages(){
+        double l = talonLeftA.getMotorOutputVoltage();
+        double r = talonRightA.getMotorOutputVoltage();
+        return new double[]{l,r};
+    }
+
     public void setDrivePower(double left, double right) {
         // Set the left and right motor power
         talonLeftA.set(ControlMode.PercentOutput, left);
