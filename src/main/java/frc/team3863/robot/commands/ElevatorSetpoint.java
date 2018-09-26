@@ -8,10 +8,19 @@ import frc.team3863.robot.Robot;
  */
 public class ElevatorSetpoint extends Command {
     int set;
-
+    boolean isDelayed;
+    double startTime, delay;
     public ElevatorSetpoint(int preset) {
         set = preset;
+        isDelayed = false;
         requires(Robot.kElevator);
+    }
+
+    public ElevatorSetpoint(int preset, double delaySeconds){
+        set = preset;
+        requires(Robot.kElevator);
+        isDelayed = true;
+        delay = delaySeconds;
     }
 
     // Called just before this Command runs the first time
@@ -20,12 +29,22 @@ public class ElevatorSetpoint extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Robot.kElevator.goToPreset(set);
+        if(isDelayed) {
+            System.out.println("Has " + delay + " passed? " + (Math.abs(((System.nanoTime()/1E9)-startTime) - delay) < 0.1));
+            if(Math.abs(((System.nanoTime()/1E9)-startTime) - delay) < 0.1)
+                Robot.kElevator.goToPreset(set);
+        }else
+            Robot.kElevator.goToPreset(set);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        if(!isDelayed)
+            return true;
+        else{
+            return Math.abs(((System.nanoTime()/1E9)-startTime) - delay) < 0.1;
+        }
+
     }
 
     // Called once after isFinished returns true

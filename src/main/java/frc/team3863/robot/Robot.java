@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team3863.robot.autonomous.AutoCenterLeftOneCube;
+import frc.team3863.robot.autonomous.*;
 import frc.team3863.robot.commands.ZeroLift;
 import frc.team3863.robot.subsystems.Climber;
 import frc.team3863.robot.subsystems.Drivetrain;
@@ -61,12 +61,11 @@ public class Robot extends TimedRobot {
     //True if autonomous command has been started (prevents starting it multiple times)
     public boolean is_auton_started = false;
     //Previous Message - Previous Driverstation Select
-    String PrevMsg = "";
-    int PrevDsSelect;
+    String dsMessage = "";
     //Instance of the currently selected autonomous command
-    Command m_autonomousCommand;
+    PathedAutonomous m_autonomousCommand;
     //SmartDashboard dropdown menu for selecting autonomous modes.
-    SendableChooser<String> m_chooser = new SendableChooser<>();
+    SendableChooser<Integer> m_chooser = new SendableChooser<>();
     //Instance of the currently selected teleop drive command
     Command m_teleopDriveCommand;
     //SmartDashboard dropdown menu for selecting teleop drive modes.
@@ -75,7 +74,6 @@ public class Robot extends TimedRobot {
     boolean does_auto_need_field_data = false;
     //-1 if we want to use the DS position as the robot position,
     //otherwise 1,2,3 for L,C,R robot positions
-    int override_ds_loc = -1;
 
     //Timer to limit number of SmartDashboard updates per second
     Timer timerInstance = new Timer();
@@ -91,15 +89,14 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        m_chooser.addDefault("None", null);
+        m_chooser.addDefault("Center Switch Auto (1-Cube)", 0);
+        m_chooser.addObject("Left Scale Autonomous", 1);
+        m_chooser.addObject("Right Scale Autonomous", 2);
         //Add options to the Auton Mode chooser, and add it to the SmartDashboard
         //The options are integers, accessed later via a switch statement.
         paths = collectPathsFromDirectory(Constants.PATH_LOCATION);
-        System.out.println(paths.isEmpty());
-        for(String key : paths.keySet()){
-            System.out.println(key);
-            m_chooser.addObject(key, key);
-        }
+
+
 
         //Add options to the Drive Mode chooser, and add it to the SmartDashboard
         //The options are instances of the given drive commands,
@@ -182,28 +179,20 @@ public class Robot extends TimedRobot {
         //Update the SmartDashboard with debug + state info
         //updateSmartDashboard();
         is_auton_started = false;
-        does_auto_need_field_data = false;
-        override_ds_loc = -1;
-        Trajectory traj = paths.get(m_chooser.getSelected());
+
+        dsMessage = ds.getGameSpecificMessage();
+        if(dsMessage.length()<3){
+            does_auto_need_field_data = true;
+        } else{
+            m_autonomousCommand = selectAutonomous(m_chooser.getSelected(), dsMessage);
+            kDrivetrain.setOdometry(m_autonomousCommand.getInitOdometry());
+        }
+
         if (does_auto_need_field_data) {
             System.out.println("Waiting for field data...");
         }
-        /*
-        try {
-            //kDrivetrain.setOdometry(new Odometry(traj.get(0).x, traj.get(0).y, traj.get(0).heading));
-            //m_autonomousCommand = new AutoPathFollower(traj); //at the beginning of autonomous, we create a command that follows a path selected by the DS -AF
 
-            //m_autonomousCommand = new AutoRightSameTwoCube();
-            //kDrivetrain.setOdometry(((AutoRightSameTwoCube) m_autonomousCommand).getInitOdometry());
-        
-        }
-        catch(NullPointerException e){
-            System.out.println("No autonomous mode was selected!");
-        }*/
-
-        m_autonomousCommand = new AutoCenterLeftOneCube();
         kDrivetrain.zeroGyro();
-        kDrivetrain.setOdometry(new AutoCenterLeftOneCube().getInitOdometry());
         Command zero = new ZeroLift();
         zero.start();
         Robot.kIntake.closeClaw();
@@ -217,8 +206,16 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() {
         if (does_auto_need_field_data) {
-            boolean has_field_data = true; //i have no idea what im doing -AF
+            dsMessage = ds.getGameSpecificMessage();
+            boolean has_field_data;
+            if(dsMessage.length() < 3) {
+                has_field_data = false;
+            } else{
+                has_field_data = true;
+            }//i have no idea what im doing -AF
             if (has_field_data) {
+                m_autonomousCommand = selectAutonomous(m_chooser.getSelected(), dsMessage);
+                kDrivetrain.setOdometry(m_autonomousCommand.getInitOdometry());
                 does_auto_need_field_data = false;
                 System.out.println("Auton field data registered");
             }
@@ -378,6 +375,13 @@ public class Robot extends TimedRobot {
 
     }
 
+    public void outputPathsToDashboard(HashMap<String, Trajectory> paths, SendableChooser<String> chooser){
+        System.out.println(paths.isEmpty());
+        for(String key : paths.keySet()){
+            System.out.println(key);
+            chooser.addObject(key, key);
+        }
+    }
 
     public HashMap<String, Trajectory> collectPathsFromDirectory(String dir){
         HashMap<String, Trajectory> paths = new HashMap<>();
@@ -413,6 +417,27 @@ public class Robot extends TimedRobot {
         }
         //System.out.println(fList);
         return resultList;
-    } 
+    }
+
+    public PathedAutonomous selectAutonomous(int id, String fieldData){
+        PathedAutonomous autonCommand = null;
+        if(id == 0){
+            if(fieldData.charAt(0) == 'L')
+                autonCommand = new AutoCenterLeftOneCube();
+            else
+                autonCommand = new AutoCenterRightOneCube();
+        } else if(id == 1){
+            if(fieldData.charAt(1) == 'L')
+                autonCommand = new AutoLeftSameTwoCube();
+            else
+                autonCommand = new AutoLeftDiffOneCube();
+        } else if(id == 2){
+            if(fieldData.charAt(2)=='L')
+                autonCommand = new AutoRightDiffOneCube();
+            else
+                autonCommand = new AutoRightSameTwoCube();
+        }
+        return autonCommand;
+    }
 
 }

@@ -10,7 +10,7 @@ import static frc.team3863.robot.Robot.paths;
 /**
  *
  */
-public class AutoRightSameTwoCube extends CommandGroup {
+public class AutoRightSameTwoCube extends PathedAutonomous {
 
     public AutoRightSameTwoCube() {
         addParallel(new ElevatorSetpoint(5));

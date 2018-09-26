@@ -8,7 +8,7 @@ import jaci.pathfinder.Trajectory;
 
 import static frc.team3863.robot.Robot.paths;
 
-public class AutoCenterLeftOneCube extends CommandGroup {
+public class AutoCenterLeftOneCube extends PathedAutonomous {
 
     public AutoCenterLeftOneCube(){
         addParallel(new ElevatorSetpoint(3));
