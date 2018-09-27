@@ -98,7 +98,10 @@ public class TeleopDualPartnerController extends Command {
         DriveSignal drive = cheesyDriveHelper.cheesyDrive(-y, twist, !Robot.kDrivetrain.transmission_in_low);
 
         if (usepid) {
-            Robot.kDrivetrain.setFPS(drive.getLeft() * 23, drive.getRight() * 23);
+            if(Robot.kDrivetrain.transmission_in_low)
+                Robot.kDrivetrain.setFPS(drive.getLeft() * 7, drive.getRight() * 7);
+            else
+                Robot.kDrivetrain.setFPS(drive.getLeft() * 23, drive.getRight() * 23);
         } else {
             Robot.kDrivetrain.setDrivePower(drive.getLeft(), drive.getRight());
         }

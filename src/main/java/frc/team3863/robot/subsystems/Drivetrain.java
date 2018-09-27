@@ -74,7 +74,7 @@ public class Drivetrain extends Subsystem {
 
         zeroGyro();
 
-        setTransmissionLow();
+        setTransmissionHigh();
         talonLeftA.configPeakCurrentLimit(Constants.DRIVE_CURRENT_LIMIT_PEAK, 0);
         talonLeftA.configPeakCurrentDuration(Constants.DRIVE_CURRENT_LIMIT_PEAK_TIME, 0);
         talonLeftA.configContinuousCurrentLimit(Constants.DRIVE_CURRENT_LIMIT_SUSTAINED, 0);
@@ -183,8 +183,6 @@ public class Drivetrain extends Subsystem {
         if (actualLeft < LOW_GEAR_TOP_SPEED - 4 && actualRight < LOW_GEAR_TOP_SPEED - 4) {
             setTransmissionLow();
         }*/
-        setTransmissionHigh();
-
         //System.out.println("wanted " + left + " " + right);
         //System.out.println("real " + Units.TalonNativeToFPS(talonLeftA.getSelectedSensorVelocity(0)) + " " + Units.TalonNativeToFPS(talonRightA.getSelectedSensorVelocity(0)));
         talonLeftA.set(ControlMode.Velocity, Units.FPSToTalonNative(left), DemandType.ArbitraryFeedForward, Constants.HIGH_DRIVE_PID_F_INTERCEPT);

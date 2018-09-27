@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3863.robot.autonomous.*;
+import frc.team3863.robot.commands.TransmissionHighGear;
 import frc.team3863.robot.commands.ZeroLift;
 import frc.team3863.robot.subsystems.Climber;
 import frc.team3863.robot.subsystems.Drivetrain;
@@ -197,7 +198,7 @@ public class Robot extends TimedRobot {
         zero.start();
         Robot.kIntake.closeClaw();
         Robot.kIntake.setIntakeWheelPower(Constants.INTAKE_IDLE_POWER);
-
+        new TransmissionHighGear();
     }
 
     /**

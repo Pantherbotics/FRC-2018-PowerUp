@@ -31,7 +31,7 @@ public class Constants {
 
     public static final double HIGH_DRIVE_PID_F_INTERCEPT = 0.0;
 
-    public static final double LOW_DRIVE_PID_F = 1023/770;
+    public static final double LOW_DRIVE_PID_F = 1023.0/230.0;
     public static final double LOW_DRIVE_PID_P = 1.5;
     public static final double LOW_DRIVE_PID_I = 0.0000;
     public static final double LOW_DRIVE_PID_D = 0.000;
