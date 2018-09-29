@@ -423,21 +423,34 @@ public class Robot extends TimedRobot {
 
     public PathedAutonomous selectAutonomous(int id, String fieldData){
         PathedAutonomous autonCommand = null;
+        System.out.println("Requested Autonomous ID: " + id);
         if(id == 0){
-            if(fieldData.charAt(0) == 'L')
+            if(fieldData.charAt(0) == 'L'){
+                System.out.println("Using Center Left Switch Autonomous");
                 autonCommand = new AutoCenterLeftOneCube();
-            else
+            }
+            else {
+                System.out.println("Using Center Right Switch Autonomous");
                 autonCommand = new AutoCenterRightOneCube();
+            }
         } else if(id == 1){
-            if(fieldData.charAt(1) == 'L')
+            if(fieldData.charAt(1) == 'L') {
+                System.out.println("Using Left Same Side Scale Autonomous");
                 autonCommand = new AutoLeftSameTwoCube();
-            else
+            }
+            else {
+                System.out.println("Using Left Opposite Side Scale Autonomous");
                 autonCommand = new AutoLeftDiffOneCube();
+            }
         } else if(id == 2){
-            if(fieldData.charAt(2)=='L')
+            if(fieldData.charAt(1)=='L') {
+                System.out.println("Using Right Same Side Scale Autonomous");
                 autonCommand = new AutoRightDiffOneCube();
-            else
+            }
+            else {
+                System.out.println("Using Right Opposite Side Scale Autonomous");
                 autonCommand = new AutoRightSameTwoCube();
+            }
         }
         return autonCommand;
     }
