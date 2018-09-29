@@ -90,6 +90,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+
         m_chooser.addDefault("Center Switch Auto (1-Cube)", 0);
         m_chooser.addObject("Left Scale Autonomous", 1);
         m_chooser.addObject("Right Scale Autonomous", 2);
