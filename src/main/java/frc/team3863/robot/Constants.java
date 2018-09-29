@@ -52,16 +52,16 @@ public class Constants {
     public static final double ELEVATOR_PID_I = 0.0000;
     public static final double ELEVATOR_PID_D = 1.1;
 
-    public static final int ELEVATOR_PID_CRUISE_VEL = 400;
-    public static final int ELEVATOR_PID_ACCELERATION = 300;
+    public static final int ELEVATOR_PID_CRUISE_VEL = 500;
+    public static final int ELEVATOR_PID_ACCELERATION = 400;
 
     //Maximum current draw for Elevator CANTalon
     public static final int ELEVATOR_CURRENT_LIMIT = 35;
 
     //Software limit for elevator height
     //TODO: Comp robot changes
-    //public static int ELEVATOR_SOFT_LIMIT = 5450; //COMP ROBOT
-    public static final int ELEVATOR_SOFT_LIMIT = 5000; //Practice Robot
+    public static int ELEVATOR_SOFT_LIMIT = 5450; //COMP ROBOT
+    //public static final int ELEVATOR_SOFT_LIMIT = 5000; //Practice Robot
 
     //Manual increment/decrements for elevator control
     public static final int ELEVATOR_DRIVE_INCREMENT = 60;
