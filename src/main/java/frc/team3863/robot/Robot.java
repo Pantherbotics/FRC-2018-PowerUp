@@ -19,10 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3863.robot.autonomous.*;
 import frc.team3863.robot.commands.TransmissionHighGear;
 import frc.team3863.robot.commands.ZeroLift;
-import frc.team3863.robot.subsystems.Climber;
-import frc.team3863.robot.subsystems.Drivetrain;
-import frc.team3863.robot.subsystems.Elevator;
-import frc.team3863.robot.subsystems.Intake;
+import frc.team3863.robot.subsystems.*;
 import frc.team3863.robot.teleop.TeleopDualPartnerController;
 import frc.team3863.robot.teleop.TeleopSinglePartnerController;
 import frc.team3863.robot.util.Odometry;
@@ -50,6 +47,8 @@ public class Robot extends TimedRobot {
     public static final Elevator kElevator = new Elevator();
     //Instance of the Intake subsystem. Controls Intake wheels + servo arm.
     public static final Intake kIntake = new Intake();
+
+    public static final Cameras kCameras = new Cameras();
 
     public static final Climber kClimber = new Climber();
     //public static final Cameras kCameras = new Cameras();
@@ -120,7 +119,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Elevator", kElevator);
 
         //Enable the USB CameraServers
-        //kCameras.enableCameras();
+        kCameras.enableCameras();
 
         kClimber.init();
 
