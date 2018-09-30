@@ -21,6 +21,7 @@ public class ElevatorSetpoint extends Command {
         requires(Robot.kElevator);
         isDelayed = true;
         delay = delaySeconds;
+        startTime = System.nanoTime()/1E9;
     }
 
     // Called just before this Command runs the first time
