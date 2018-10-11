@@ -9,6 +9,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team3863.robot.Constants;
 import frc.team3863.robot.RobotMap;
@@ -23,7 +24,7 @@ public class Drivetrain extends Subsystem {
     public int timeout_ms = 0;
     public boolean transmission_in_low = true;
     // ADXRS450_Gyro gyro = new ADXRS450_Gyro();
-    AHRS ahrs_gyro = new AHRS(I2C.Port.kOnboard);
+    AHRS ahrs_gyro = new AHRS(Port.kUSB1);
     TalonSRX talonLeftA = new TalonSRX(RobotMap.TALON_DRIVE_LEFTA_ID);
     TalonSRX talonLeftB = new TalonSRX(RobotMap.TALON_DRIVE_LEFTB_ID);
     TalonSRX talonRightA = new TalonSRX(RobotMap.TALON_DRIVE_RIGHTA_ID);

@@ -16,9 +16,9 @@ public class Constants {
 
     //multiplier for error in RotateDegrees
     //TODO: Increase to account for carpet
-    public static final double DRIVE_ROTATE_P = 0.015;
-    public static final double DRIVE_ROTATE_I = 0.0005;
-    public static final double DRIVE_ROTATE_D = 0.000000;
+    public static final double DRIVE_ROTATE_P = 0.005;
+    public static final double DRIVE_ROTATE_I = 0.006;
+    public static final double DRIVE_ROTATE_D = 0.000;
 
     //Seconds from neutral to full ramp
     public static final double DRIVE_RAMP_SECONDS = 0.2;

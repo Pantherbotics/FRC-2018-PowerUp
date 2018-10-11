@@ -21,7 +21,7 @@ public class RotateDegrees extends Command {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.kDrivetrain);
         degree_offset = degrees;
-        errorTolerance = 2;
+        errorTolerance = .5;
     }
 
     public RotateDegrees(double degrees, double errorTolerance) {
@@ -35,7 +35,7 @@ public class RotateDegrees extends Command {
     protected void initialize() {
 
         start_degrees = Robot.kDrivetrain.getOdometry().getTheta();
-        Robot.kDrivetrain.setTransmissionHigh();
+        Robot.kDrivetrain.setTransmissionLow();
         //Invert for comp robot gyro mounting?
         target_degrees = Pathfinder.boundHalfDegrees(start_degrees + degree_offset);
         System.out.println("Rotating from " + start_degrees + " to " + target_degrees);
