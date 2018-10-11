@@ -10,7 +10,7 @@ import jaci.pathfinder.Trajectory.Segment;
 
 public class RamseteFollower {
 
-    private static final double b = 1.0;                // greater than zero; increases correction
+    private static final double b = 0.78;                // greater than zero; increases correction
     private static final double zeta = 0.9;             // between zero and one; increases dampening
     private double wheelBase;
     private int segmentIndex;

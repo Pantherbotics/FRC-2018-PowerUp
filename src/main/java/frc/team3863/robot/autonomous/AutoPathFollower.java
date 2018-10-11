@@ -20,18 +20,20 @@ public class AutoPathFollower extends Command  {
         follower = new RamseteFollower(Constants.WHEEL_BASE, traj);
         System.out.println("Created new Follower");
         trackingThread = new Notifier(() -> {
+            if(!isFinished){
             isFinished = follower.isFinished();
             follower.setOdometry(Robot.kDrivetrain.getOdometry());
             System.out.println("Getting next DriveSignal");
             System.out.println(follower.getNextDriveSignal().getLeft() + ", " + follower.getNextDriveSignal().getRight());
             Robot.kDrivetrain.setFPS(follower.getNextDriveSignal().getLeft(), follower.getNextDriveSignal().getRight());
+            }
         });
     }
 
     protected void initialize() {
         Robot.kDrivetrain.setTransmissionHigh();
         start = System.nanoTime();
-        trackingThread.startPeriodic(0.02);
+        trackingThread.startPeriodic(0.015);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -41,7 +43,7 @@ public class AutoPathFollower extends Command  {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return isFinished;
+        return follower.isFinished();
     }
 
     // Called once after isFinished returns true
