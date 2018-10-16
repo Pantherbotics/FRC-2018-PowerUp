@@ -14,7 +14,7 @@ public class RotateDegrees extends Command {
     double start_degrees;
     double currentError;
     double lastError;
-    double IAccum;
+    double sumError;
     double errorTolerance;
 
     public RotateDegrees(double degrees) {
@@ -39,16 +39,16 @@ public class RotateDegrees extends Command {
         //Invert for comp robot gyro mounting?
         target_degrees = Pathfinder.boundHalfDegrees(start_degrees + degree_offset);
         System.out.println("Rotating from " + start_degrees + " to " + target_degrees);
-        currentError = target_degrees - Math.toDegrees(Robot.kDrivetrain.getOdometry().getTheta());
+        currentError = Pathfinder.boundHalfDegrees(target_degrees - Math.toDegrees(Robot.kDrivetrain.getOdometry().getTheta()));
         lastError = currentError;
-        IAccum = 0;
+        sumError = 0;
     }
 
 
     protected void execute() {
         currentError = target_degrees - Math.toDegrees(Robot.kDrivetrain.getOdometry().getTheta());
         currentError = Pathfinder.boundHalfDegrees(currentError);
-        double setpoint = currentError * Constants.DRIVE_ROTATE_P + IAccum * Constants.DRIVE_ROTATE_I + Constants.DRIVE_ROTATE_D * (lastError - currentError);
+        double setpoint = currentError * Constants.DRIVE_ROTATE_P + sumError * Constants.DRIVE_ROTATE_I + Constants.DRIVE_ROTATE_D * (lastError - currentError);
         double left =  -setpoint;
         double right = setpoint;
 
@@ -58,18 +58,12 @@ public class RotateDegrees extends Command {
         Robot.kDrivetrain.setDrivePower(left, right);
         //Robot.kDrivetrain.setDrivePower(left, right);
         lastError = currentError;
-        if(currentError > 0){
-            IAccum++;
-        } else if (currentError < 0){
-            IAccum--;
-        }else{
-            IAccum +=0;
-        }
+        sumError += currentError;
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(currentError) < errorTolerance;
+        return Math.abs(currentError) <= errorTolerance;
     }
 
     // Called once after isFinished returns true
