@@ -9,7 +9,7 @@ import jaci.pathfinder.Trajectory.Segment;
     
 */
 
-public class PurePursuit{ //This is probably the worst thing I [Matthew] have ever written
+public class PurePursuit{ //This is probably the worst thing I [Matthew] have ever written - MS
     
     private int indexI;
     private int indexF;
